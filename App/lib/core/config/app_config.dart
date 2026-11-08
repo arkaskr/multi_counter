@@ -10,15 +10,11 @@ class AppConfig {
   static const String defaultMongoDbUri =
       'mongodb+srv://arkaskr24_db_user:wVvVLeD9fGrnMnBO@counter.v7ndlkx.mongodb.net/daily_counter?retryWrites=true&w=majority';
 
-  /// Determines default API URL based on platform:
-  /// - Android Emulator: http://10.0.2.2:5000/api
-  /// - Desktop / Linux / macOS / Web / iOS Simulator: http://localhost:5000/api
-  static String get defaultApiBaseUrl {
-    if (!kIsWeb && Platform.isAndroid) {
-      return 'http://10.0.2.2:5000/api';
-    }
-    return 'http://localhost:5000/api';
-  }
+  /// Production Vercel URL
+  static const String vercelApiBaseUrl = 'https://multi-counter-nine.vercel.app/api';
+
+  /// Default API base URL (uses live Vercel deployment)
+  static String get defaultApiBaseUrl => vercelApiBaseUrl;
 
   static String _currentApiBaseUrl = defaultApiBaseUrl;
 
