@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/config/app_config.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/theme_presets.dart';
@@ -12,6 +13,8 @@ import '../../../shared/components/neumorphic_container.dart';
 import '../../../shared/components/neumorphic_input.dart';
 import '../../../shared/components/neumorphic_theme_card.dart';
 import '../../../shared/models/daily_record.dart';
+import '../../auth/providers/auth_providers.dart';
+import '../../auth/screens/login_screen.dart';
 import '../../home/providers/home_providers.dart';
 import '../providers/settings_providers.dart';
 
@@ -26,12 +29,20 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   final TextEditingController _unitAmountController = TextEditingController();
   final TextEditingController _customLimitController = TextEditingController();
   final TextEditingController _currencySymbolController = TextEditingController();
+  final TextEditingController _serverUrlController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _serverUrlController.text = AppConfig.apiBaseUrl;
+  }
 
   @override
   void dispose() {
     _unitAmountController.dispose();
     _customLimitController.dispose();
     _currencySymbolController.dispose();
+    _serverUrlController.dispose();
     super.dispose();
   }
 
@@ -268,6 +279,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   color: theme.text,
                 ),
               ),
+              const SizedBox(height: 24),
+
+              // SECTION: ACCOUNT & MONGODB CLOUD SYNC
+              _buildAccountAndSyncSection(context, ref, theme),
               const SizedBox(height: 24),
 
               // SECTION A: COUNTER SETTINGS
@@ -650,6 +665,306 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 fontWeight: FontWeight.w700,
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAccountAndSyncSection(BuildContext context, WidgetRef ref, dynamic theme) {
+    final authState = ref.watch(authStateProvider);
+    final syncState = ref.watch(syncStatusProvider);
+    final user = authState.user;
+    final isLoggedIn = authState.isLoggedIn && user != null;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildSectionHeader('ACCOUNT & CLOUD SYNC (MONGODB)'),
+        const SizedBox(height: 12),
+        NeumorphicContainer(
+          borderRadius: 24,
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (isLoggedIn) ...[
+                Row(
+                  children: [
+                    Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: theme.accent.withValues(alpha: 0.15),
+                        shape: BoxShape.circle,
+                        border: Border.all(color: theme.accent, width: 1.5),
+                      ),
+                      child: Center(
+                        child: Text(
+                          user.name.isNotEmpty ? user.name[0].toUpperCase() : 'U',
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: theme.accent),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            user.name,
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: theme.text),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            user.email,
+                            style: TextStyle(fontSize: 13, color: theme.secondaryText),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.green.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(width: 6, height: 6, decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle)),
+                          const SizedBox(width: 5),
+                          const Text('Cloud Sync', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Colors.green)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: theme.background.withValues(alpha: 0.5),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        syncState.isSyncing
+                            ? Icons.sync_rounded
+                            : (syncState.lastSuccess == false ? Icons.cloud_off_rounded : Icons.cloud_done_rounded),
+                        size: 20,
+                        color: syncState.lastSuccess == false ? Colors.amber[800] : theme.accent,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              syncState.isSyncing
+                                  ? 'Syncing with MongoDB...'
+                                  : (syncState.lastMessage ?? (syncState.lastSyncedAt != null ? 'Synced with MongoDB' : 'Ready to sync')),
+                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: theme.text),
+                            ),
+                            if (syncState.lastSyncedAt != null && !syncState.isSyncing) ...[
+                              const SizedBox(height: 2),
+                              Text(
+                                'Last synced: ${AppDateUtils.formatDisplayDate(syncState.lastSyncedAt!.split('T')[0])}',
+                                style: TextStyle(fontSize: 11, color: theme.secondaryText),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: NeumorphicButton(
+                        isProminent: true,
+                        isEnabled: !syncState.isSyncing,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        onTap: () async {
+                          final res = await ref.read(syncStatusProvider.notifier).triggerSync();
+                          ref.invalidate(todayRecordProvider);
+                          ref.invalidate(homeWeeklySummaryProvider);
+                          ref.invalidate(foodDaysCountProvider);
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(res.message),
+                                backgroundColor: res.success ? Colors.green[700] : (res.isOffline ? Colors.amber[800] : Colors.redAccent),
+                              ),
+                            );
+                          }
+                        },
+                        child: syncState.isSyncing
+                            ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                            : const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.sync_rounded, size: 18, color: Colors.white),
+                                  SizedBox(width: 6),
+                                  Text('Sync Now', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Colors.white)),
+                                ],
+                              ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    NeumorphicButton(
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                      onTap: () async {
+                        await ref.read(authStateProvider.notifier).logout();
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Logged out. Switched to offline mode.')),
+                          );
+                        }
+                      },
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.logout_rounded, size: 16, color: Colors.redAccent),
+                          SizedBox(width: 4),
+                          Text('Log Out', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.redAccent)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ] else ...[
+                Row(
+                  children: [
+                    Container(
+                      width: 42,
+                      height: 42,
+                      decoration: BoxDecoration(
+                        color: Colors.amber.withValues(alpha: 0.15),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.cloud_off_rounded, size: 22, color: Colors.amber),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Offline Guest Mode', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: theme.text)),
+                          const SizedBox(height: 2),
+                          Text(
+                            'Meals are saved on this device. Sign in to back up & sync with MongoDB.',
+                            style: TextStyle(fontSize: 12, color: theme.secondaryText),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  child: NeumorphicButton(
+                    isProminent: true,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const LoginScreen(isModal: true)),
+                      );
+                    },
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.login_rounded, size: 18, color: Colors.white),
+                        SizedBox(width: 8),
+                        Text('Sign In with Name & Email', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Colors.white)),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+              const SizedBox(height: 14),
+              GestureDetector(
+                onTap: () => _showServerConfigDialog(context, theme),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.dns_outlined, size: 14, color: theme.secondaryText),
+                    const SizedBox(width: 4),
+                    Text(
+                      'Server & MongoDB Details',
+                      style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: theme.secondaryText),
+                    ),
+                    const SizedBox(width: 4),
+                    Icon(Icons.tune_rounded, size: 12, color: theme.secondaryText),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _showServerConfigDialog(BuildContext context, dynamic theme) {
+    _serverUrlController.text = AppConfig.apiBaseUrl;
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: theme.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text('Server & Database Settings', style: TextStyle(color: theme.text, fontWeight: FontWeight.bold, fontSize: 17)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('API Server Base URL:', style: TextStyle(color: theme.secondaryText, fontSize: 12, fontWeight: FontWeight.w700)),
+            const SizedBox(height: 6),
+            NeumorphicInput(
+              controller: _serverUrlController,
+              hintText: 'http://localhost:5000/api',
+            ),
+            const SizedBox(height: 12),
+            Text('MongoDB Atlas Target:', style: TextStyle(color: theme.secondaryText, fontSize: 12, fontWeight: FontWeight.w700)),
+            const SizedBox(height: 4),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: theme.background,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                'counter.v7ndlkx.mongodb.net/daily_counter',
+                style: TextStyle(color: theme.accent, fontSize: 11, fontWeight: FontWeight.w600),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              await AppConfig.resetApiBaseUrl();
+              _serverUrlController.text = AppConfig.apiBaseUrl;
+              if (ctx.mounted) Navigator.pop(ctx);
+              setState(() {});
+            },
+            child: Text('Reset Default', style: TextStyle(color: theme.secondaryText)),
+          ),
+          TextButton(
+            onPressed: () async {
+              final newUrl = _serverUrlController.text.trim();
+              if (newUrl.isNotEmpty) {
+                await AppConfig.setApiBaseUrl(newUrl);
+              }
+              if (ctx.mounted) Navigator.pop(ctx);
+              setState(() {});
+            },
+            child: Text('Save', style: TextStyle(color: theme.accent, fontWeight: FontWeight.bold)),
           ),
         ],
       ),

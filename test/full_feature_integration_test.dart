@@ -114,6 +114,11 @@ class FakeCounterService extends CounterService {
   }
 
   @override
+  Future<int> getFoodDaysCount() async {
+    return _store.values.where((r) => r.count > 0).map((r) => r.date).toSet().length;
+  }
+
+  @override
   Future<WeeklySummary> getWeekSummary(List<String> weekDates, AppSettings settings) async {
     return WeeklySummary.calculate(
       weekDates: weekDates,

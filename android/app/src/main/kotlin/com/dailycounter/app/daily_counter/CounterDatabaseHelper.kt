@@ -209,35 +209,28 @@ class CounterDatabaseHelper(context: Context) : SQLiteOpenHelper(
         return 0.0
     }
 
-    fun getDaysFromStart(): Int {
+    /**
+     * Returns the count of distinct days on which the user had food (count > 0).
+     * If the user had food that day, the day increments; if no meal was taken that day,
+     * the day does not increment.
+     */
+    fun getDaysWithFood(): Int {
         val db = readableDatabase
         val cursor = db.rawQuery(
-            "SELECT MIN($COL_DATE) FROM $TABLE_DAILY_RECORDS WHERE $COL_COUNT > 0 OR $COL_AMOUNT_OVERRIDE IS NOT NULL",
+            "SELECT COUNT(DISTINCT $COL_DATE) FROM $TABLE_DAILY_RECORDS WHERE $COL_COUNT > 0",
             null
         )
-        var earliestDateStr: String? = null
+        var count = 0
         cursor.use {
             if (it.moveToFirst() && !it.isNull(0)) {
-                earliestDateStr = it.getString(0)
+                count = it.getInt(0)
             }
         }
+        return count
+    }
 
-        val dateStr = earliestDateStr ?: return 0
-
-        return try {
-            val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-            val startDate = sdf.parse(dateStr)
-            val today = sdf.parse(getTodayString())
-            if (startDate != null && today != null) {
-                val diffMillis = today.time - startDate.time
-                val diffDays = (diffMillis / (1000 * 60 * 60 * 24)).toInt()
-                maxOf(1, diffDays + 1)
-            } else {
-                1
-            }
-        } catch (_: Throwable) {
-            1
-        }
+    fun getDaysFromStart(): Int {
+        return getDaysWithFood()
     }
 
     fun getWidgetDisplayData(): WidgetDisplayData {

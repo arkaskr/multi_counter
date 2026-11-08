@@ -3,10 +3,13 @@ import 'dart:ui' show PlatformDispatcher;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'core/config/app_config.dart';
 import 'core/constants/app_constants.dart';
 import 'core/database/database_helper.dart';
 import 'core/services/widget_service.dart';
 import 'core/theme/theme_provider.dart';
+import 'features/auth/providers/auth_providers.dart';
+import 'features/auth/screens/login_screen.dart';
 import 'features/history/screens/history_screen.dart';
 import 'features/home/providers/home_providers.dart';
 import 'features/home/screens/home_screen.dart';
@@ -26,6 +29,9 @@ void main() async {
     debugPrint('Uncaught Asynchronous Error: $error\n$stack');
     return true; // handled, don't crash
   };
+
+  // Initialize AppConfig (loads API URL / server endpoints)
+  await AppConfig.init();
 
   // Initialize SQLite FFI on desktop platforms (Linux, Windows, macOS)
   if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
@@ -57,12 +63,25 @@ class DailyCounterApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeData = ref.watch(themeProvider);
+    final authState = ref.watch(authStateProvider);
+
+    Widget homeWidget;
+    if (authState.isLoading) {
+      homeWidget = Scaffold(
+        backgroundColor: themeData.background,
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    } else if (!authState.isLoggedIn && !authState.isGuestMode) {
+      homeWidget = const LoginScreen();
+    } else {
+      homeWidget = const MainShell();
+    }
 
     return MaterialApp(
       title: AppConstants.appName,
       debugShowCheckedModeBanner: false,
       theme: themeData.toThemeData(),
-      home: const MainShell(),
+      home: homeWidget,
     );
   }
 }
@@ -88,8 +107,15 @@ class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserv
       if (mounted) {
         ref.invalidate(todayRecordProvider);
         ref.invalidate(homeWeeklySummaryProvider);
+        ref.invalidate(foodDaysCountProvider);
+        ref.read(syncServiceProvider).autoSync();
       }
     };
+
+    // Trigger background cloud sync with MongoDB if online
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(syncServiceProvider).autoSync();
+    });
   }
 
   @override
@@ -105,6 +131,8 @@ class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserv
     if (state == AppLifecycleState.resumed) {
       ref.invalidate(todayRecordProvider);
       ref.invalidate(homeWeeklySummaryProvider);
+      ref.invalidate(foodDaysCountProvider);
+      ref.read(syncServiceProvider).autoSync();
     }
   }
 

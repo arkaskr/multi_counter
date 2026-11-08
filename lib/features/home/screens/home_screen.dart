@@ -7,6 +7,7 @@ import '../../../shared/components/neumorphic_button.dart';
 import '../../../shared/components/neumorphic_container.dart';
 import '../../../shared/components/neumorphic_progress.dart';
 import '../../../shared/models/daily_record.dart';
+import '../../auth/providers/auth_providers.dart';
 import '../../daily_edit/screens/daily_edit_screen.dart';
 import '../../settings/providers/settings_providers.dart';
 import '../providers/home_providers.dart';
@@ -55,6 +56,8 @@ class HomeScreen extends ConsumerWidget {
           onRefresh: () async {
             await ref.read(todayRecordProvider.notifier).refresh();
             ref.invalidate(homeWeeklySummaryProvider);
+            ref.invalidate(foodDaysCountProvider);
+            await ref.read(syncStatusProvider.notifier).triggerSync();
           },
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
@@ -89,6 +92,29 @@ class HomeScreen extends ConsumerWidget {
                         ),
                       ],
                     ),
+                    // Food Days Counter Badge: only increments on days with food
+                    ref.watch(foodDaysCountProvider).maybeWhen(
+                          data: (foodDays) => NeumorphicContainer(
+                            borderRadius: 16,
+                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.lunch_dining_rounded, size: 16, color: theme.accent),
+                                const SizedBox(width: 6),
+                                Text(
+                                  '$foodDays ${foodDays == 1 ? "Day" : "Days"}',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w800,
+                                    color: theme.text,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          orElse: () => const SizedBox.shrink(),
+                        ),
                   ],
                 ),
                 const SizedBox(height: 28),
@@ -188,6 +214,8 @@ class HomeScreen extends ConsumerWidget {
                               );
                             }
                             ref.invalidate(homeWeeklySummaryProvider);
+                            ref.invalidate(foodDaysCountProvider);
+                            ref.read(syncServiceProvider).autoSync();
                           },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,

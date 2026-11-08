@@ -162,6 +162,12 @@ class CounterService {
     await _widgetService.notifyWidgetUpdate();
   }
 
+  /// Returns the count of distinct days on which the user had food.
+  /// If the user did not have any food that day, the day does not increment.
+  Future<int> getFoodDaysCount() async {
+    return await _dbHelper.getFoodDaysCount();
+  }
+
   /// Gets weekly summary for the given week dates.
   Future<WeeklySummary> getWeekSummary(
     List<String> weekDates,

@@ -9,6 +9,7 @@ import '../../../shared/components/neumorphic_container.dart';
 import '../../../shared/components/neumorphic_icon_button.dart';
 import '../../../shared/components/neumorphic_input.dart';
 import '../../../shared/models/daily_record.dart';
+import '../../auth/providers/auth_providers.dart';
 import '../../history/providers/history_providers.dart';
 import '../../home/providers/home_providers.dart';
 import '../../settings/providers/settings_providers.dart';
@@ -73,6 +74,8 @@ class _DailyEditScreenState extends ConsumerState<DailyEditScreen> {
     ref.invalidate(todayRecordProvider);
     ref.invalidate(homeWeeklySummaryProvider);
     ref.invalidate(historyWeeklySummaryProvider);
+    ref.invalidate(foodDaysCountProvider);
+    ref.read(syncServiceProvider).autoSync();
   }
 
   Future<void> _pickDate() async {

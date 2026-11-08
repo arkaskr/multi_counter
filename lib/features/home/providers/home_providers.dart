@@ -63,3 +63,10 @@ final homeWeeklySummaryProvider = FutureProvider<WeeklySummary>((ref) async {
   final weekDates = AppDateUtils.getWeekDates(DateTime.now(), settings.weekStart);
   return await service.getWeekSummary(weekDates, settings);
 });
+
+/// Provider for the total count of distinct days on which food was consumed
+final foodDaysCountProvider = FutureProvider<int>((ref) async {
+  ref.watch(todayRecordProvider);
+  final service = ref.watch(counterServiceProvider);
+  return await service.getFoodDaysCount();
+});

@@ -233,6 +233,46 @@ class DatabaseHelper {
     await db.delete(DatabaseConstants.tableDailyRecords);
   }
 
+  /// Returns total number of distinct days where the user had food (count > 0).
+  /// If the user did not have any food on a day, it does not increment.
+  Future<int> getFoodDaysCount() async {
+    final db = await database;
+    final result = await db.rawQuery(
+      'SELECT COUNT(DISTINCT ${DatabaseConstants.columnDate}) as food_days '
+      'FROM ${DatabaseConstants.tableDailyRecords} '
+      'WHERE ${DatabaseConstants.columnCount} > 0',
+    );
+    if (result.isNotEmpty) {
+      return (result.first['food_days'] as int?) ?? 0;
+    }
+    return 0;
+  }
+
+  /// Get all records from SQLite for cloud syncing
+  Future<List<DailyRecord>> getAllRecords() async {
+    final db = await database;
+    final results = await db.query(
+      DatabaseConstants.tableDailyRecords,
+      orderBy: '${DatabaseConstants.columnDate} DESC',
+    );
+    return results.map((e) => DailyRecord.fromMap(e)).toList();
+  }
+
+  /// Batch save or merge records from cloud sync
+  Future<void> saveRecords(List<DailyRecord> records) async {
+    if (records.isEmpty) return;
+    final db = await database;
+    final batch = db.batch();
+    for (final record in records) {
+      batch.insert(
+        DatabaseConstants.tableDailyRecords,
+        record.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+    await batch.commit(noResult: true);
+  }
+
   /// Find records where count is strictly greater than newLimit
   Future<List<DailyRecord>> getRecordsExceedingLimit(int newLimit) async {
     final db = await database;
