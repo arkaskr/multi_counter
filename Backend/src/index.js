@@ -12,6 +12,16 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
+// Serverless DB connection middleware (ensures connection in warm or cold serverless functions)
+app.use(async (req, res, next) => {
+  if (mongoose.connection.readyState !== 1) {
+    try {
+      await connectDB();
+    } catch (_) {}
+  }
+  next();
+});
+
 // Request logging in development
 app.use((req, res, next) => {
   console.log(`[HTTP] ${req.method} ${req.originalUrl}`);
@@ -39,20 +49,19 @@ app.use((err, req, res, next) => {
   res.status(500).json({ success: false, message: 'Internal server error: ' + err.message });
 });
 
-// Start Server
-async function start() {
-  await connectDB();
-  app.listen(config.port, () => {
-    console.log(`====================================================`);
-    console.log(` Daily Counter Backend Server running on port ${config.port}`);
-    console.log(` Health check: http://localhost:${config.port}/api/health`);
-    console.log(` Auth endpoints: /api/auth/send-otp , /api/auth/verify-otp`);
-    console.log(` Sync endpoint:  /api/sync`);
-    console.log(`====================================================`);
+// Start standalone server locally; Vercel imports `app` directly as serverless function
+if (!process.env.VERCEL) {
+  connectDB().then(() => {
+    app.listen(config.port, () => {
+      console.log(`====================================================`);
+      console.log(` Daily Counter Backend Server running on port ${config.port}`);
+      console.log(` Health check: http://localhost:${config.port}/api/health`);
+      console.log(` Auth endpoints: /api/auth/send-otp , /api/auth/verify-otp`);
+      console.log(` Sync endpoint:  /api/sync`);
+      console.log(`====================================================`);
+    });
   });
 }
-
-start();
 
 module.exports = app;
 

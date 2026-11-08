@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const config = require('./config');
 
 async function connectDB() {
+  if (mongoose.connection.readyState === 1) {
+    return;
+  }
+
   try {
     await mongoose.connect(config.mongodbUri, {
       serverSelectionTimeoutMS: 8000,
