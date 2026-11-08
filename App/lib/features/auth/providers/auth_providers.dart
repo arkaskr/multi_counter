@@ -74,10 +74,10 @@ class AuthNotifier extends Notifier<AuthState> {
     );
   }
 
-  Future<AuthResult> sendOtp(String email, String name) async {
+  Future<AuthResult> sendOtp(String email, {String? name, String mode = 'login'}) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     final service = ref.read(authServiceProvider);
-    final result = await service.sendOtp(email: email, name: name);
+    final result = await service.sendOtp(email: email, name: name, mode: mode);
     state = state.copyWith(isLoading: false, errorMessage: result.success ? null : result.message);
     return result;
   }

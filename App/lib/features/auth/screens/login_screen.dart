@@ -20,8 +20,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  bool _isRegister = false; // false = Login, true = Register
   bool _isLoading = false;
   String? _errorMessage;
+  bool _isNotRegisteredError = false;
+  bool _isAlreadyRegisteredError = false;
 
   @override
   void dispose() {
@@ -30,11 +34,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     super.dispose();
   }
 
+  void _switchMode(bool register) {
+    setState(() {
+      _isRegister = register;
+      _errorMessage = null;
+      _isNotRegisteredError = false;
+      _isAlreadyRegisteredError = false;
+    });
+  }
+
   Future<void> _handleSendOtp() async {
     final name = _nameController.text.trim();
     final email = _emailController.text.trim();
 
-    if (name.isEmpty) {
+    if (_isRegister && name.isEmpty) {
       setState(() => _errorMessage = 'Please enter your name');
       return;
     }
@@ -47,10 +60,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     setState(() {
       _isLoading = true;
       _errorMessage = null;
+      _isNotRegisteredError = false;
+      _isAlreadyRegisteredError = false;
     });
 
     try {
-      final res = await ref.read(authStateProvider.notifier).sendOtp(email, name);
+      final res = await ref.read(authStateProvider.notifier).sendOtp(
+            email,
+            name: _isRegister ? name : null,
+            mode: _isRegister ? 'register' : 'login',
+          );
 
       if (!mounted) return;
       setState(() => _isLoading = false);
@@ -59,15 +78,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => OtpScreen(
-              name: name,
+              name: _isRegister ? name : (res.userName ?? ''),
               email: email,
               devOtp: res.devOtp,
+              isLogin: !_isRegister,
               isModal: widget.isModal,
             ),
           ),
         );
       } else {
-        setState(() => _errorMessage = res.message ?? 'Failed to send OTP');
+        setState(() {
+          _errorMessage = res.message ?? 'Failed to send OTP';
+          _isNotRegisteredError = res.isNotRegistered;
+          _isAlreadyRegisteredError = res.isAlreadyRegistered;
+        });
       }
     } catch (e) {
       if (!mounted) return;
@@ -107,8 +131,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   // App Icon / Logo
                   Center(
                     child: Container(
-                      width: 80,
-                      height: 80,
+                      width: 76,
+                      height: 76,
                       decoration: BoxDecoration(
                         color: theme.accent.withValues(alpha: 0.15),
                         shape: BoxShape.circle,
@@ -116,12 +140,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                       child: Icon(
                         Icons.lunch_dining_rounded,
-                        size: 42,
+                        size: 40,
                         color: theme.accent,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 18),
 
                   // Title
                   Text(
@@ -136,38 +160,107 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'Sign in or create account to sync meals with MongoDB cloud',
+                    _isRegister
+                        ? 'Create an account to backup and sync meals across devices'
+                        : 'Sign in to access your saved records and cloud sync',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14,
                       color: theme.secondaryText,
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 24),
 
-                  // Main Card
+                  // Mode Toggle Selector (Log In / Register)
+                  Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: theme.surface,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: theme.secondaryText.withValues(alpha: 0.15),
+                        width: 1,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => _switchMode(false),
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                color: !_isRegister ? theme.accent : Colors.transparent,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Log In',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w800,
+                                    color: !_isRegister ? Colors.white : theme.secondaryText,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => _switchMode(true),
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                color: _isRegister ? theme.accent : Colors.transparent,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Register',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w800,
+                                    color: _isRegister ? Colors.white : theme.secondaryText,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Main Input Card
                   NeumorphicContainer(
                     borderRadius: 24,
                     padding: const EdgeInsets.all(24),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'YOUR NAME',
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 1.2,
-                            color: theme.secondaryText,
+                        // Name input only when Registering
+                        if (_isRegister) ...[
+                          Text(
+                            'YOUR NAME',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 1.2,
+                              color: theme.secondaryText,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        NeumorphicInput(
-                          controller: _nameController,
-                          hintText: 'e.g. Arka Sarkar',
-                          prefixIcon: Icon(Icons.person_outline_rounded, size: 20, color: theme.secondaryText),
-                        ),
-                        const SizedBox(height: 18),
+                          const SizedBox(height: 8),
+                          NeumorphicInput(
+                            controller: _nameController,
+                            hintText: 'e.g. Arka Sarkar',
+                            prefixIcon: Icon(Icons.person_outline_rounded, size: 20, color: theme.secondaryText),
+                          ),
+                          const SizedBox(height: 18),
+                        ],
 
                         Text(
                           'EMAIL ADDRESS',
@@ -185,34 +278,73 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           keyboardType: TextInputType.emailAddress,
                           prefixIcon: Icon(Icons.email_outlined, size: 20, color: theme.secondaryText),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 14),
 
+                        // Error Banner with one-tap switch button if relevant
                         if (_errorMessage != null) ...[
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
                               color: Colors.red.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: Colors.red.withValues(alpha: 0.2)),
                             ),
-                            child: Row(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Icon(Icons.error_outline, size: 16, color: Colors.red),
-                                const SizedBox(width: 8),
-                                Expanded(
-                                  child: Text(
-                                    _errorMessage!,
-                                    style: const TextStyle(fontSize: 12, color: Colors.red, fontWeight: FontWeight.w600),
-                                  ),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.error_outline_rounded, size: 16, color: Colors.red),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        _errorMessage!,
+                                        style: const TextStyle(fontSize: 12, color: Colors.red, fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                  ],
                                 ),
+                                if (_isNotRegisteredError) ...[
+                                  const SizedBox(height: 8),
+                                  GestureDetector(
+                                    onTap: () => _switchMode(true),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                      decoration: BoxDecoration(
+                                        color: theme.accent,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: const Text(
+                                        'Click here to Register this email →',
+                                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                                if (_isAlreadyRegisteredError) ...[
+                                  const SizedBox(height: 8),
+                                  GestureDetector(
+                                    onTap: () => _switchMode(false),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                      decoration: BoxDecoration(
+                                        color: theme.accent,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: const Text(
+                                        'Click here to Log In instead →',
+                                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ],
                             ),
                           ),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 14),
                         ],
 
-                        const SizedBox(height: 12),
-
-                        // Send OTP Button
+                        // Submit Button
                         SizedBox(
                           width: double.infinity,
                           height: 52,
@@ -226,14 +358,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     height: 22,
                                     child: CircularProgressIndicator(strokeWidth: 2.5, color: Colors.white),
                                   )
-                                : const Row(
+                                : Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(Icons.send_rounded, size: 18, color: Colors.white),
-                                      SizedBox(width: 8),
+                                      Icon(
+                                        _isRegister ? Icons.person_add_rounded : Icons.login_rounded,
+                                        size: 18,
+                                        color: Colors.white,
+                                      ),
+                                      const SizedBox(width: 8),
                                       Text(
-                                        'Send Verification Code',
-                                        style: TextStyle(
+                                        _isRegister ? 'Send Verification Code' : 'Send Login OTP',
+                                        style: const TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w800,
                                           color: Colors.white,
@@ -241,6 +377,29 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                       ),
                                     ],
                                   ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+
+                        // Switch Mode Prompt
+                        Center(
+                          child: GestureDetector(
+                            onTap: () => _switchMode(!_isRegister),
+                            child: Text.rich(
+                              TextSpan(
+                                text: _isRegister ? 'Already have an account? ' : "Don't have an account? ",
+                                style: TextStyle(fontSize: 13, color: theme.secondaryText),
+                                children: [
+                                  TextSpan(
+                                    text: _isRegister ? 'Log In' : 'Register',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      color: theme.accent,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ],

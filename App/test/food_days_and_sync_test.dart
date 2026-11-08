@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:daily_counter/core/database/database_helper.dart';
+import 'package:daily_counter/core/services/auth_service.dart';
 import 'package:daily_counter/core/services/counter_service.dart';
 import 'package:daily_counter/core/services/sync_service.dart';
 import 'package:daily_counter/shared/models/daily_record.dart';
@@ -187,6 +188,31 @@ void main() {
 
       expect(result.success, false);
       expect(result.message, contains('Sign in'));
+    });
+
+    test('AuthResult supports login/register flags and userName', () {
+      const loginResult = AuthResult(
+        success: true,
+        userName: 'Arka Sarkar',
+        message: 'OTP sent to email',
+      );
+      expect(loginResult.success, true);
+      expect(loginResult.userName, 'Arka Sarkar');
+
+      const notRegistered = AuthResult(
+        success: false,
+        isNotRegistered: true,
+        message: 'No account found. Please register.',
+      );
+      expect(notRegistered.isNotRegistered, true);
+      expect(notRegistered.isAlreadyRegistered, false);
+
+      const alreadyRegistered = AuthResult(
+        success: false,
+        isAlreadyRegistered: true,
+        message: 'Account already exists. Please log in.',
+      );
+      expect(alreadyRegistered.isAlreadyRegistered, true);
     });
   });
 }

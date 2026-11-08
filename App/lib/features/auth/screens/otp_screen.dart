@@ -11,6 +11,7 @@ class OtpScreen extends ConsumerStatefulWidget {
   final String name;
   final String email;
   final String? devOtp;
+  final bool isLogin;
   final bool isModal;
 
   const OtpScreen({
@@ -18,6 +19,7 @@ class OtpScreen extends ConsumerStatefulWidget {
     required this.name,
     required this.email,
     this.devOtp,
+    this.isLogin = false,
     this.isModal = false,
   });
 
@@ -99,7 +101,8 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
     try {
       final res = await ref.read(authStateProvider.notifier).sendOtp(
             widget.email,
-            widget.name,
+            name: widget.name,
+            mode: widget.isLogin ? 'login' : 'register',
           );
 
       if (!mounted) return;
@@ -162,7 +165,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                 const SizedBox(height: 20),
 
                 Text(
-                  'Verify Your Email',
+                  widget.isLogin ? 'Welcome Back!' : 'Verify Your Email',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 26,
@@ -172,7 +175,9 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Enter the verification code sent to:\n${widget.email}',
+                  widget.isLogin && widget.name.isNotEmpty
+                      ? 'Hi ${widget.name}! Enter the login code sent to:\n${widget.email}'
+                      : 'Enter the verification code sent to:\n${widget.email}',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
@@ -279,9 +284,9 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                                   height: 22,
                                   child: CircularProgressIndicator(strokeWidth: 2.5, color: Colors.white),
                                 )
-                              : const Text(
-                                  'Verify & Sign In',
-                                  style: TextStyle(
+                              : Text(
+                                  widget.isLogin ? 'Verify & Log In' : 'Verify & Create Account',
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w800,
                                     color: Colors.white,

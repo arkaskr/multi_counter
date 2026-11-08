@@ -15,23 +15,60 @@ function generateOtp() {
 
 /**
  * POST /api/auth/send-otp
- * Body: { email, name }
+ * Body: { email, name, mode }
+ * mode: 'login' | 'register' (optional, defaults to auto-detect)
  */
 router.post('/send-otp', async (req, res) => {
   try {
-    const { email, name } = req.body;
+    const { email, name, mode } = req.body;
 
     if (!email || typeof email !== 'string') {
       return res.status(400).json({ success: false, message: 'Valid email address is required.' });
     }
 
     const cleanEmail = email.trim().toLowerCase();
-    const cleanName = (name || '').trim();
+    let cleanName = (name || '').trim();
 
     // Basic email validation regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(cleanEmail)) {
       return res.status(400).json({ success: false, message: 'Invalid email format.' });
+    }
+
+    const existingUser = await User.findOne({ email: cleanEmail });
+
+    // Handle Login mode: require user to already be registered
+    if (mode === 'login') {
+      if (!existingUser) {
+        return res.status(404).json({
+          success: false,
+          isNotRegistered: true,
+          message: 'No account found with this email. Please register first.',
+        });
+      }
+      cleanName = existingUser.name;
+    }
+
+    // Handle Register mode: check if email is already registered
+    if (mode === 'register') {
+      if (existingUser) {
+        return res.status(409).json({
+          success: false,
+          isAlreadyRegistered: true,
+          message: 'An account with this email already exists. Please log in instead.',
+        });
+      }
+      if (!cleanName) {
+        return res.status(400).json({
+          success: false,
+          message: 'Please enter your name to register.',
+        });
+      }
+    }
+
+    // If no mode specified, auto-populate name from existing user if available
+    if (!cleanName && existingUser) {
+      cleanName = existingUser.name;
     }
 
     const otp = generateOtp();
@@ -51,6 +88,8 @@ router.post('/send-otp', async (req, res) => {
       success: true,
       message: 'OTP has been generated and sent to your email.',
       email: cleanEmail,
+      isRegistered: !!existingUser,
+      userName: cleanName || undefined,
       emailSent: mailResult.emailSent,
       // Provide OTP in response only if SMTP failed or dummy credentials detected to facilitate local testing
       devOtp: !mailResult.emailSent ? otp : undefined,

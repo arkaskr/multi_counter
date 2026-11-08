@@ -12,6 +12,9 @@ class AuthResult {
   final UserModel? user;
   final String? token;
   final String? devOtp;
+  final String? userName;
+  final bool isNotRegistered;
+  final bool isAlreadyRegistered;
 
   const AuthResult({
     required this.success,
@@ -19,6 +22,9 @@ class AuthResult {
     this.user,
     this.token,
     this.devOtp,
+    this.userName,
+    this.isNotRegistered = false,
+    this.isAlreadyRegistered = false,
   });
 }
 
@@ -60,9 +66,11 @@ class AuthService {
   }
 
   /// Sends 6-digit OTP to user email via backend Nodemailer
+  /// mode: 'login' | 'register'
   Future<AuthResult> sendOtp({
     required String email,
-    required String name,
+    String? name,
+    String mode = 'login',
   }) async {
     try {
       final url = Uri.parse('${AppConfig.apiBaseUrl}/auth/send-otp');
@@ -72,7 +80,8 @@ class AuthService {
             headers: {'Content-Type': 'application/json'},
             body: jsonEncode({
               'email': email.trim(),
-              'name': name.trim(),
+              'name': (name ?? '').trim(),
+              'mode': mode,
             }),
           )
           .timeout(const Duration(seconds: 10));
@@ -84,11 +93,14 @@ class AuthService {
           success: true,
           message: data['message'] as String? ?? 'OTP sent successfully',
           devOtp: data['devOtp'] as String?,
+          userName: data['userName'] as String?,
         );
       } else {
         return AuthResult(
           success: false,
           message: data['message'] as String? ?? 'Failed to send OTP code.',
+          isNotRegistered: data['isNotRegistered'] == true,
+          isAlreadyRegistered: data['isAlreadyRegistered'] == true,
         );
       }
     } on SocketException {
