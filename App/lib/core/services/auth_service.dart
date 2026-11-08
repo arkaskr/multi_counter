@@ -31,6 +31,9 @@ class AuthResult {
 class AuthService {
   static final AuthService instance = AuthService._internal();
 
+  @visibleForTesting
+  AuthService.internal();
+
   AuthService._internal();
 
   static const String _keyToken = 'auth_token';

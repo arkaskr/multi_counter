@@ -67,7 +67,7 @@ class DailyCounterApp extends ConsumerWidget {
     final authState = ref.watch(authStateProvider);
 
     Widget homeWidget;
-    if (authState.isLoading) {
+    if (!authState.isInitialized) {
       homeWidget = Scaffold(
         backgroundColor: themeData.background,
         body: const Center(child: CircularProgressIndicator()),

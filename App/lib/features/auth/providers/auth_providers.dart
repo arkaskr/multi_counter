@@ -16,6 +16,7 @@ class AuthState {
   final String? token;
   final bool isLoggedIn;
   final bool isGuestMode;
+  final bool isInitialized;
   final bool isLoading;
   final String? errorMessage;
 
@@ -24,6 +25,7 @@ class AuthState {
     this.token,
     this.isLoggedIn = false,
     this.isGuestMode = false,
+    this.isInitialized = false,
     this.isLoading = false,
     this.errorMessage,
   });
@@ -33,6 +35,7 @@ class AuthState {
     String? token,
     bool? isLoggedIn,
     bool? isGuestMode,
+    bool? isInitialized,
     bool? isLoading,
     String? errorMessage,
     bool clearUser = false,
@@ -42,6 +45,7 @@ class AuthState {
       token: clearUser ? null : (token ?? this.token),
       isLoggedIn: isLoggedIn ?? this.isLoggedIn,
       isGuestMode: isGuestMode ?? this.isGuestMode,
+      isInitialized: isInitialized ?? this.isInitialized,
       isLoading: isLoading ?? this.isLoading,
       errorMessage: errorMessage,
     );
@@ -58,7 +62,8 @@ class AuthNotifier extends Notifier<AuthState> {
       token: service.token,
       isLoggedIn: service.isLoggedIn,
       isGuestMode: service.isGuestMode,
-      isLoading: !service.isInitialized,
+      isInitialized: service.isInitialized,
+      isLoading: false,
     );
   }
 
@@ -70,25 +75,25 @@ class AuthNotifier extends Notifier<AuthState> {
       token: service.token,
       isLoggedIn: service.isLoggedIn,
       isGuestMode: service.isGuestMode,
+      isInitialized: true,
       isLoading: false,
     );
   }
 
   Future<AuthResult> sendOtp(String email, {String? name, String mode = 'login'}) async {
-    state = state.copyWith(isLoading: true, errorMessage: null);
     final service = ref.read(authServiceProvider);
     final result = await service.sendOtp(email: email, name: name, mode: mode);
-    state = state.copyWith(isLoading: false, errorMessage: result.success ? null : result.message);
+    if (!result.success && result.message != null) {
+      state = state.copyWith(errorMessage: result.message);
+    }
     return result;
   }
 
   Future<AuthResult> verifyOtp(String email, String otp, String name) async {
-    state = state.copyWith(isLoading: true, errorMessage: null);
     final service = ref.read(authServiceProvider);
     final result = await service.verifyOtp(email: email, otp: otp, name: name);
     if (result.success && result.user != null) {
       state = state.copyWith(
-        isLoading: false,
         isLoggedIn: true,
         isGuestMode: false,
         user: result.user,
@@ -96,7 +101,7 @@ class AuthNotifier extends Notifier<AuthState> {
         errorMessage: null,
       );
     } else {
-      state = state.copyWith(isLoading: false, errorMessage: result.message);
+      state = state.copyWith(errorMessage: result.message);
     }
     return result;
   }
@@ -110,7 +115,7 @@ class AuthNotifier extends Notifier<AuthState> {
   Future<void> logout() async {
     final service = ref.read(authServiceProvider);
     await service.logout();
-    state = const AuthState(isLoggedIn: false, isGuestMode: false, isLoading: false);
+    state = const AuthState(isLoggedIn: false, isGuestMode: false, isInitialized: true, isLoading: false);
   }
 }
 

@@ -75,6 +75,9 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
           // Pop twice to dismiss modal flow
           Navigator.of(context).pop();
           Navigator.of(context).pop();
+        } else {
+          // Pop back to root so MainShell is displayed
+          Navigator.of(context).popUntil((route) => route.isFirst);
         }
       } else {
         setState(() => _errorMessage = res.message ?? 'Verification failed');
