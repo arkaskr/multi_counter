@@ -233,8 +233,67 @@ class DatabaseHelper {
     await db.delete(DatabaseConstants.tableDailyRecords);
   }
 
+  /// Returns total number of meals recorded in the current cycle (date > checkpointDate).
+  /// If checkpointDate is null or empty, returns sum across all dates.
+  Future<int> getMealsCountSince(String? checkpointDate) async {
+    final db = await database;
+    String query = 'SELECT SUM(${DatabaseConstants.columnCount}) as total_meals FROM ${DatabaseConstants.tableDailyRecords}';
+    final args = <dynamic>[];
+    if (checkpointDate != null && checkpointDate.trim().isNotEmpty) {
+      query += ' WHERE ${DatabaseConstants.columnDate} > ?';
+      args.add(checkpointDate.trim());
+    }
+    final result = await db.rawQuery(query, args);
+    if (result.isNotEmpty && result.first['total_meals'] != null) {
+      return (result.first['total_meals'] as int?) ?? 0;
+    }
+    return 0;
+  }
+
+  /// Returns total spending amount in the current cycle (date > checkpointDate).
+  /// If checkpointDate is null or empty, returns sum across all dates.
+  Future<double> getTotalAmountSince(String? checkpointDate, double unitAmount) async {
+    final db = await database;
+    String query = 'SELECT SUM(COALESCE(${DatabaseConstants.columnAmountOverride}, ${DatabaseConstants.columnCount} * ?)) as total_amount FROM ${DatabaseConstants.tableDailyRecords}';
+    final args = <dynamic>[unitAmount];
+    if (checkpointDate != null && checkpointDate.trim().isNotEmpty) {
+      query += ' WHERE ${DatabaseConstants.columnDate} > ?';
+      args.add(checkpointDate.trim());
+    }
+    final result = await db.rawQuery(query, args);
+    if (result.isNotEmpty && result.first['total_amount'] != null) {
+      return ((result.first['total_amount'] as num?)?.toDouble()) ?? 0.0;
+    }
+    return 0.0;
+  }
+
+  /// Get daily records between two dates (inclusive, sorted chronologically).
+  Future<List<DailyRecord>> getRecordsBetween(String startDate, String endDate) async {
+    final db = await database;
+    final results = await db.query(
+      DatabaseConstants.tableDailyRecords,
+      where: '${DatabaseConstants.columnDate} >= ? AND ${DatabaseConstants.columnDate} <= ?',
+      whereArgs: [startDate, endDate],
+      orderBy: '${DatabaseConstants.columnDate} ASC',
+    );
+    return results.map((e) => DailyRecord.fromMap(e)).toList();
+  }
+
+  /// Save or clear checkpoint date in app settings
+  Future<void> setCheckpointDate(String? date) async {
+    final db = await database;
+    await db.insert(
+      DatabaseConstants.tableAppSettings,
+      {
+        DatabaseConstants.columnKey: DatabaseConstants.keyCheckpointDate,
+        DatabaseConstants.columnValue: date?.trim() ?? '',
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
   /// Returns total number of distinct days where the user had food (count > 0).
-  /// If the user did not have any food on a day, it does not increment.
+  /// Kept for analytics computation.
   Future<int> getFoodDaysCount() async {
     final db = await database;
     final result = await db.rawQuery(

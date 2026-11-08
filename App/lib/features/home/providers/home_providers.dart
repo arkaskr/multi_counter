@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/constants/app_constants.dart';
 import '../../../core/services/counter_service.dart';
 import '../../../core/utils/date_utils.dart';
 import '../../../shared/models/daily_record.dart';
@@ -64,7 +65,24 @@ final homeWeeklySummaryProvider = FutureProvider<WeeklySummary>((ref) async {
   return await service.getWeekSummary(weekDates, settings);
 });
 
-/// Provider for the total count of distinct days on which food was consumed
+/// Provider for the total meals in the current cycle (records with date > checkpointDate)
+final cycleMealsCountProvider = FutureProvider<int>((ref) async {
+  ref.watch(todayRecordProvider);
+  final settings = ref.watch(settingsNotifierProvider).value;
+  final service = ref.watch(counterServiceProvider);
+  return await service.getCycleMealsCount(settings?.checkpointDate);
+});
+
+/// Provider for the total spending in the current cycle (records with date > checkpointDate)
+final cycleTotalAmountProvider = FutureProvider<double>((ref) async {
+  ref.watch(todayRecordProvider);
+  final settings = ref.watch(settingsNotifierProvider).value;
+  final unitAmount = settings?.unitAmount ?? AppConstants.defaultUnitAmount;
+  final service = ref.watch(counterServiceProvider);
+  return await service.getCycleTotalAmount(settings?.checkpointDate, unitAmount);
+});
+
+/// Deprecated: kept for analytics/backwards compatibility
 final foodDaysCountProvider = FutureProvider<int>((ref) async {
   ref.watch(todayRecordProvider);
   final service = ref.watch(counterServiceProvider);

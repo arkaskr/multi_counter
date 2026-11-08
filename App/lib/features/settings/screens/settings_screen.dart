@@ -243,7 +243,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final settingsAsync = ref.watch(settingsNotifierProvider);
     final settings = settingsAsync.value;
 
-    final unitAmount = settings?.unitAmount ?? 45.0;
+    final unitAmount = settings?.unitAmount ?? AppConstants.defaultUnitAmount;
     final dailyLimit = settings?.dailyLimit ?? 2;
     final weekStart = settings?.weekStart ?? 'monday';
     final currencySymbol = settings?.currencySymbol ?? '₹';
@@ -516,6 +516,28 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
+                    _buildDestructiveActionRow(
+                      title: 'Billing Checkpoint',
+                      subtitle: (settings?.checkpointDate != null && settings!.checkpointDate!.isNotEmpty)
+                          ? 'Active checkpoint: ${AppDateUtils.formatDisplayDate(settings.checkpointDate!)}'
+                          : 'Widget counts meals/amount starting after checkpoint',
+                      buttonLabel: (settings?.checkpointDate != null && settings!.checkpointDate!.isNotEmpty)
+                          ? 'Clear'
+                          : 'Set Today',
+                      onPressed: () async {
+                        if (settings?.checkpointDate != null && settings!.checkpointDate!.isNotEmpty) {
+                          await ref.read(counterServiceProvider).clearCheckpoint();
+                        } else {
+                          final today = AppDateUtils.getTodayDateString();
+                          await ref.read(counterServiceProvider).setCheckpoint(today);
+                        }
+                        ref.invalidate(settingsNotifierProvider);
+                        ref.invalidate(cycleMealsCountProvider);
+                        ref.invalidate(cycleTotalAmountProvider);
+                        ref.read(syncServiceProvider).autoSync();
+                      },
+                    ),
+                    Divider(color: theme.secondaryText.withValues(alpha: 0.15)),
                     _buildDestructiveActionRow(
                       title: 'Reset Today',
                       subtitle: 'Reset today\'s count to zero',
@@ -792,7 +814,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                           final res = await ref.read(syncStatusProvider.notifier).triggerSync();
                           ref.invalidate(todayRecordProvider);
                           ref.invalidate(homeWeeklySummaryProvider);
-                          ref.invalidate(foodDaysCountProvider);
+                          ref.invalidate(cycleMealsCountProvider);
+                          ref.invalidate(cycleTotalAmountProvider);
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(

@@ -35,11 +35,12 @@ void main() {
       );
     ''');
     // Seed default settings
-    await db.insert('app_settings', {'key': 'unit_amount', 'value': '45.0'});
+    await db.insert('app_settings', {'key': 'unit_amount', 'value': '55.0'});
     await db.insert('app_settings', {'key': 'daily_limit', 'value': '2'});
     await db.insert('app_settings', {'key': 'week_start', 'value': 'monday'});
     await db.insert('app_settings', {'key': 'currency_symbol', 'value': '₹'});
-    await db.insert('app_settings', {'key': 'selected_theme', 'value': 'soft_light'});
+    await db.insert('app_settings', {'key': 'selected_theme', 'value': 'midnight_dark'});
+    await db.insert('app_settings', {'key': 'checkpoint_date', 'value': ''});
 
     counterService = CounterService(dbHelper: dbHelper);
     settingsService = SettingsService(dbHelper: dbHelper);
@@ -129,20 +130,20 @@ void main() {
 
     test('Settings service updates and loads properly', () async {
       final settings = await settingsService.getSettings();
-      expect(settings.unitAmount, 45.0);
+      expect(settings.unitAmount, 55.0);
       expect(settings.dailyLimit, 2);
       expect(settings.weekStart, 'monday');
       expect(settings.currencySymbol, '₹');
-      expect(settings.selectedTheme, 'soft_light');
+      expect(settings.selectedTheme, 'midnight_dark');
 
       await settingsService.updateUnitAmount(50.0);
       await settingsService.updateDailyLimit(5);
-      await settingsService.updateTheme('midnight_dark');
+      await settingsService.updateTheme('soft_light');
 
       final updated = await settingsService.getSettings();
       expect(updated.unitAmount, 50.0);
       expect(updated.dailyLimit, 5);
-      expect(updated.selectedTheme, 'midnight_dark');
+      expect(updated.selectedTheme, 'soft_light');
     });
 
     test('Detects daily limit conflicts when decreasing limit', () async {

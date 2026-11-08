@@ -33,6 +33,12 @@ class SettingsNotifier extends AsyncNotifier<AppSettings> {
     ref.invalidateSelf();
   }
 
+  Future<void> updateCheckpointDate(String? date) async {
+    final service = ref.read(settingsServiceProvider);
+    await service.updateCheckpointDate(date);
+    ref.invalidateSelf();
+  }
+
   Future<void> resetSettingsToDefaults() async {
     final service = ref.read(settingsServiceProvider);
     await service.resetSettingsToDefaults();

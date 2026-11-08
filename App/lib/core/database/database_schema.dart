@@ -47,5 +47,9 @@ class DatabaseSchema {
       'key': DatabaseConstants.keySelectedTheme,
       'value': AppConstants.defaultTheme,
     },
+    {
+      'key': DatabaseConstants.keyCheckpointDate,
+      'value': '',
+    },
   ];
 }

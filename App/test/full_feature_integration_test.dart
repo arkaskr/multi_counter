@@ -118,6 +118,34 @@ class FakeCounterService extends CounterService {
     return _store.values.where((r) => r.count > 0).map((r) => r.date).toSet().length;
   }
 
+  String? _checkpointDate;
+
+  @override
+  Future<int> getCycleMealsCount(String? checkpointDate) async {
+    final cp = checkpointDate ?? _checkpointDate;
+    return _store.values
+        .where((r) => cp == null || cp.isEmpty || r.date.compareTo(cp) > 0)
+        .fold<int>(0, (sum, r) => sum + r.count);
+  }
+
+  @override
+  Future<double> getCycleTotalAmount(String? checkpointDate, double unitAmount) async {
+    final cp = checkpointDate ?? _checkpointDate;
+    return _store.values
+        .where((r) => cp == null || cp.isEmpty || r.date.compareTo(cp) > 0)
+        .fold<double>(0.0, (sum, r) => sum + r.calculateAmount(unitAmount));
+  }
+
+  @override
+  Future<void> setCheckpoint(String date) async {
+    _checkpointDate = date;
+  }
+
+  @override
+  Future<void> clearCheckpoint() async {
+    _checkpointDate = null;
+  }
+
   @override
   Future<WeeklySummary> getWeekSummary(List<String> weekDates, AppSettings settings) async {
     return WeeklySummary.calculate(
@@ -131,11 +159,11 @@ class FakeCounterService extends CounterService {
 
 class FakeSettingsService extends SettingsService {
   AppSettings _settings = const AppSettings(
-    unitAmount: 45.0,
+    unitAmount: 55.0,
     dailyLimit: 2,
     weekStart: 'monday',
     currencySymbol: '₹',
-    selectedTheme: 'soft_light',
+    selectedTheme: 'midnight_dark',
   );
 
   @override
@@ -177,11 +205,11 @@ class FakeSettingsService extends SettingsService {
   @override
   Future<void> resetSettingsToDefaults() async {
     _settings = const AppSettings(
-      unitAmount: 45.0,
+      unitAmount: 55.0,
       dailyLimit: 2,
       weekStart: 'monday',
       currencySymbol: '₹',
-      selectedTheme: 'soft_light',
+      selectedTheme: 'midnight_dark',
     );
   }
 }
@@ -285,8 +313,8 @@ void main() {
 
       var recNormal = await counterService.getRecord(dayNormal);
       var recOverride = await counterService.getRecord(dayOverride);
-      expect(recNormal.calculateAmount(45.0), 45.0);
-      expect(recOverride.calculateAmount(45.0), 100.0);
+      expect(recNormal.calculateAmount(55.0), 55.0);
+      expect(recOverride.calculateAmount(55.0), 100.0);
 
       await settingsService.updateUnitAmount(60.0);
       final newSettings = await settingsService.getSettings();
@@ -351,7 +379,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('REMAINING: 1'), findsOneWidget);
-      expect(find.text('₹45'), findsWidgets);
+      expect(find.text('₹55'), findsWidgets);
     });
 
     testWidgets('HistoryScreen displays weekly breakdown and navigation', (tester) async {

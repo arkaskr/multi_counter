@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/constants/app_constants.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/currency_utils.dart';
 import '../../../core/utils/date_utils.dart';
@@ -74,7 +75,8 @@ class _DailyEditScreenState extends ConsumerState<DailyEditScreen> {
     ref.invalidate(todayRecordProvider);
     ref.invalidate(homeWeeklySummaryProvider);
     ref.invalidate(historyWeeklySummaryProvider);
-    ref.invalidate(foodDaysCountProvider);
+    ref.invalidate(cycleMealsCountProvider);
+    ref.invalidate(cycleTotalAmountProvider);
     ref.read(syncServiceProvider).autoSync();
   }
 
@@ -250,7 +252,7 @@ class _DailyEditScreenState extends ConsumerState<DailyEditScreen> {
     final settingsAsync = ref.watch(settingsNotifierProvider);
     final settings = settingsAsync.value;
     final dailyLimit = settings?.dailyLimit ?? 2;
-    final unitAmount = settings?.unitAmount ?? 45.0;
+    final unitAmount = settings?.unitAmount ?? AppConstants.defaultUnitAmount;
     final currencySymbol = settings?.currencySymbol ?? '₹';
 
     if (_isLoading || _record == null) {
@@ -495,7 +497,7 @@ class _DailyEditScreenState extends ConsumerState<DailyEditScreen> {
                     const SizedBox(height: 6),
                     Text(
                       hasOverride
-                          ? 'Standard: ${_record!.count} × ${CurrencyUtils.formatCurrency(unitAmount, currencySymbol)} = ${CurrencyUtils.formatCurrency(_record!.count * unitAmount, currencySymbol)}'
+                          ? 'Standard: ${_record!.count} × ${CurrencyUtils.formatCurrency(unitAmount, currencySymbol)} = ${CurrencyUtils.formatCurrency((_record!.count * unitAmount).toDouble(), currencySymbol)}'
                           : 'Calculation: ${_record!.count} × ${CurrencyUtils.formatCurrency(unitAmount, currencySymbol)}',
                       style: TextStyle(
                         fontSize: 13,

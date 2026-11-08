@@ -69,6 +69,16 @@ class SettingsService {
     await updateSettings(updated);
   }
 
+  /// Updates or clears checkpoint date
+  Future<void> updateCheckpointDate(String? date) async {
+    final current = await getSettings();
+    final updated = current.copyWith(
+      checkpointDate: date,
+      clearCheckpointDate: date == null || date.trim().isEmpty,
+    );
+    await updateSettings(updated);
+  }
+
   /// Reset settings back to factory defaults
   Future<void> resetSettingsToDefaults() async {
     await _dbHelper.resetSettingsToDefaults();

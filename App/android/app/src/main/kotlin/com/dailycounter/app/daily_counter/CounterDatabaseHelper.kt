@@ -25,7 +25,7 @@ data class WidgetDisplayData(
     val count: Int,
     val dailyLimit: Int,
     val totalAmount: Double,
-    val daysFromStart: Int,
+    val totalMeals: Int,
     val currencySymbol: String,
     val selectedTheme: String,
     val isCompleted: Boolean
@@ -60,6 +60,7 @@ class CounterDatabaseHelper(context: Context) : SQLiteOpenHelper(
         const val KEY_WEEK_START = "week_start"
         const val KEY_CURRENCY_SYMBOL = "currency_symbol"
         const val KEY_SELECTED_THEME = "selected_theme"
+        const val KEY_CHECKPOINT_DATE = "checkpoint_date"
     }
 
     init {
@@ -104,11 +105,12 @@ class CounterDatabaseHelper(context: Context) : SQLiteOpenHelper(
 
         // Seed defaults
         val initial = listOf(
-            KEY_UNIT_AMOUNT to "45.0",
+            KEY_UNIT_AMOUNT to "55.0",
             KEY_DAILY_LIMIT to "2",
             KEY_WEEK_START to "monday",
             KEY_CURRENCY_SYMBOL to "₹",
-            KEY_SELECTED_THEME to "soft_light"
+            KEY_SELECTED_THEME to "midnight_dark",
+            KEY_CHECKPOINT_DATE to ""
         )
         for ((k, v) in initial) {
             val cv = ContentValues().apply {
@@ -157,7 +159,7 @@ class CounterDatabaseHelper(context: Context) : SQLiteOpenHelper(
     }
 
     fun getUnitAmount(): Double {
-        return getSetting(KEY_UNIT_AMOUNT, "45.0").toDoubleOrNull() ?: 45.0
+        return getSetting(KEY_UNIT_AMOUNT, "55.0").toDoubleOrNull() ?: 55.0
     }
 
     fun getCurrencySymbol(): String {
@@ -165,7 +167,11 @@ class CounterDatabaseHelper(context: Context) : SQLiteOpenHelper(
     }
 
     fun getSelectedTheme(): String {
-        return getSetting(KEY_SELECTED_THEME, "soft_light")
+        return getSetting(KEY_SELECTED_THEME, "midnight_dark")
+    }
+
+    fun getCheckpointDate(): String {
+        return getSetting(KEY_CHECKPOINT_DATE, "").trim()
     }
 
     fun getRecord(date: String): DailyRecordData {
@@ -194,13 +200,25 @@ class CounterDatabaseHelper(context: Context) : SQLiteOpenHelper(
         return getRecord(getTodayString())
     }
 
-    fun getTotalAmount(): Double {
+    /**
+     * Total amount for the current billing cycle (records with date > checkpoint_date).
+     * If no checkpoint is set, calculates across all records.
+     */
+    fun getCycleTotalAmount(): Double {
         val db = readableDatabase
         val unitAmount = getUnitAmount()
-        val cursor = db.rawQuery(
-            "SELECT SUM(COALESCE($COL_AMOUNT_OVERRIDE, $COL_COUNT * ?)) FROM $TABLE_DAILY_RECORDS",
-            arrayOf(unitAmount.toString())
-        )
+        val checkpoint = getCheckpointDate()
+        val cursor = if (checkpoint.isNotEmpty()) {
+            db.rawQuery(
+                "SELECT SUM(COALESCE($COL_AMOUNT_OVERRIDE, $COL_COUNT * ?)) FROM $TABLE_DAILY_RECORDS WHERE $COL_DATE > ?",
+                arrayOf(unitAmount.toString(), checkpoint)
+            )
+        } else {
+            db.rawQuery(
+                "SELECT SUM(COALESCE($COL_AMOUNT_OVERRIDE, $COL_COUNT * ?)) FROM $TABLE_DAILY_RECORDS",
+                arrayOf(unitAmount.toString())
+            )
+        }
         cursor.use {
             if (it.moveToFirst() && !it.isNull(0)) {
                 return it.getDouble(0)
@@ -210,16 +228,23 @@ class CounterDatabaseHelper(context: Context) : SQLiteOpenHelper(
     }
 
     /**
-     * Returns the count of distinct days on which the user had food (count > 0).
-     * If the user had food that day, the day increments; if no meal was taken that day,
-     * the day does not increment.
+     * Total meals for the current billing cycle (records with date > checkpoint_date).
+     * If no checkpoint is set, calculates across all records.
      */
-    fun getDaysWithFood(): Int {
+    fun getCycleMeals(): Int {
         val db = readableDatabase
-        val cursor = db.rawQuery(
-            "SELECT COUNT(DISTINCT $COL_DATE) FROM $TABLE_DAILY_RECORDS WHERE $COL_COUNT > 0",
-            null
-        )
+        val checkpoint = getCheckpointDate()
+        val cursor = if (checkpoint.isNotEmpty()) {
+            db.rawQuery(
+                "SELECT SUM($COL_COUNT) FROM $TABLE_DAILY_RECORDS WHERE $COL_DATE > ?",
+                arrayOf(checkpoint)
+            )
+        } else {
+            db.rawQuery(
+                "SELECT SUM($COL_COUNT) FROM $TABLE_DAILY_RECORDS",
+                null
+            )
+        }
         var count = 0
         cursor.use {
             if (it.moveToFirst() && !it.isNull(0)) {
@@ -229,8 +254,8 @@ class CounterDatabaseHelper(context: Context) : SQLiteOpenHelper(
         return count
     }
 
-    fun getDaysFromStart(): Int {
-        return getDaysWithFood()
+    fun getTotalAmount(): Double {
+        return getCycleTotalAmount()
     }
 
     fun getWidgetDisplayData(): WidgetDisplayData {
@@ -239,8 +264,8 @@ class CounterDatabaseHelper(context: Context) : SQLiteOpenHelper(
         val limit = getDailyLimit()
         val symbol = getCurrencySymbol()
         val theme = getSelectedTheme()
-        val totalAmount = getTotalAmount()
-        val daysFromStart = getDaysFromStart()
+        val totalAmount = getCycleTotalAmount()
+        val totalMeals = getCycleMeals()
         val isCompleted = record.count >= limit
 
         return WidgetDisplayData(
@@ -249,7 +274,7 @@ class CounterDatabaseHelper(context: Context) : SQLiteOpenHelper(
             count = record.count,
             dailyLimit = limit,
             totalAmount = totalAmount,
-            daysFromStart = daysFromStart,
+            totalMeals = totalMeals,
             currencySymbol = symbol,
             selectedTheme = theme,
             isCompleted = isCompleted

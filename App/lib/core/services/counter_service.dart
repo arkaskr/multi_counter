@@ -163,9 +163,32 @@ class CounterService {
   }
 
   /// Returns the count of distinct days on which the user had food.
-  /// If the user did not have any food that day, the day does not increment.
+  /// Kept for analytics computation.
   Future<int> getFoodDaysCount() async {
     return await _dbHelper.getFoodDaysCount();
+  }
+
+  /// Returns total number of meals in the current cycle (after checkpointDate).
+  Future<int> getCycleMealsCount(String? checkpointDate) async {
+    return await _dbHelper.getMealsCountSince(checkpointDate);
+  }
+
+  /// Returns total spending amount in the current cycle (after checkpointDate).
+  Future<double> getCycleTotalAmount(String? checkpointDate, double unitAmount) async {
+    return await _dbHelper.getTotalAmountSince(checkpointDate, unitAmount);
+  }
+
+  /// Sets a checkpoint for the given date (default today).
+  /// Widget and cycle counters will start counting from the day after this date.
+  Future<void> setCheckpoint(String date) async {
+    await _dbHelper.setCheckpointDate(date);
+    await _widgetService.notifyWidgetUpdate();
+  }
+
+  /// Clears the checkpoint so widget and counters include all records.
+  Future<void> clearCheckpoint() async {
+    await _dbHelper.setCheckpointDate(null);
+    await _widgetService.notifyWidgetUpdate();
   }
 
   /// Gets weekly summary for the given week dates.

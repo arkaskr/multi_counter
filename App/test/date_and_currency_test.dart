@@ -3,6 +3,7 @@ import 'package:daily_counter/core/utils/date_utils.dart';
 import 'package:daily_counter/core/utils/currency_utils.dart';
 import 'package:daily_counter/shared/models/daily_record.dart';
 import 'package:daily_counter/shared/models/weekly_summary.dart';
+import 'package:daily_counter/features/analytics/models/analytics_data.dart';
 
 void main() {
   group('CurrencyUtils Tests', () {
@@ -134,6 +135,45 @@ void main() {
       expect(summary.totalAmount, 405.0);
       expect(summary.completedDays, 3); // Tue (2), Fri (2), Sun (2)
       expect(summary.averageDailyCount, closeTo(9 / 7, 0.01));
+    });
+
+    test('AnalyticsReport.calculate accurately computes spending, meals, and daily averages', () {
+      final rangeDates = [
+        '2026-11-01', '2026-11-02', '2026-11-03', '2026-11-04', '2026-11-05',
+      ];
+      final map = <String, DailyRecord>{
+        '2026-11-01': const DailyRecord(date: '2026-11-01', count: 1, updatedAt: '2026-11-01T00:00:00'),
+        '2026-11-02': const DailyRecord(date: '2026-11-02', count: 2, updatedAt: '2026-11-02T00:00:00'),
+        '2026-11-03': const DailyRecord(date: '2026-11-03', count: 0, updatedAt: '2026-11-03T00:00:00'),
+        '2026-11-04': const DailyRecord(date: '2026-11-04', count: 1, amountOverride: 60.0, updatedAt: '2026-11-04T00:00:00'),
+        '2026-11-05': const DailyRecord(date: '2026-11-05', count: 2, updatedAt: '2026-11-05T00:00:00'),
+      };
+
+      final report = AnalyticsReport.calculate(
+        rangeType: AnalyticsRangeType.fifteenDays,
+        title: 'Nov 1 - 5',
+        startDate: '2026-11-01',
+        endDate: '2026-11-05',
+        allDatesInRange: rangeDates,
+        recordsMap: map,
+        unitAmount: 55.0,
+        dailyLimit: 2,
+      );
+
+      // Meals: 1 + 2 + 0 + 1 + 2 = 6 meals
+      expect(report.totalMeals, 6);
+      // Spending: (1*55) + (2*55) + 0 + 60.0 + (2*55) = 55 + 110 + 0 + 60 + 110 = 335.0
+      expect(report.totalSpending, 335.0);
+      // Active days: 4 days (Nov 1, 2, 4, 5)
+      expect(report.activeDays, 4);
+      // Total days: 5
+      expect(report.totalDaysInRange, 5);
+      // Completed limit (count >= 2): Nov 2 and Nov 5 = 2
+      expect(report.completedDays, 2);
+      // Average spending per day = 335 / 5 = 67.0
+      expect(report.averageSpendingPerDay, 67.0);
+      // Average meals per day = 6 / 5 = 1.2
+      expect(report.averageMealsPerDay, 1.2);
     });
   });
 }

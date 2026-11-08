@@ -8,6 +8,7 @@ import 'core/constants/app_constants.dart';
 import 'core/database/database_helper.dart';
 import 'core/services/widget_service.dart';
 import 'core/theme/theme_provider.dart';
+import 'features/analytics/screens/analytics_screen.dart';
 import 'features/auth/providers/auth_providers.dart';
 import 'features/auth/screens/login_screen.dart';
 import 'features/history/screens/history_screen.dart';
@@ -107,7 +108,8 @@ class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserv
       if (mounted) {
         ref.invalidate(todayRecordProvider);
         ref.invalidate(homeWeeklySummaryProvider);
-        ref.invalidate(foodDaysCountProvider);
+        ref.invalidate(cycleMealsCountProvider);
+        ref.invalidate(cycleTotalAmountProvider);
         ref.read(syncServiceProvider).autoSync();
       }
     };
@@ -131,7 +133,8 @@ class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserv
     if (state == AppLifecycleState.resumed) {
       ref.invalidate(todayRecordProvider);
       ref.invalidate(homeWeeklySummaryProvider);
-      ref.invalidate(foodDaysCountProvider);
+      ref.invalidate(cycleMealsCountProvider);
+      ref.invalidate(cycleTotalAmountProvider);
       ref.read(syncServiceProvider).autoSync();
     }
   }
@@ -141,9 +144,10 @@ class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserv
     final pages = [
       HomeScreen(
         onOpenSettings: () {
-          setState(() => _currentIndex = 2);
+          setState(() => _currentIndex = 3);
         },
       ),
+      const AnalyticsScreen(),
       const HistoryScreen(),
       const SettingsScreen(),
     ];
@@ -162,6 +166,10 @@ class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserv
           NeumorphicNavItem(
             icon: Icons.dashboard_rounded,
             label: 'Home',
+          ),
+          NeumorphicNavItem(
+            icon: Icons.insights_rounded,
+            label: 'Analytics',
           ),
           NeumorphicNavItem(
             icon: Icons.calendar_month_rounded,

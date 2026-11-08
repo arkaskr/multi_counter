@@ -57,7 +57,7 @@ class CounterWidget : GlanceAppWidget() {
                     count = 0,
                     dailyLimit = 2,
                     totalAmount = 0.0,
-                    daysFromStart = 0,
+                    totalMeals = 0,
                     currencySymbol = "₹",
                     selectedTheme = "midnight_dark",
                     isCompleted = false
@@ -88,12 +88,12 @@ class CounterWidget : GlanceAppWidget() {
             "${data.currencySymbol}${String.format("%.2f", data.totalAmount)}"
         }
 
-        val daysStr = "${data.daysFromStart} ${if (data.daysFromStart == 1) "Day" else "Days"}"
+        val mealsStr = "${data.totalMeals} ${if (data.totalMeals == 1) "Meal" else "Meals"}"
 
         Column(
             modifier = GlanceModifier.fillMaxSize()
         ) {
-            // Upper Section (Row): Left + button, Right divided column (Refresh on top, Days below)
+            // Upper Section (Row): Left + button, Right divided column (Refresh on top, Meals below)
             Row(
                 modifier = GlanceModifier
                     .fillMaxWidth()
@@ -121,7 +121,7 @@ class CounterWidget : GlanceAppWidget() {
 
                 Spacer(modifier = GlanceModifier.width(10.dp))
 
-                // Top-Right: Divided into Refresh button (top) and Days count (below)
+                // Top-Right: Divided into Refresh button (top) and Meals count (below)
                 Column(
                     modifier = GlanceModifier
                         .defaultWeight()
@@ -148,7 +148,7 @@ class CounterWidget : GlanceAppWidget() {
 
                     Spacer(modifier = GlanceModifier.height(8.dp))
 
-                    // Below: Days Pill
+                    // Below: Meals Pill
                     Box(
                         modifier = GlanceModifier
                             .fillMaxWidth()
@@ -159,7 +159,7 @@ class CounterWidget : GlanceAppWidget() {
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = daysStr,
+                            text = mealsStr,
                             style = TextStyle(
                                 color = ColorProvider(theme.accent),
                                 fontSize = 14.sp,

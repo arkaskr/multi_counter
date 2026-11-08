@@ -110,6 +110,7 @@ class SyncService {
         'currencySymbol': localSettings.currencySymbol,
         'selectedTheme': localSettings.selectedTheme,
         'customThemeConfig': localSettings.customThemeConfig,
+        'checkpointDate': localSettings.checkpointDate,
         'updatedAt': DateTime.now().toIso8601String(),
       };
 

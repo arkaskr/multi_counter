@@ -24,4 +24,5 @@ class DatabaseConstants {
   static const String keyCurrencySymbol = 'currency_symbol';
   static const String keySelectedTheme = 'selected_theme';
   static const String keyCustomThemeConfig = 'custom_theme_config';
+  static const String keyCheckpointDate = 'checkpoint_date';
 }

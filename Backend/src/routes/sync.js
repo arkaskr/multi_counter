@@ -55,23 +55,32 @@ router.post('/', authMiddleware, async (req, res) => {
       if (!currentSettings) {
         currentSettings = await Settings.create({
           userId,
-          unitAmount: Number(settings.unitAmount) || 45.0,
-          dailyLimit: Number(settings.dailyLimit) || 2,
-          weekStart: settings.weekStart || 'monday',
-          currencySymbol: settings.currencySymbol || '₹',
-          selectedTheme: settings.selectedTheme || 'soft_light',
-          customThemeConfig: settings.customThemeConfig || null,
+          unitAmount: Number(settings.unitAmount || settings.unit_amount) || 55.0,
+          dailyLimit: Number(settings.dailyLimit || settings.daily_limit) || 2,
+          weekStart: settings.weekStart || settings.week_start || 'monday',
+          currencySymbol: settings.currencySymbol || settings.currency_symbol || '₹',
+          selectedTheme: settings.selectedTheme || settings.selected_theme || 'midnight_dark',
+          customThemeConfig: settings.customThemeConfig || settings.custom_theme_config || null,
+          checkpointDate: settings.checkpointDate || settings.checkpoint_date || null,
           updatedAt: clientSettingsUpdatedAt,
         });
       } else {
         const serverSettingsUpdatedAt = new Date(currentSettings.updatedAt);
         if (clientSettingsUpdatedAt >= serverSettingsUpdatedAt) {
-          if (settings.unitAmount != null) currentSettings.unitAmount = Number(settings.unitAmount);
-          if (settings.dailyLimit != null) currentSettings.dailyLimit = Number(settings.dailyLimit);
-          if (settings.weekStart != null) currentSettings.weekStart = settings.weekStart;
-          if (settings.currencySymbol != null) currentSettings.currencySymbol = settings.currencySymbol;
-          if (settings.selectedTheme != null) currentSettings.selectedTheme = settings.selectedTheme;
-          if (settings.customThemeConfig !== undefined) currentSettings.customThemeConfig = settings.customThemeConfig;
+          const uAmount = settings.unitAmount ?? settings.unit_amount;
+          if (uAmount != null) currentSettings.unitAmount = Number(uAmount);
+          const dLimit = settings.dailyLimit ?? settings.daily_limit;
+          if (dLimit != null) currentSettings.dailyLimit = Number(dLimit);
+          const wStart = settings.weekStart ?? settings.week_start;
+          if (wStart != null) currentSettings.weekStart = wStart;
+          const cSymbol = settings.currencySymbol ?? settings.currency_symbol;
+          if (cSymbol != null) currentSettings.currencySymbol = cSymbol;
+          const sTheme = settings.selectedTheme ?? settings.selected_theme;
+          if (sTheme != null) currentSettings.selectedTheme = sTheme;
+          const cTheme = settings.customThemeConfig ?? settings.custom_theme_config;
+          if (cTheme !== undefined) currentSettings.customThemeConfig = cTheme;
+          const cpDate = settings.checkpointDate ?? settings.checkpoint_date;
+          if (cpDate !== undefined) currentSettings.checkpointDate = cpDate || null;
           currentSettings.updatedAt = clientSettingsUpdatedAt;
           await currentSettings.save();
         }
@@ -96,6 +105,7 @@ router.post('/', authMiddleware, async (req, res) => {
           currency_symbol: currentSettings.currencySymbol,
           selected_theme: currentSettings.selectedTheme,
           custom_theme_config: currentSettings.customThemeConfig,
+          checkpoint_date: currentSettings.checkpointDate || '',
           updated_at: currentSettings.updatedAt.toISOString(),
         }
       : null;

@@ -39,7 +39,8 @@ void main() {
             );
           ''');
           await db.insert('app_settings', {'key': 'daily_limit', 'value': '2'});
-          await db.insert('app_settings', {'key': 'unit_amount', 'value': '45.0'});
+          await db.insert('app_settings', {'key': 'unit_amount', 'value': '55.0'});
+          await db.insert('app_settings', {'key': 'checkpoint_date', 'value': ''});
         },
       );
       dbHelper = DatabaseHelper.withDatabase(db);
@@ -124,6 +125,42 @@ void main() {
 
       expect(all.length, 2);
       expect(all.firstWhere((r) => r.date == '2026-11-02').amountOverride, 100.0);
+    });
+
+    test('Checkpoint starts counting meals and amount from next day while keeping history for analytics', () async {
+      // Days 1 to 15: 15 meals logged (count = 1 each day)
+      for (int i = 1; i <= 15; i++) {
+        final d = '2026-11-${i.toString().padLeft(2, '0')}';
+        await counterService.setCount(d, 1, 2);
+      }
+
+      // Before checkpoint: cycle meals = 15, cycle amount = 15 * 55 = 825
+      expect(await counterService.getCycleMealsCount(null), 15);
+      expect(await counterService.getCycleTotalAmount(null, 55.0), 825.0);
+
+      // User sets Checkpoint on 2026-11-15 (settles the 15 meals)
+      await counterService.setCheckpoint('2026-11-15');
+
+      // Right after checkpoint on day 15, cycle meals starting from day 16 is 0
+      expect(await counterService.getCycleMealsCount('2026-11-15'), 0);
+      expect(await counterService.getCycleTotalAmount('2026-11-15', 55.0), 0.0);
+
+      // On day 16 (next day): User logs 2 meals
+      await counterService.setCount('2026-11-16', 2, 2);
+
+      // Cycle now counts only from day 16! (2 meals = 110 rs)
+      expect(await counterService.getCycleMealsCount('2026-11-15'), 2);
+      expect(await counterService.getCycleTotalAmount('2026-11-15', 55.0), 110.0);
+
+      // But in background all 16 days exist for Analytics!
+      final allRange = await dbHelper.getRecordsBetween('2026-11-01', '2026-11-16');
+      expect(allRange.length, 16);
+      final totalMealsAllTime = allRange.map((r) => r.count).reduce((a, b) => a + b);
+      expect(totalMealsAllTime, 17); // 15 + 2
+
+      // Clear checkpoint restores all-time count to cycle
+      await counterService.clearCheckpoint();
+      expect(await counterService.getCycleMealsCount(null), 17);
     });
   });
 

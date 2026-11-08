@@ -11,7 +11,7 @@ const SettingsSchema = new mongoose.Schema(
     },
     unitAmount: {
       type: Number,
-      default: 45.0,
+      default: 55.0,
     },
     dailyLimit: {
       type: Number,
@@ -27,9 +27,13 @@ const SettingsSchema = new mongoose.Schema(
     },
     selectedTheme: {
       type: String,
-      default: 'soft_light',
+      default: 'midnight_dark',
     },
     customThemeConfig: {
+      type: String,
+      default: null,
+    },
+    checkpointDate: {
       type: String,
       default: null,
     },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/constants/app_constants.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/currency_utils.dart';
 import '../../../core/utils/date_utils.dart';
@@ -38,7 +39,7 @@ class HomeScreen extends ConsumerWidget {
 
     final settings = settingsAsync.value;
     final dailyLimit = settings?.dailyLimit ?? 2;
-    final unitAmount = settings?.unitAmount ?? 45.0;
+    final unitAmount = settings?.unitAmount ?? AppConstants.defaultUnitAmount;
     final currencySymbol = settings?.currencySymbol ?? '₹';
 
     final todayRecord = todayRecordAsync.value ?? DailyRecord.empty(todayStr);
@@ -92,18 +93,18 @@ class HomeScreen extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    // Food Days Counter Badge: only increments on days with food
-                    ref.watch(foodDaysCountProvider).maybeWhen(
-                          data: (foodDays) => NeumorphicContainer(
+                    // Cycle Meals Counter Badge: shows total meals in current cycle
+                    ref.watch(cycleMealsCountProvider).maybeWhen(
+                          data: (cycleMeals) => NeumorphicContainer(
                             borderRadius: 16,
                             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.lunch_dining_rounded, size: 16, color: theme.accent),
+                                Icon(Icons.restaurant_rounded, size: 16, color: theme.accent),
                                 const SizedBox(width: 6),
                                 Text(
-                                  '$foodDays ${foodDays == 1 ? "Day" : "Days"}',
+                                  '$cycleMeals ${cycleMeals == 1 ? "Meal" : "Meals"}',
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w800,
@@ -214,7 +215,8 @@ class HomeScreen extends ConsumerWidget {
                               );
                             }
                             ref.invalidate(homeWeeklySummaryProvider);
-                            ref.invalidate(foodDaysCountProvider);
+                            ref.invalidate(cycleMealsCountProvider);
+                            ref.invalidate(cycleTotalAmountProvider);
                             ref.read(syncServiceProvider).autoSync();
                           },
                           child: const Row(
@@ -305,6 +307,10 @@ class HomeScreen extends ConsumerWidget {
                     ],
                   ),
                 ),
+                const SizedBox(height: 24),
+
+                // Current Cycle & Checkpoint Card
+                _buildCycleCheckpointCard(context, ref, theme, currencySymbol, todayStr),
                 const SizedBox(height: 24),
 
                 // Weekly Preview Section Header
@@ -456,5 +462,254 @@ class HomeScreen extends ConsumerWidget {
         );
       }).toList(),
     );
+  }
+
+  Widget _buildCycleCheckpointCard(
+    BuildContext context,
+    WidgetRef ref,
+    dynamic theme,
+    String currencySymbol,
+    String todayStr,
+  ) {
+    final settings = ref.watch(settingsNotifierProvider).value;
+    final checkpointDate = settings?.checkpointDate;
+    final cycleMeals = ref.watch(cycleMealsCountProvider).value ?? 0;
+    final cycleAmount = ref.watch(cycleTotalAmountProvider).value ?? 0.0;
+
+    final subtitle = (checkpointDate != null && checkpointDate.isNotEmpty)
+        ? 'Since ${AppDateUtils.formatDisplayDate(checkpointDate)}'
+        : 'All-time billing cycle';
+
+    return NeumorphicContainer(
+      borderRadius: 24,
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'CURRENT BILLING CYCLE',
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1.2,
+                      color: theme.accent,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: theme.secondaryText,
+                    ),
+                  ),
+                ],
+              ),
+              if (checkpointDate != null && checkpointDate.isNotEmpty)
+                GestureDetector(
+                  onTap: () async {
+                    await ref.read(counterServiceProvider).clearCheckpoint();
+                    ref.invalidate(settingsNotifierProvider);
+                    ref.invalidate(cycleMealsCountProvider);
+                    ref.invalidate(cycleTotalAmountProvider);
+                    ref.read(syncServiceProvider).autoSync();
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: theme.secondaryText.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      'Clear',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        color: theme.secondaryText,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '$cycleMeals',
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w900,
+                        color: theme.text,
+                      ),
+                    ),
+                    Text(
+                      cycleMeals == 1 ? 'Meal in cycle' : 'Meals in cycle',
+                      style: TextStyle(fontSize: 12, color: theme.secondaryText),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      CurrencyUtils.formatCurrency(cycleAmount, currencySymbol),
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w900,
+                        color: theme.accent,
+                      ),
+                    ),
+                    Text(
+                      'Cycle amount due',
+                      style: TextStyle(fontSize: 12, color: theme.secondaryText),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          NeumorphicButton(
+            borderRadius: 18,
+            onTap: () => _showCheckpointDialog(
+              context,
+              ref,
+              todayStr,
+              cycleMeals,
+              cycleAmount,
+              currencySymbol,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.flag_rounded, size: 18, color: theme.accent),
+                const SizedBox(width: 8),
+                Text(
+                  'Checkpoint (Settle up to today)',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w800,
+                    color: theme.text,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showCheckpointDialog(
+    BuildContext context,
+    WidgetRef ref,
+    String todayStr,
+    int cycleMeals,
+    double cycleAmount,
+    String currencySymbol,
+  ) async {
+    final theme = context.appTheme;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogCtx) {
+        return AlertDialog(
+          backgroundColor: theme.surface,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          title: Row(
+            children: [
+              Icon(Icons.flag_rounded, color: theme.accent),
+              const SizedBox(width: 10),
+              Text(
+                'Set Checkpoint',
+                style: TextStyle(fontWeight: FontWeight.w800, color: theme.text),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Settling your bill for today (${AppDateUtils.formatDisplayDate(todayStr)})?',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: theme.text),
+              ),
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: theme.accent.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '$cycleMeals ${cycleMeals == 1 ? "Meal" : "Meals"}',
+                      style: TextStyle(fontWeight: FontWeight.w700, color: theme.text),
+                    ),
+                    Text(
+                      CurrencyUtils.formatCurrency(cycleAmount, currencySymbol),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        color: theme.accent,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'Starting tomorrow, your widget and cycle counters will start fresh from 0 for your next payment cycle. All your past records remain intact in Analytics.',
+                style: TextStyle(fontSize: 12, color: theme.secondaryText, height: 1.4),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogCtx, false),
+              child: Text('Cancel', style: TextStyle(color: theme.secondaryText)),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: theme.accent,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              ),
+              onPressed: () => Navigator.pop(dialogCtx, true),
+              child: const Text('Confirm Checkpoint', style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed == true && context.mounted) {
+      await ref.read(counterServiceProvider).setCheckpoint(todayStr);
+      ref.invalidate(settingsNotifierProvider);
+      ref.invalidate(cycleMealsCountProvider);
+      ref.invalidate(cycleTotalAmountProvider);
+      ref.read(syncServiceProvider).autoSync();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Checkpoint created for ${AppDateUtils.formatDisplayDate(todayStr)}!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    }
   }
 }
