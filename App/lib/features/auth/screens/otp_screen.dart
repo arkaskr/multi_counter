@@ -37,10 +37,6 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
   void initState() {
     super.initState();
     _currentDevOtp = widget.devOtp;
-    if (_currentDevOtp != null) {
-      // Auto-populate or show hint for local testing convenience
-      _otpController.text = _currentDevOtp!;
-    }
   }
 
   @override
@@ -110,7 +106,6 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
         _isLoading = false;
         if (res.devOtp != null) {
           _currentDevOtp = res.devOtp;
-          _otpController.text = res.devOtp!;
         }
       });
 
@@ -206,12 +201,19 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
 
                       NeumorphicInput(
                         controller: _otpController,
-                        hintText: 'Enter 6-digit code',
+                        autofocus: true,
+                        hintText: '• • • • • •',
+                        hintStyle: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 8,
+                          color: theme.secondaryText.withValues(alpha: 0.35),
+                        ),
                         keyboardType: TextInputType.number,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w900,
+                          fontSize: 22,
+                          fontWeight: FontWeight.w800,
                           letterSpacing: 8,
                           color: theme.text,
                         ),
@@ -223,24 +225,32 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                       const SizedBox(height: 12),
 
                       if (_currentDevOtp != null) ...[
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: Colors.blue.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.blue.withValues(alpha: 0.3)),
-                          ),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.info_outline, size: 16, color: Colors.blue),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  'Development code: $_currentDevOtp (check server console if testing dummy SMTP)',
-                                  style: const TextStyle(fontSize: 11, color: Colors.blue, fontWeight: FontWeight.w600),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              _otpController.text = _currentDevOtp!;
+                            });
+                          },
+                          borderRadius: BorderRadius.circular(10),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: Colors.blue.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.blue.withValues(alpha: 0.3)),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.info_outline, size: 16, color: Colors.blue),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    'Code: $_currentDevOtp • Tap to fill',
+                                    style: const TextStyle(fontSize: 12, color: Colors.blue, fontWeight: FontWeight.w600),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                         const SizedBox(height: 12),

@@ -82,7 +82,7 @@ class ThemePresets {
   static ThemeColorPalette getById(String id) {
     return allThemes.firstWhere(
       (theme) => theme.id == id,
-      orElse: () => softLight,
+      orElse: () => midnightDark,
     );
   }
 }

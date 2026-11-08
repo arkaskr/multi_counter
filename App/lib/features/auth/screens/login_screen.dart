@@ -405,27 +405,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ],
                     ),
                   ),
-
-                  const SizedBox(height: 20),
-
-                  // Offline / Guest Mode option
-                  if (!widget.isModal)
-                    Center(
-                      child: TextButton.icon(
-                        icon: Icon(Icons.cloud_off_rounded, size: 18, color: theme.secondaryText),
-                        label: Text(
-                          'Continue in Offline Mode',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: theme.secondaryText,
-                          ),
-                        ),
-                        onPressed: () async {
-                          await ref.read(authStateProvider.notifier).continueOffline();
-                        },
-                      ),
-                    ),
                 ],
               ),
             ),

@@ -1,17 +1,21 @@
 import '../database/database_helper.dart';
 import '../../shared/models/app_settings.dart';
 import '../../shared/models/daily_record.dart';
+import 'sync_service.dart';
 import 'widget_service.dart';
 
 class SettingsService {
   final DatabaseHelper _dbHelper;
   final WidgetService _widgetService;
+  final SyncService? _syncService;
 
   SettingsService({
     DatabaseHelper? dbHelper,
     WidgetService? widgetService,
+    SyncService? syncService,
   })  : _dbHelper = dbHelper ?? DatabaseHelper.instance,
-        _widgetService = widgetService ?? WidgetService.instance;
+        _widgetService = widgetService ?? WidgetService.instance,
+        _syncService = syncService;
 
   /// Loads current application settings
   Future<AppSettings> getSettings() async {
@@ -28,6 +32,7 @@ class SettingsService {
   Future<void> updateSettings(AppSettings settings) async {
     await _dbHelper.saveSettings(settings);
     await _widgetService.notifyWidgetUpdate();
+    _syncService?.autoSync();
   }
 
   /// Updates unit amount specifically
@@ -83,5 +88,6 @@ class SettingsService {
   Future<void> resetSettingsToDefaults() async {
     await _dbHelper.resetSettingsToDefaults();
     await _widgetService.notifyWidgetUpdate();
+    _syncService?.autoSync();
   }
 }

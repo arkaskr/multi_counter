@@ -116,7 +116,7 @@ class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserv
 
     // Trigger background cloud sync with MongoDB if online
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(syncServiceProvider).autoSync();
+      _checkAndSync(showOfflineToast: true);
     });
   }
 
@@ -127,6 +127,50 @@ class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserv
     super.dispose();
   }
 
+  DateTime? _lastOfflineToastTime;
+
+  Future<void> _checkAndSync({bool showOfflineToast = false}) async {
+    final syncService = ref.read(syncServiceProvider);
+    final isOnline = await syncService.checkServerReachability();
+    if (isOnline) {
+      await syncService.autoSync();
+    } else if (showOfflineToast && mounted) {
+      final now = DateTime.now();
+      if (_lastOfflineToastTime == null || now.difference(_lastOfflineToastTime!).inSeconds > 30) {
+        _lastOfflineToastTime = now;
+        _showOfflineNotification(context);
+      }
+    }
+  }
+
+  void _showOfflineNotification(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        backgroundColor: const Color(0xFF2C3142),
+        duration: const Duration(seconds: 4),
+        content: const Row(
+          children: [
+            Icon(Icons.wifi_off_rounded, color: Colors.amber, size: 22),
+            SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                'You are offline. Changes will be auto-synced to cloud when internet is available.',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     // When user returns to app after tapping the home-screen widget
@@ -135,7 +179,7 @@ class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserv
       ref.invalidate(homeWeeklySummaryProvider);
       ref.invalidate(cycleMealsCountProvider);
       ref.invalidate(cycleTotalAmountProvider);
-      ref.read(syncServiceProvider).autoSync();
+      _checkAndSync(showOfflineToast: true);
     }
   }
 

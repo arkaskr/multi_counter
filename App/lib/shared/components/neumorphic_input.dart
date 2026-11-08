@@ -17,11 +17,13 @@ class NeumorphicInput extends StatelessWidget {
   final bool autofocus;
   final TextAlign textAlign;
   final TextStyle? style;
+  final TextStyle? hintStyle;
 
   const NeumorphicInput({
     super.key,
     this.controller,
     this.hintText,
+    this.hintStyle,
     this.prefixIcon,
     this.suffixIcon,
     this.prefixText,
@@ -62,11 +64,12 @@ class NeumorphicInput extends StatelessWidget {
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: hintText,
-          hintStyle: TextStyle(
-            color: theme.secondaryText.withValues(alpha: 0.6),
-            fontSize: 15,
-            fontWeight: FontWeight.normal,
-          ),
+          hintStyle: hintStyle ??
+              TextStyle(
+                color: theme.secondaryText.withValues(alpha: 0.6),
+                fontSize: 15,
+                fontWeight: FontWeight.normal,
+              ),
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           prefixText: prefixText,

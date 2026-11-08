@@ -155,14 +155,16 @@ class CounterWidget : GlanceAppWidget() {
                             .defaultWeight()
                             .background(theme.cardBackground)
                             .cornerRadius(16.dp)
+                            .padding(horizontal = 4.dp)
                             .clickable(actionStartActivity<MainActivity>()),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
                             text = mealsStr,
+                            maxLines = 1,
                             style = TextStyle(
                                 color = ColorProvider(theme.accent),
-                                fontSize = 14.sp,
+                                fontSize = if (data.totalMeals >= 100) 10.sp else if (data.totalMeals >= 10) 11.sp else 13.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         )

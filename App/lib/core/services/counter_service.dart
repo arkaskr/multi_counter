@@ -3,6 +3,7 @@ import '../utils/date_utils.dart';
 import '../../shared/models/app_settings.dart';
 import '../../shared/models/daily_record.dart';
 import '../../shared/models/weekly_summary.dart';
+import 'sync_service.dart';
 import 'widget_service.dart';
 
 class CounterResult {
@@ -20,12 +21,15 @@ class CounterResult {
 class CounterService {
   final DatabaseHelper _dbHelper;
   final WidgetService _widgetService;
+  final SyncService? _syncService;
 
   CounterService({
     DatabaseHelper? dbHelper,
     WidgetService? widgetService,
+    SyncService? syncService,
   })  : _dbHelper = dbHelper ?? DatabaseHelper.instance,
-        _widgetService = widgetService ?? WidgetService.instance;
+        _widgetService = widgetService ?? WidgetService.instance,
+        _syncService = syncService;
 
   /// Gets the record for a given date, or empty record if none exists.
   Future<DailyRecord> getRecord(String date) async {
@@ -60,6 +64,7 @@ class CounterService {
     if (AppDateUtils.isToday(date)) {
       await _widgetService.notifyWidgetUpdate();
     }
+    _syncService?.autoSync();
 
     return CounterResult(
       success: true,
@@ -80,6 +85,7 @@ class CounterService {
     if (AppDateUtils.isToday(date)) {
       await _widgetService.notifyWidgetUpdate();
     }
+    _syncService?.autoSync();
 
     return CounterResult(
       success: true,
@@ -117,6 +123,7 @@ class CounterService {
     if (AppDateUtils.isToday(date)) {
       await _widgetService.notifyWidgetUpdate();
     }
+    _syncService?.autoSync();
 
     return CounterResult(
       success: true,
@@ -138,6 +145,7 @@ class CounterService {
     if (AppDateUtils.isToday(date)) {
       await _widgetService.notifyWidgetUpdate();
     }
+    _syncService?.autoSync();
 
     return updated;
   }
@@ -148,18 +156,21 @@ class CounterService {
     if (AppDateUtils.isToday(date)) {
       await _widgetService.notifyWidgetUpdate();
     }
+    _syncService?.autoSync();
   }
 
   /// Resets all days in a given week.
   Future<void> resetWeek(List<String> weekDates) async {
     await _dbHelper.resetDays(weekDates);
     await _widgetService.notifyWidgetUpdate();
+    _syncService?.autoSync();
   }
 
   /// Resets all recorded daily data.
   Future<void> resetAllData() async {
     await _dbHelper.resetAllDailyRecords();
     await _widgetService.notifyWidgetUpdate();
+    _syncService?.autoSync();
   }
 
   /// Returns the count of distinct days on which the user had food.
@@ -183,12 +194,14 @@ class CounterService {
   Future<void> setCheckpoint(String date) async {
     await _dbHelper.setCheckpointDate(date);
     await _widgetService.notifyWidgetUpdate();
+    _syncService?.autoSync();
   }
 
   /// Clears the checkpoint so widget and counters include all records.
   Future<void> clearCheckpoint() async {
     await _dbHelper.setCheckpointDate(null);
     await _widgetService.notifyWidgetUpdate();
+    _syncService?.autoSync();
   }
 
   /// Gets weekly summary for the given week dates.

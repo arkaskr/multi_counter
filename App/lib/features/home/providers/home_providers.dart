@@ -4,10 +4,13 @@ import '../../../core/services/counter_service.dart';
 import '../../../core/utils/date_utils.dart';
 import '../../../shared/models/daily_record.dart';
 import '../../../shared/models/weekly_summary.dart';
+import '../../auth/providers/auth_providers.dart';
 import '../../settings/providers/settings_providers.dart';
 
 final counterServiceProvider = Provider<CounterService>((ref) {
-  return CounterService();
+  return CounterService(
+    syncService: ref.watch(syncServiceProvider),
+  );
 });
 
 class TodayRecordNotifier extends AsyncNotifier<DailyRecord> {

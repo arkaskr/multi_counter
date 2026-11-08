@@ -125,7 +125,7 @@ extension AppThemeContext on BuildContext {
   AppThemeData get appTheme {
     final ext = Theme.of(this).extension<AppThemeData>();
     if (ext == null) {
-      return AppThemeData.fromPalette(ThemePresets.softLight);
+      return AppThemeData.fromPalette(ThemePresets.midnightDark);
     }
     return ext;
   }
