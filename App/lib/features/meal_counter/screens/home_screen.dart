@@ -111,7 +111,7 @@ class HomeScreen extends ConsumerWidget {
                                 Icon(Icons.restaurant_rounded, size: 14, color: theme.accent),
                                 const SizedBox(width: 6),
                                 Text(
-                                  '$cycleMeals ${cycleMeals == 1 ? "Meal" : "Meals"}',
+                                  '$cycleMeals Meal',
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w800,

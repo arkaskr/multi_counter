@@ -180,256 +180,266 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> with Sing
             },
           ),
           body: SafeArea(
-            child: NestedScrollView(
-              headerSliverBuilder: (context, innerBoxIsScrolled) {
-                return [
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Top Navigation Row
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Top Navigation Row
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () => Navigator.of(context).maybePop(),
+                        child: NeumorphicContainer(
+                          borderRadius: 14,
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              GestureDetector(
-                                onTap: () => Navigator.of(context).maybePop(),
-                                child: NeumorphicContainer(
-                                  borderRadius: 14,
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(Icons.arrow_back_ios_new_rounded, size: 12, color: theme.secondaryText),
-                                      const SizedBox(width: 4),
-                                      Icon(Icons.groups_rounded, size: 14, color: theme.accent),
-                                      const SizedBox(width: 6),
-                                      Text(
-                                        'Groups',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w700,
-                                          color: theme.text,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  GestureDetector(
-                                    onTap: _handleInvite,
-                                    child: NeumorphicContainer(
-                                      borderRadius: 14,
-                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Icon(Icons.person_add_alt_1_rounded, size: 14, color: theme.accent),
-                                          const SizedBox(width: 6),
-                                          Text(
-                                            'Invite',
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w700,
-                                              color: theme.text,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  GestureDetector(
-                                    onTap: () => ref.invalidate(groupDetailProvider(widget.groupId)),
-                                    child: NeumorphicContainer(
-                                      borderRadius: 14,
-                                      padding: const EdgeInsets.all(8),
-                                      child: Icon(Icons.refresh_rounded, size: 14, color: theme.accent),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-
-                          // Header Title
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                              Icon(Icons.arrow_back_ios_new_rounded, size: 12, color: theme.secondaryText),
+                              const SizedBox(width: 4),
+                              Icon(Icons.groups_rounded, size: 14, color: theme.accent),
+                              const SizedBox(width: 6),
                               Text(
-                                'GROUP DETAILS',
+                                'Groups',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: 1.2,
-                                  color: theme.accent,
-                                ),
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                group.name,
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w800,
+                                  fontWeight: FontWeight.w700,
                                   color: theme.text,
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 16),
-
-                          // Hero Card: Total Spend & My Net Balance
-                          NeumorphicContainer(
-                            borderRadius: 24,
-                            padding: const EdgeInsets.all(20),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'TOTAL GROUP SPEND',
-                                          style: TextStyle(
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.w800,
-                                            letterSpacing: 1.1,
-                                            color: theme.secondaryText,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          CurrencyUtils.formatCurrency(analytics.totalSpend, '₹'),
-                                          style: TextStyle(
-                                            fontSize: 26,
-                                            fontWeight: FontWeight.w900,
-                                            color: theme.text,
-                                            letterSpacing: -0.5,
-                                          ),
-                                        ),
-                                      ],
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: _handleInvite,
+                            child: NeumorphicContainer(
+                              borderRadius: 14,
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.person_add_alt_1_rounded, size: 14, color: theme.accent),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    'Invite',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                      color: theme.text,
                                     ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                                      decoration: BoxDecoration(
-                                        color: myNet > 0.01
-                                            ? Colors.green.withValues(alpha: 0.15)
-                                            : (myNet < -0.01
-                                                ? Colors.redAccent.withValues(alpha: 0.15)
-                                                : theme.secondaryText.withValues(alpha: 0.1)),
-                                        borderRadius: BorderRadius.circular(14),
-                                        border: Border.all(
-                                          color: myNet > 0.01
-                                              ? Colors.green.withValues(alpha: 0.4)
-                                              : (myNet < -0.01
-                                                  ? Colors.redAccent.withValues(alpha: 0.4)
-                                                  : theme.secondaryText.withValues(alpha: 0.2)),
-                                        ),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            myNet > 0.01
-                                                ? 'YOU ARE OWED'
-                                                : (myNet < -0.01 ? 'YOU OWE' : 'SETTLED'),
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w800,
-                                              color: myNet > 0.01
-                                                  ? Colors.green[400]
-                                                  : (myNet < -0.01 ? Colors.redAccent : theme.secondaryText),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 2),
-                                          Text(
-                                            myNet > 0.01
-                                                ? '+₹${myNet.toStringAsFixed(0)}'
-                                                : (myNet < -0.01
-                                                    ? '-₹${myNet.abs().toStringAsFixed(0)}'
-                                                    : '₹0'),
-                                            style: TextStyle(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w900,
-                                              color: myNet > 0.01
-                                                  ? Colors.green[400]
-                                                  : (myNet < -0.01 ? Colors.redAccent : theme.secondaryText),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 16),
-                                Divider(color: theme.secondaryText.withValues(alpha: 0.15)),
-                                const SizedBox(height: 12),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    _buildMiniStat('You Paid', CurrencyUtils.formatCurrency(analytics.myTotalPaid, '₹'), theme),
-                                    _buildMiniStat('Your Fair Share', CurrencyUtils.formatCurrency(analytics.myTotalShare, '₹'), theme),
-                                    _buildMiniStat('Members', '${group.acceptedMembers.length}', theme),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-
-                          // Tab bar
-                          Container(
-                            height: 44,
-                            decoration: BoxDecoration(
-                              color: theme.surface,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: TabBar(
-                              controller: _tabController,
-                              indicator: BoxDecoration(
-                                color: theme.accent,
-                                borderRadius: BorderRadius.circular(14),
+                                  ),
+                                ],
                               ),
-                              labelColor: Colors.white,
-                              unselectedLabelColor: theme.secondaryText,
-                              labelStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
-                              tabs: const [
-                                Tab(text: 'Expenses'),
-                                Tab(text: 'Settlements'),
-                                Tab(text: 'Analytics'),
-                                Tab(text: 'Members'),
-                              ],
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(width: 8),
+                          GestureDetector(
+                            onTap: () => ref.invalidate(groupDetailProvider(widget.groupId)),
+                            child: NeumorphicContainer(
+                              borderRadius: 14,
+                              padding: const EdgeInsets.all(8),
+                              child: Icon(Icons.refresh_rounded, size: 14, color: theme.accent),
+                            ),
+                          ),
                         ],
                       ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+
+                // Header Title
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'GROUP DETAILS',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 1.2,
+                          color: theme.accent,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        group.name,
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w800,
+                          color: theme.text,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+
+                // Hero Card: Total Spend & My Net Balance
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: NeumorphicContainer(
+                    borderRadius: 22,
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'TOTAL GROUP SPEND',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: 1.1,
+                                    color: theme.secondaryText,
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  CurrencyUtils.formatCurrency(analytics.totalSpend, '₹'),
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w900,
+                                    color: theme.text,
+                                    letterSpacing: -0.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: myNet > 0.01
+                                    ? Colors.green.withValues(alpha: 0.15)
+                                    : (myNet < -0.01
+                                        ? Colors.redAccent.withValues(alpha: 0.15)
+                                        : theme.secondaryText.withValues(alpha: 0.1)),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: myNet > 0.01
+                                      ? Colors.green.withValues(alpha: 0.4)
+                                      : (myNet < -0.01
+                                          ? Colors.redAccent.withValues(alpha: 0.4)
+                                          : theme.secondaryText.withValues(alpha: 0.2)),
+                                ),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    myNet > 0.01
+                                        ? 'YOU ARE OWED'
+                                        : (myNet < -0.01 ? 'YOU OWE' : 'SETTLED'),
+                                    style: TextStyle(
+                                      fontSize: 9,
+                                      fontWeight: FontWeight.w800,
+                                      color: myNet > 0.01
+                                          ? Colors.green[400]
+                                          : (myNet < -0.01 ? Colors.redAccent : theme.secondaryText),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 1),
+                                  Text(
+                                    myNet > 0.01
+                                        ? '+₹${myNet.toStringAsFixed(0)}'
+                                        : (myNet < -0.01
+                                            ? '-₹${myNet.abs().toStringAsFixed(0)}'
+                                            : '₹0'),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w900,
+                                      color: myNet > 0.01
+                                          ? Colors.green[400]
+                                          : (myNet < -0.01 ? Colors.redAccent : theme.secondaryText),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Divider(color: theme.secondaryText.withValues(alpha: 0.12)),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            _buildMiniStat('You Paid', CurrencyUtils.formatCurrency(analytics.myTotalPaid, '₹'), theme),
+                            _buildMiniStat('Your Fair Share', CurrencyUtils.formatCurrency(analytics.myTotalShare, '₹'), theme),
+                            _buildMiniStat('Members', '${group.acceptedMembers.length}', theme),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                ];
-              },
-              body: TabBarView(
-                controller: _tabController,
-                children: [
-                  // TAB 1: EXPENSES LIST
-                  _buildExpensesTab(expenses, myEmail, theme),
+                ),
+                const SizedBox(height: 14),
 
-                  // TAB 2: SETTLEMENTS ("WHO OWES WHOM")
-                  _buildSettlementsTab(analytics.settlements, myEmail, theme),
+                // Pinned Tab Bar (ALWAYS VISIBLE & PERFECTLY FORMATTED)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Container(
+                    height: 44,
+                    padding: const EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      color: theme.surface,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: TabBar(
+                      controller: _tabController,
+                      dividerColor: Colors.transparent,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicator: BoxDecoration(
+                        color: theme.accent,
+                        borderRadius: BorderRadius.circular(13),
+                      ),
+                      labelColor: Colors.white,
+                      unselectedLabelColor: theme.secondaryText,
+                      labelPadding: EdgeInsets.zero,
+                      labelStyle: const TextStyle(fontWeight: FontWeight.w800, fontSize: 12),
+                      unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+                      tabs: const [
+                        Tab(text: 'Expenses'),
+                        Tab(text: 'Settlement'),
+                        Tab(text: 'Analytics'),
+                        Tab(text: 'Members'),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
 
-                  // TAB 3: ANALYTICS
-                  _buildAnalyticsTab(analytics, theme),
+                // Expanded Tab Content
+                Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      // TAB 1: EXPENSES LIST
+                      _buildExpensesTab(expenses, myEmail, theme),
 
-                  // TAB 4: MEMBERS & INVITATIONS
-                  _buildMembersTab(group, myEmail, theme),
-                ],
-              ),
+                      // TAB 2: SETTLEMENTS ("WHO OWES WHOM")
+                      _buildSettlementsTab(analytics.settlements, myEmail, theme),
+
+                      // TAB 3: ANALYTICS
+                      _buildAnalyticsTab(analytics, theme),
+
+                      // TAB 4: MEMBERS & INVITATIONS
+                      _buildMembersTab(group, myEmail, theme),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         );

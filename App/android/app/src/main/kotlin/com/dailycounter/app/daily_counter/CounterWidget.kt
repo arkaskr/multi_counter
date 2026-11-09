@@ -88,7 +88,7 @@ class CounterWidget : GlanceAppWidget() {
             "${data.currencySymbol}${String.format("%.2f", data.totalAmount)}"
         }
 
-        val mealsStr = "${data.totalMeals} ${if (data.totalMeals == 1) "Meal" else "Meals"}"
+        val mealsStr = "${data.totalMeals} Meal"
 
         Column(
             modifier = GlanceModifier.fillMaxSize()

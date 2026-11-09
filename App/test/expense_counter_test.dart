@@ -290,8 +290,8 @@ void main() {
       expect(find.text('Groceries'), findsOneWidget);
       expect(find.text('You paid'), findsOneWidget);
 
-      // Switch to Tab 2: Settlements
-      await tester.tap(find.widgetWithText(Tab, 'Settlements'));
+      // Switch to Tab 2: Settlement
+      await tester.tap(find.widgetWithText(Tab, 'Settlement'));
       await tester.pumpAndSettle();
       expect(find.text('Bob should pay you'), findsOneWidget);
       expect(find.text('₹300'), findsAtLeastNWidgets(1));
