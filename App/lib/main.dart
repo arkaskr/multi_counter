@@ -6,16 +6,13 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'core/config/app_config.dart';
 import 'core/constants/app_constants.dart';
 import 'core/database/database_helper.dart';
-import 'core/services/widget_service.dart';
 import 'core/theme/theme_provider.dart';
-import 'features/analytics/screens/analytics_screen.dart';
 import 'features/auth/providers/auth_providers.dart';
 import 'features/auth/screens/login_screen.dart';
-import 'features/history/screens/history_screen.dart';
-import 'features/home/providers/home_providers.dart';
-import 'features/home/screens/home_screen.dart';
-import 'features/settings/screens/settings_screen.dart';
-import 'shared/components/neumorphic_navigation_bar.dart';
+import 'features/hub/screens/hub_screen.dart';
+import 'features/meal_counter/meal_counter_shell.dart';
+
+export 'features/meal_counter/meal_counter_shell.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,7 +72,7 @@ class DailyCounterApp extends ConsumerWidget {
     } else if (!authState.isLoggedIn && !authState.isGuestMode) {
       homeWidget = const LoginScreen();
     } else {
-      homeWidget = const MainShell();
+      homeWidget = const HubScreen();
     }
 
     return MaterialApp(
@@ -83,148 +80,6 @@ class DailyCounterApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       theme: themeData.toThemeData(),
       home: homeWidget,
-    );
-  }
-}
-
-class MainShell extends ConsumerStatefulWidget {
-  const MainShell({super.key});
-
-  @override
-  ConsumerState<MainShell> createState() => _MainShellState();
-}
-
-class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserver {
-  int _currentIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    ref.read(themeProvider.notifier).loadTheme();
-
-    // Listen to native Glance widget updates in real-time
-    WidgetService.instance.onWidgetUpdatedCallback = () {
-      if (mounted) {
-        ref.invalidate(todayRecordProvider);
-        ref.invalidate(homeWeeklySummaryProvider);
-        ref.invalidate(cycleMealsCountProvider);
-        ref.invalidate(cycleTotalAmountProvider);
-        ref.read(syncServiceProvider).autoSync();
-      }
-    };
-
-    // Trigger background cloud sync with MongoDB if online
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkAndSync(showOfflineToast: true);
-    });
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    WidgetService.instance.onWidgetUpdatedCallback = null;
-    super.dispose();
-  }
-
-  DateTime? _lastOfflineToastTime;
-
-  Future<void> _checkAndSync({bool showOfflineToast = false}) async {
-    final syncService = ref.read(syncServiceProvider);
-    final isOnline = await syncService.checkServerReachability();
-    if (isOnline) {
-      await syncService.autoSync();
-    } else if (showOfflineToast && mounted) {
-      final now = DateTime.now();
-      if (_lastOfflineToastTime == null || now.difference(_lastOfflineToastTime!).inSeconds > 30) {
-        _lastOfflineToastTime = now;
-        _showOfflineNotification(context);
-      }
-    }
-  }
-
-  void _showOfflineNotification(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        behavior: SnackBarBehavior.floating,
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        backgroundColor: const Color(0xFF2C3142),
-        duration: const Duration(seconds: 4),
-        content: const Row(
-          children: [
-            Icon(Icons.wifi_off_rounded, color: Colors.amber, size: 22),
-            SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                'You are offline. Changes will be auto-synced to cloud when internet is available.',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    // When user returns to app after tapping the home-screen widget
-    if (state == AppLifecycleState.resumed) {
-      ref.invalidate(todayRecordProvider);
-      ref.invalidate(homeWeeklySummaryProvider);
-      ref.invalidate(cycleMealsCountProvider);
-      ref.invalidate(cycleTotalAmountProvider);
-      _checkAndSync(showOfflineToast: true);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final pages = [
-      HomeScreen(
-        onOpenSettings: () {
-          setState(() => _currentIndex = 3);
-        },
-      ),
-      const AnalyticsScreen(),
-      const HistoryScreen(),
-      const SettingsScreen(),
-    ];
-
-    return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: pages,
-      ),
-      bottomNavigationBar: NeumorphicNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() => _currentIndex = index);
-        },
-        items: const [
-          NeumorphicNavItem(
-            icon: Icons.dashboard_rounded,
-            label: 'Home',
-          ),
-          NeumorphicNavItem(
-            icon: Icons.insights_rounded,
-            label: 'Analytics',
-          ),
-          NeumorphicNavItem(
-            icon: Icons.calendar_month_rounded,
-            label: 'History',
-          ),
-          NeumorphicNavItem(
-            icon: Icons.tune_rounded,
-            label: 'Settings',
-          ),
-        ],
-      ),
     );
   }
 }
