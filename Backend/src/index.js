@@ -75,17 +75,20 @@ const healthHandler = (req, res) => {
 app.get('/api/health', healthHandler);
 app.get('/health', healthHandler);
 
-// Mount Auth routes (supports both /api/auth and /auth)
+// Mount Auth routes (supports /api/auth, /auth, and rewrite fallbacks)
 app.use('/api/auth', authRoutes);
 app.use('/auth', authRoutes);
+app.use('/api/api/auth', authRoutes);
 
-// Mount Sync routes (supports both /api/sync and /sync)
+// Mount Sync routes (supports /api/sync, /sync, and rewrite fallbacks)
 app.use('/api/sync', syncRoutes);
 app.use('/sync', syncRoutes);
+app.use('/api/api/sync', syncRoutes);
 
-// Mount Group & Expense routes (supports both /api/groups and /groups)
+// Mount Group & Expense routes (supports /api/groups, /groups, and rewrite fallbacks)
 app.use('/api/groups', groupRoutes);
 app.use('/groups', groupRoutes);
+app.use('/api/api/groups', groupRoutes);
 
 // Catch-all route for any direct rewrite path hits
 app.all(['/src/index.js', '/api/index.js', '/src/index', '/api/index'], (req, res, next) => {

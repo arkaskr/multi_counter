@@ -152,8 +152,8 @@ void main() {
     expect(find.byType(ExpenseCounterScreen), findsOneWidget);
     expect(find.text('YOUR GROUPS'), findsOneWidget);
 
-    // Back to hub via top app bar back button
-    await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+    // Back to hub via top Hub button
+    await tester.tap(find.text('Hub'));
     await tester.pumpAndSettle();
     expect(find.byType(HubScreen), findsOneWidget);
 

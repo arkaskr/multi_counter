@@ -24,9 +24,18 @@ class ExpenseService {
     };
   }
 
+  Uri _buildUrl(String path) {
+    var base = AppConfig.apiBaseUrl.replaceAll(RegExp(r'/+$'), '');
+    final cleanPath = path.startsWith('/') ? path : '/$path';
+    if (base.endsWith('/api') && cleanPath.startsWith('/api/')) {
+      base = base.substring(0, base.length - 4);
+    }
+    return Uri.parse('$base$cleanPath');
+  }
+
   /// Get list of user's accepted groups and pending invitations
   Future<({List<GroupModel> groups, List<GroupModel> pendingInvitations})> getGroups() async {
-    final url = Uri.parse('${AppConfig.apiBaseUrl}/api/groups');
+    final url = _buildUrl('/groups');
     final response = await _client.get(url, headers: _headers());
 
     if (response.statusCode != 200) {
@@ -45,7 +54,7 @@ class ExpenseService {
 
   /// Create a new group
   Future<GroupModel> createGroup(String name, String description) async {
-    final url = Uri.parse('${AppConfig.apiBaseUrl}/api/groups');
+    final url = _buildUrl('/groups');
     final response = await _client.post(
       url,
       headers: _headers(),
@@ -66,7 +75,7 @@ class ExpenseService {
 
   /// Fetch full details of a single group
   Future<Map<String, dynamic>> getGroupDetail(String groupId) async {
-    final url = Uri.parse('${AppConfig.apiBaseUrl}/api/groups/$groupId');
+    final url = _buildUrl('/groups/$groupId');
     final response = await _client.get(url, headers: _headers());
 
     if (response.statusCode != 200) {
@@ -92,7 +101,7 @@ class ExpenseService {
 
   /// Invite a person by registered email
   Future<String> inviteMember(String groupId, String email) async {
-    final url = Uri.parse('${AppConfig.apiBaseUrl}/api/groups/$groupId/invite');
+    final url = _buildUrl('/groups/$groupId/invite');
     final response = await _client.post(
       url,
       headers: _headers(),
@@ -109,7 +118,7 @@ class ExpenseService {
 
   /// Respond to group invitation ('accept' or 'decline')
   Future<String> respondInvitation(String groupId, String action) async {
-    final url = Uri.parse('${AppConfig.apiBaseUrl}/api/groups/$groupId/respond');
+    final url = _buildUrl('/groups/$groupId/respond');
     final response = await _client.post(
       url,
       headers: _headers(),
@@ -126,7 +135,7 @@ class ExpenseService {
 
   /// Get list of expenses for a group
   Future<List<ExpenseModel>> getExpenses(String groupId) async {
-    final url = Uri.parse('${AppConfig.apiBaseUrl}/api/groups/$groupId/expenses');
+    final url = _buildUrl('/groups/$groupId/expenses');
     final response = await _client.get(url, headers: _headers());
 
     if (response.statusCode != 200) {
@@ -148,7 +157,7 @@ class ExpenseService {
     String note = '',
     List<Map<String, dynamic>>? customSplits,
   }) async {
-    final url = Uri.parse('${AppConfig.apiBaseUrl}/api/groups/$groupId/expenses');
+    final url = _buildUrl('/groups/$groupId/expenses');
     final response = await _client.post(
       url,
       headers: _headers(),
@@ -172,7 +181,7 @@ class ExpenseService {
 
   /// Delete an expense
   Future<void> deleteExpense(String groupId, String expenseId) async {
-    final url = Uri.parse('${AppConfig.apiBaseUrl}/api/groups/$groupId/expenses/$expenseId');
+    final url = _buildUrl('/groups/$groupId/expenses/$expenseId');
     final response = await _client.delete(url, headers: _headers());
 
     if (response.statusCode != 200) {
@@ -183,7 +192,7 @@ class ExpenseService {
 
   /// Get detailed group analytics
   Future<ExpenseAnalyticsReport> getAnalytics(String groupId) async {
-    final url = Uri.parse('${AppConfig.apiBaseUrl}/api/groups/$groupId/analytics');
+    final url = _buildUrl('/groups/$groupId/analytics');
     final response = await _client.get(url, headers: _headers());
 
     if (response.statusCode != 200) {
@@ -194,4 +203,3 @@ class ExpenseService {
     return ExpenseAnalyticsReport.fromJson(data['analytics'] as Map<String, dynamic>);
   }
 }
-

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:daily_counter/core/config/app_config.dart';
 import 'package:daily_counter/core/constants/app_constants.dart';
 import 'package:daily_counter/core/theme/app_theme.dart';
 import 'package:daily_counter/core/theme/theme_presets.dart';
@@ -11,7 +10,6 @@ import 'package:daily_counter/features/meal_counter/providers/home_providers.dar
 import 'package:daily_counter/features/meal_counter/providers/settings_providers.dart';
 import 'package:daily_counter/shared/components/neumorphic_button.dart';
 import 'package:daily_counter/shared/components/neumorphic_container.dart';
-import 'package:daily_counter/shared/components/neumorphic_input.dart';
 import 'package:daily_counter/shared/components/neumorphic_theme_card.dart';
 
 class GlobalSettingsScreen extends ConsumerStatefulWidget {
@@ -22,21 +20,7 @@ class GlobalSettingsScreen extends ConsumerStatefulWidget {
 }
 
 class _GlobalSettingsScreenState extends ConsumerState<GlobalSettingsScreen> {
-  final TextEditingController _serverUrlController = TextEditingController();
-
   static const List<String> currencyPresets = ['₹', '\$', '€', '£', '¥', '₩', '₺', '₴'];
-
-  @override
-  void initState() {
-    super.initState();
-    _serverUrlController.text = AppConfig.apiBaseUrl;
-  }
-
-  @override
-  void dispose() {
-    _serverUrlController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,30 +34,71 @@ class _GlobalSettingsScreenState extends ConsumerState<GlobalSettingsScreen> {
 
     return Scaffold(
       backgroundColor: theme.background,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_rounded, color: theme.text),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: Text(
-          'App Settings',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
-            color: theme.text,
-          ),
-        ),
-        centerTitle: true,
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Top Navigation Row: Hub Back Button
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).maybePop(),
+                    child: NeumorphicContainer(
+                      borderRadius: 14,
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.arrow_back_ios_new_rounded, size: 12, color: theme.secondaryText),
+                          const SizedBox(width: 4),
+                          Icon(Icons.grid_view_rounded, size: 14, color: theme.accent),
+                          const SizedBox(width: 6),
+                          Text(
+                            'Hub',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              color: theme.text,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+
+              // Title Section (Matches Meal Counter Style)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'GLOBAL PREFERENCES',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1.2,
+                      color: theme.accent,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'App Settings',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w800,
+                      color: theme.text,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+
               // SECTION 1: ACCOUNT & CLOUD SYNC
               _buildSectionHeader('ACCOUNT & CLOUD BACKUP'),
               const SizedBox(height: 12),
@@ -126,6 +151,11 @@ class _GlobalSettingsScreenState extends ConsumerState<GlobalSettingsScreen> {
                     Text(
                       'Currency Symbol',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: theme.text),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Active symbol across all counters (current: $currencySymbol)',
+                      style: TextStyle(fontSize: 13, color: theme.secondaryText),
                     ),
                     const SizedBox(height: 12),
                     Wrap(
@@ -235,7 +265,7 @@ class _GlobalSettingsScreenState extends ConsumerState<GlobalSettingsScreen> {
                               ),
                             ),
                             Text(
-                              'Offline-First SQLite + MongoDB Atlas',
+                              'Offline-First SQLite + Cloud Sync',
                               style: TextStyle(
                                 fontSize: 12,
                                 color: theme.secondaryText,
@@ -247,7 +277,7 @@ class _GlobalSettingsScreenState extends ConsumerState<GlobalSettingsScreen> {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'Your data is preserved locally in SQLite and synchronized automatically with MongoDB Atlas whenever network connectivity is active.',
+                      'Your meal records are preserved offline in local SQLite and synced with MongoDB Atlas. Expense counter synchronizes group spending in real-time.',
                       style: TextStyle(fontSize: 13, color: theme.secondaryText, height: 1.4),
                     ),
                   ],
@@ -335,7 +365,7 @@ class _GlobalSettingsScreenState extends ConsumerState<GlobalSettingsScreen> {
                     border: Border.all(color: Colors.green.withValues(alpha: 0.3)),
                   ),
                   child: const Text(
-                    'Synced',
+                    'Connected',
                     style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.green),
                   ),
                 ),
@@ -368,7 +398,7 @@ class _GlobalSettingsScreenState extends ConsumerState<GlobalSettingsScreen> {
                             children: [
                               Icon(Icons.sync_rounded, size: 16),
                               SizedBox(width: 6),
-                              Text('Sync with MongoDB', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+                              Text('Sync Meals with Cloud', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
                             ],
                           ),
                   ),
@@ -402,44 +432,6 @@ class _GlobalSettingsScreenState extends ConsumerState<GlobalSettingsScreen> {
               ),
             ),
           ],
-
-          const SizedBox(height: 16),
-          Divider(color: theme.secondaryText.withValues(alpha: 0.15)),
-          const SizedBox(height: 12),
-
-          // Server URL Config
-          Text(
-            'Backend API Endpoint',
-            style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: theme.text),
-          ),
-          const SizedBox(height: 6),
-          Row(
-            children: [
-              Expanded(
-                child: NeumorphicInput(
-                  controller: _serverUrlController,
-                  hintText: 'https://...',
-                  keyboardType: TextInputType.url,
-                ),
-              ),
-              const SizedBox(width: 8),
-              NeumorphicButton(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                onTap: () async {
-                  final newUrl = _serverUrlController.text.trim();
-                  if (newUrl.isNotEmpty) {
-                    await AppConfig.setApiBaseUrl(newUrl);
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('API URL updated successfully')),
-                      );
-                    }
-                  }
-                },
-                child: const Text('Save'),
-              ),
-            ],
-          ),
         ],
       ),
     );

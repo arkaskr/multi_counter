@@ -163,35 +163,6 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> with Sing
 
         return Scaffold(
           backgroundColor: theme.background,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back_rounded, color: theme.text),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            title: Text(
-              group.name,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w800,
-                color: theme.text,
-              ),
-            ),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                icon: Icon(Icons.person_add_alt_1_rounded, color: theme.accent),
-                tooltip: 'Invite Member',
-                onPressed: _handleInvite,
-              ),
-              IconButton(
-                icon: Icon(Icons.refresh_rounded, color: theme.secondaryText),
-                tooltip: 'Refresh',
-                onPressed: () => ref.invalidate(groupDetailProvider(widget.groupId)),
-              ),
-            ],
-          ),
           floatingActionButton: FloatingActionButton.extended(
             backgroundColor: theme.accent,
             elevation: 4,
@@ -214,10 +185,103 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> with Sing
                 return [
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // Top Navigation Row
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () => Navigator.of(context).maybePop(),
+                                child: NeumorphicContainer(
+                                  borderRadius: 14,
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Icons.arrow_back_ios_new_rounded, size: 12, color: theme.secondaryText),
+                                      const SizedBox(width: 4),
+                                      Icon(Icons.groups_rounded, size: 14, color: theme.accent),
+                                      const SizedBox(width: 6),
+                                      Text(
+                                        'Groups',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                          color: theme.text,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: _handleInvite,
+                                    child: NeumorphicContainer(
+                                      borderRadius: 14,
+                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(Icons.person_add_alt_1_rounded, size: 14, color: theme.accent),
+                                          const SizedBox(width: 6),
+                                          Text(
+                                            'Invite',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w700,
+                                              color: theme.text,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  GestureDetector(
+                                    onTap: () => ref.invalidate(groupDetailProvider(widget.groupId)),
+                                    child: NeumorphicContainer(
+                                      borderRadius: 14,
+                                      padding: const EdgeInsets.all(8),
+                                      child: Icon(Icons.refresh_rounded, size: 14, color: theme.accent),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+
+                          // Header Title
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'GROUP DETAILS',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w800,
+                                  letterSpacing: 1.2,
+                                  color: theme.accent,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                group.name,
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w800,
+                                  color: theme.text,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+
                           // Hero Card: Total Spend & My Net Balance
                           NeumorphicContainer(
                             borderRadius: 24,
