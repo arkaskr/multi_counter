@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:daily_counter/core/config/app_config.dart';
 import 'package:daily_counter/core/constants/app_constants.dart';
 import 'package:daily_counter/core/theme/app_theme.dart';
-import 'package:daily_counter/core/theme/theme_presets.dart';
 import 'package:daily_counter/core/theme/theme_provider.dart';
 import 'package:daily_counter/core/utils/currency_utils.dart';
 import 'package:daily_counter/core/utils/date_utils.dart';
+import 'package:daily_counter/features/auth/providers/auth_providers.dart';
+import 'package:daily_counter/features/hub/screens/global_settings_screen.dart';
 import 'package:daily_counter/shared/components/neumorphic_button.dart';
 import 'package:daily_counter/shared/components/neumorphic_container.dart';
 import 'package:daily_counter/shared/components/neumorphic_input.dart';
-import 'package:daily_counter/shared/components/neumorphic_theme_card.dart';
 import 'package:daily_counter/shared/models/daily_record.dart';
-import 'package:daily_counter/features/auth/providers/auth_providers.dart';
-import 'package:daily_counter/features/auth/screens/login_screen.dart';
 import '../providers/home_providers.dart';
 import '../providers/settings_providers.dart';
 
@@ -28,21 +25,11 @@ class SettingsScreen extends ConsumerStatefulWidget {
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   final TextEditingController _unitAmountController = TextEditingController();
   final TextEditingController _customLimitController = TextEditingController();
-  final TextEditingController _currencySymbolController = TextEditingController();
-  final TextEditingController _serverUrlController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _serverUrlController.text = AppConfig.apiBaseUrl;
-  }
 
   @override
   void dispose() {
     _unitAmountController.dispose();
     _customLimitController.dispose();
-    _currencySymbolController.dispose();
-    _serverUrlController.dispose();
     super.dispose();
   }
 
@@ -135,10 +122,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     _unitAmountController.clear();
     ref.invalidate(todayRecordProvider);
     ref.invalidate(homeWeeklySummaryProvider);
+    ref.invalidate(cycleTotalAmountProvider);
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Unit amount updated to $val')),
+        SnackBar(content: Text('Unit meal price updated to $val')),
       );
     }
   }
@@ -165,6 +153,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       await counterService.resetDay(todayStr);
       ref.invalidate(todayRecordProvider);
       ref.invalidate(homeWeeklySummaryProvider);
+      ref.invalidate(cycleMealsCountProvider);
+      ref.invalidate(cycleTotalAmountProvider);
+      ref.read(syncServiceProvider).autoSync();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Today has been reset')),
@@ -197,6 +188,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       await counterService.resetWeek(weekDates);
       ref.invalidate(todayRecordProvider);
       ref.invalidate(homeWeeklySummaryProvider);
+      ref.invalidate(cycleMealsCountProvider);
+      ref.invalidate(cycleTotalAmountProvider);
+      ref.read(syncServiceProvider).autoSync();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Current week has been reset')),
@@ -212,9 +206,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       builder: (ctx) => AlertDialog(
         backgroundColor: theme.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text('Reset All Data?', style: TextStyle(color: theme.text, fontWeight: FontWeight.bold)),
+        title: Text('Reset All Meal Data?', style: TextStyle(color: theme.text, fontWeight: FontWeight.bold)),
         content: Text(
-          'This will permanently delete all daily counts and history records. Your preferences and themes will be preserved.',
+          'This will permanently delete all daily meal counts and history records. Your preferences and settings will be preserved.',
           style: TextStyle(color: theme.secondaryText),
         ),
         actions: [
@@ -229,9 +223,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       await counterService.resetAllData();
       ref.invalidate(todayRecordProvider);
       ref.invalidate(homeWeeklySummaryProvider);
+      ref.invalidate(cycleMealsCountProvider);
+      ref.invalidate(cycleTotalAmountProvider);
+      ref.read(syncServiceProvider).autoSync();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('All data has been reset')),
+          const SnackBar(content: Text('All meal data has been reset')),
         );
       }
     }
@@ -245,24 +242,22 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
     final unitAmount = settings?.unitAmount ?? AppConstants.defaultUnitAmount;
     final dailyLimit = settings?.dailyLimit ?? 2;
-    final weekStart = settings?.weekStart ?? 'monday';
     final currencySymbol = settings?.currencySymbol ?? '₹';
-    final selectedThemeId = theme.id;
 
     const limitPresets = [1, 2, 3, 4, 5, 10];
-    const currencyPresets = ['₹', '\$', '€', '£', '¥'];
 
     return Scaffold(
       backgroundColor: theme.background,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header
               Text(
-                'PREFERENCES',
+                'MEAL COUNTER',
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
@@ -272,20 +267,67 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
               const SizedBox(height: 2),
               Text(
-                'Settings',
+                'Meal Settings',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w800,
                   color: theme.text,
                 ),
               ),
+              const SizedBox(height: 20),
+
+              // SHORTCUT CARD TO GLOBAL SETTINGS
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const GlobalSettingsScreen()),
+                  );
+                },
+                child: NeumorphicContainer(
+                  borderRadius: 20,
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: theme.accent.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(Icons.tune_rounded, color: theme.accent, size: 22),
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Global App Settings',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700,
+                                color: theme.text,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Themes, currency, cloud sync & account',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: theme.secondaryText,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Icon(Icons.chevron_right_rounded, color: theme.secondaryText),
+                    ],
+                  ),
+                ),
+              ),
               const SizedBox(height: 24),
 
-              // SECTION: ACCOUNT & MONGODB CLOUD SYNC
-              _buildAccountAndSyncSection(context, ref, theme),
-              const SizedBox(height: 24),
-
-              // SECTION A: COUNTER SETTINGS
+              // SECTION A: COUNTER SETTINGS (Unit Price & Daily Limit)
               _buildSectionHeader('COUNTER SETTINGS'),
               const SizedBox(height: 12),
               NeumorphicContainer(
@@ -302,7 +344,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Unit Amount',
+                              'Meal Price / Unit Amount',
                               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: theme.text),
                             ),
                             const SizedBox(height: 2),
@@ -322,7 +364,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                             controller: _unitAmountController,
                             keyboardType: const TextInputType.numberWithOptions(decimal: true),
                             prefixText: '$currencySymbol ',
-                            hintText: 'New amount (e.g. 50)',
+                            hintText: 'New price (e.g. 55)',
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -344,7 +386,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Maximum allowed increments per day (current: $dailyLimit)',
+                      'Maximum allowed meals per day (current: $dailyLimit)',
                       style: TextStyle(fontSize: 13, color: theme.secondaryText),
                     ),
                     const SizedBox(height: 14),
@@ -397,130 +439,25 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 24),
-                    Divider(color: theme.secondaryText.withValues(alpha: 0.15)),
-                    const SizedBox(height: 16),
-
-                    // Week Starts On
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Week Starts On',
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: theme.text),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              weekStart == 'monday' ? 'Monday - Sunday' : 'Sunday - Saturday',
-                              style: TextStyle(fontSize: 13, color: theme.secondaryText),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            NeumorphicButton(
-                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                              isProminent: weekStart == 'monday',
-                              onTap: () async {
-                                await ref.read(settingsNotifierProvider.notifier).updateWeekStart('monday');
-                                ref.invalidate(homeWeeklySummaryProvider);
-                              },
-                              child: const Text('Mon'),
-                            ),
-                            const SizedBox(width: 8),
-                            NeumorphicButton(
-                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                              isProminent: weekStart == 'sunday',
-                              onTap: () async {
-                                await ref.read(settingsNotifierProvider.notifier).updateWeekStart('sunday');
-                                ref.invalidate(homeWeeklySummaryProvider);
-                              },
-                              child: const Text('Sun'),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-                    Divider(color: theme.secondaryText.withValues(alpha: 0.15)),
-                    const SizedBox(height: 16),
-
-                    // Currency Symbol
-                    Text(
-                      'Currency Symbol',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: theme.text),
-                    ),
-                    const SizedBox(height: 12),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: currencyPresets.map((sym) {
-                        final isSelected = sym == currencySymbol;
-                        return NeumorphicButton(
-                          width: 44,
-                          height: 40,
-                          padding: EdgeInsets.zero,
-                          isProminent: isSelected,
-                          onTap: () => ref.read(settingsNotifierProvider.notifier).updateCurrencySymbol(sym),
-                          child: Text(
-                            sym,
-                            style: TextStyle(
-                              color: isSelected ? Colors.white : theme.text,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
                   ],
                 ),
               ),
               const SizedBox(height: 28),
 
-              // SECTION B: THEME CUSTOMIZATION
-              _buildSectionHeader('THEME PRESETS (6 THEMES)'),
-              const SizedBox(height: 12),
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: ThemePresets.allThemes.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 14,
-                  mainAxisSpacing: 14,
-                  childAspectRatio: 0.95,
-                ),
-                itemBuilder: (context, index) {
-                  final palette = ThemePresets.allThemes[index];
-                  final isSelected = palette.id == selectedThemeId;
-
-                  return NeumorphicThemeCard(
-                    palette: palette,
-                    isSelected: isSelected,
-                    onTap: () {
-                      ref.read(themeProvider.notifier).setTheme(palette.id);
-                    },
-                  );
-                },
-              ),
-              const SizedBox(height: 28),
-
-              // SECTION C: DATA MANAGEMENT
-              _buildSectionHeader('DATA MANAGEMENT'),
+              // SECTION B: BILLING & CHECKPOINT
+              _buildSectionHeader('BILLING & CHECKPOINT'),
               const SizedBox(height: 12),
               NeumorphicContainer(
                 borderRadius: 24,
                 padding: const EdgeInsets.all(20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildDestructiveActionRow(
                       title: 'Billing Checkpoint',
                       subtitle: (settings?.checkpointDate != null && settings!.checkpointDate!.isNotEmpty)
-                          ? 'Active checkpoint: ${AppDateUtils.formatDisplayDate(settings.checkpointDate!)}'
-                          : 'Widget counts meals/amount starting after checkpoint',
+                          ? 'Active checkpoint: ${AppDateUtils.formatDisplayDate(settings.checkpointDate!)}. Homescreen & widget show meals/amount from the day after this date.'
+                          : 'Set a checkpoint when you pay your mess/caterer. Widget starts counting from zero the next day.',
                       buttonLabel: (settings?.checkpointDate != null && settings!.checkpointDate!.isNotEmpty)
                           ? 'Clear'
                           : 'Set Today',
@@ -537,7 +474,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         ref.read(syncServiceProvider).autoSync();
                       },
                     ),
-                    Divider(color: theme.secondaryText.withValues(alpha: 0.15)),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 28),
+
+              // SECTION C: DATA MANAGEMENT (Meal Resets)
+              _buildSectionHeader('DATA MANAGEMENT'),
+              const SizedBox(height: 12),
+              NeumorphicContainer(
+                borderRadius: 24,
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
                     _buildDestructiveActionRow(
                       title: 'Reset Today',
                       subtitle: 'Reset today\'s count to zero',
@@ -547,73 +496,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     Divider(color: theme.secondaryText.withValues(alpha: 0.15)),
                     _buildDestructiveActionRow(
                       title: 'Reset Current Week',
-                      subtitle: 'Clear all records in the active week',
+                      subtitle: 'Clear all meal records in the active week',
                       buttonLabel: 'Reset',
                       onPressed: _confirmResetWeek,
                     ),
                     Divider(color: theme.secondaryText.withValues(alpha: 0.15)),
                     _buildDestructiveActionRow(
-                      title: 'Reset All Data',
-                      subtitle: 'Delete all records (settings preserved)',
+                      title: 'Reset All Meal Data',
+                      subtitle: 'Delete all meal records (settings preserved)',
                       buttonLabel: 'Delete All',
                       isHighRisk: true,
                       onPressed: _confirmResetAllData,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 28),
-
-              // SECTION D: ABOUT & PRIVACY
-              _buildSectionHeader('ABOUT & PRIVACY'),
-              const SizedBox(height: 12),
-              NeumorphicContainer(
-                borderRadius: 24,
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: theme.accent.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Icon(Icons.shield_outlined, color: theme.accent, size: 22),
-                        ),
-                        const SizedBox(width: 14),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${AppConstants.appName} v${AppConstants.appVersion}',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: theme.text,
-                              ),
-                            ),
-                            Text(
-                              'Offline SQLite • No Cloud Tracking',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: theme.secondaryText,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 14),
-                    Text(
-                      'All your daily counts, amount calculations, and preferences are stored exclusively on your device in a shared local SQLite database. No internet permission, accounts, or analytics SDKs are used.',
-                      style: TextStyle(
-                        fontSize: 13,
-                        height: 1.4,
-                        color: theme.secondaryText,
-                      ),
                     ),
                   ],
                 ),
@@ -676,6 +569,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ],
             ),
           ),
+          const SizedBox(width: 8),
           NeumorphicButton(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             onTap: onPressed,
@@ -687,307 +581,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 fontWeight: FontWeight.w700,
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAccountAndSyncSection(BuildContext context, WidgetRef ref, dynamic theme) {
-    final authState = ref.watch(authStateProvider);
-    final syncState = ref.watch(syncStatusProvider);
-    final user = authState.user;
-    final isLoggedIn = authState.isLoggedIn && user != null;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildSectionHeader('ACCOUNT & CLOUD SYNC (MONGODB)'),
-        const SizedBox(height: 12),
-        NeumorphicContainer(
-          borderRadius: 24,
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (isLoggedIn) ...[
-                Row(
-                  children: [
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: theme.accent.withValues(alpha: 0.15),
-                        shape: BoxShape.circle,
-                        border: Border.all(color: theme.accent, width: 1.5),
-                      ),
-                      child: Center(
-                        child: Text(
-                          user.name.isNotEmpty ? user.name[0].toUpperCase() : 'U',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: theme.accent),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            user.name,
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: theme.text),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            user.email,
-                            style: TextStyle(fontSize: 13, color: theme.secondaryText),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.green.withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(width: 6, height: 6, decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle)),
-                          const SizedBox(width: 5),
-                          const Text('Cloud Sync', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Colors.green)),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: theme.background.withValues(alpha: 0.5),
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        syncState.isSyncing
-                            ? Icons.sync_rounded
-                            : (syncState.lastSuccess == false ? Icons.cloud_off_rounded : Icons.cloud_done_rounded),
-                        size: 20,
-                        color: syncState.lastSuccess == false ? Colors.amber[800] : theme.accent,
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              syncState.isSyncing
-                                  ? 'Syncing with MongoDB...'
-                                  : (syncState.lastMessage ?? (syncState.lastSyncedAt != null ? 'Synced with MongoDB' : 'Ready to sync')),
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: theme.text),
-                            ),
-                            if (syncState.lastSyncedAt != null && !syncState.isSyncing) ...[
-                              const SizedBox(height: 2),
-                              Text(
-                                'Last synced: ${AppDateUtils.formatDisplayDate(syncState.lastSyncedAt!.split('T')[0])}',
-                                style: TextStyle(fontSize: 11, color: theme.secondaryText),
-                              ),
-                            ],
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: NeumorphicButton(
-                        isProminent: true,
-                        isEnabled: !syncState.isSyncing,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        onTap: () async {
-                          final res = await ref.read(syncStatusProvider.notifier).triggerSync();
-                          ref.invalidate(todayRecordProvider);
-                          ref.invalidate(homeWeeklySummaryProvider);
-                          ref.invalidate(cycleMealsCountProvider);
-                          ref.invalidate(cycleTotalAmountProvider);
-                          if (context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(res.message),
-                                backgroundColor: res.success ? Colors.green[700] : (res.isOffline ? Colors.amber[800] : Colors.redAccent),
-                              ),
-                            );
-                          }
-                        },
-                        child: syncState.isSyncing
-                            ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                            : const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.sync_rounded, size: 18, color: Colors.white),
-                                  SizedBox(width: 6),
-                                  Text('Sync Now', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Colors.white)),
-                                ],
-                              ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    NeumorphicButton(
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                      onTap: () async {
-                        await ref.read(authStateProvider.notifier).logout();
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Logged out. Switched to offline mode.')),
-                          );
-                        }
-                      },
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.logout_rounded, size: 16, color: Colors.redAccent),
-                          SizedBox(width: 4),
-                          Text('Log Out', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.redAccent)),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ] else ...[
-                Row(
-                  children: [
-                    Container(
-                      width: 42,
-                      height: 42,
-                      decoration: BoxDecoration(
-                        color: Colors.amber.withValues(alpha: 0.15),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.cloud_off_rounded, size: 22, color: Colors.amber),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Offline Guest Mode', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: theme.text)),
-                          const SizedBox(height: 2),
-                          Text(
-                            'Meals are saved on this device. Sign in to back up & sync with MongoDB.',
-                            style: TextStyle(fontSize: 12, color: theme.secondaryText),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                SizedBox(
-                  width: double.infinity,
-                  child: NeumorphicButton(
-                    isProminent: true,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const LoginScreen(isModal: true)),
-                      );
-                    },
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.login_rounded, size: 18, color: Colors.white),
-                        SizedBox(width: 8),
-                        Text('Sign In with Name & Email', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Colors.white)),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-              const SizedBox(height: 14),
-              GestureDetector(
-                onTap: () => _showServerConfigDialog(context, theme),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.dns_outlined, size: 14, color: theme.secondaryText),
-                    const SizedBox(width: 4),
-                    Text(
-                      'Server & MongoDB Details',
-                      style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: theme.secondaryText),
-                    ),
-                    const SizedBox(width: 4),
-                    Icon(Icons.tune_rounded, size: 12, color: theme.secondaryText),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  void _showServerConfigDialog(BuildContext context, dynamic theme) {
-    _serverUrlController.text = AppConfig.apiBaseUrl;
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: theme.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text('Server & Database Settings', style: TextStyle(color: theme.text, fontWeight: FontWeight.bold, fontSize: 17)),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('API Server Base URL:', style: TextStyle(color: theme.secondaryText, fontSize: 12, fontWeight: FontWeight.w700)),
-            const SizedBox(height: 6),
-            NeumorphicInput(
-              controller: _serverUrlController,
-              hintText: 'http://localhost:5000/api',
-            ),
-            const SizedBox(height: 12),
-            Text('MongoDB Atlas Target:', style: TextStyle(color: theme.secondaryText, fontSize: 12, fontWeight: FontWeight.w700)),
-            const SizedBox(height: 4),
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: theme.background,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                'counter.v7ndlkx.mongodb.net/daily_counter',
-                style: TextStyle(color: theme.accent, fontSize: 11, fontWeight: FontWeight.w600),
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () async {
-              await AppConfig.resetApiBaseUrl();
-              _serverUrlController.text = AppConfig.apiBaseUrl;
-              if (ctx.mounted) Navigator.pop(ctx);
-              setState(() {});
-            },
-            child: Text('Reset Default', style: TextStyle(color: theme.secondaryText)),
-          ),
-          TextButton(
-            onPressed: () async {
-              final newUrl = _serverUrlController.text.trim();
-              if (newUrl.isNotEmpty) {
-                await AppConfig.setApiBaseUrl(newUrl);
-              }
-              if (ctx.mounted) Navigator.pop(ctx);
-              setState(() {});
-            },
-            child: Text('Save', style: TextStyle(color: theme.accent, fontWeight: FontWeight.bold)),
           ),
         ],
       ),

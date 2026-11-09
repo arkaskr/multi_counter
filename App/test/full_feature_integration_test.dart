@@ -14,6 +14,7 @@ import 'package:daily_counter/features/daily_edit/screens/daily_edit_screen.dart
 import 'package:daily_counter/features/history/screens/history_screen.dart';
 import 'package:daily_counter/features/home/providers/home_providers.dart';
 import 'package:daily_counter/features/home/screens/home_screen.dart';
+import 'package:daily_counter/features/hub/screens/global_settings_screen.dart';
 import 'package:daily_counter/features/settings/screens/settings_screen.dart';
 import 'package:daily_counter/shared/models/app_settings.dart';
 import 'package:daily_counter/shared/models/daily_record.dart';
@@ -467,7 +468,7 @@ void main() {
       expect(record.count, 1);
     });
 
-    testWidgets('SettingsScreen displays theme options and settings controls', (tester) async {
+    testWidgets('SettingsScreen displays settings controls and GlobalSettingsScreen displays theme options', (tester) async {
       final fakeCounter = FakeCounterService();
       final fakeSettings = FakeSettingsService();
 
@@ -493,11 +494,25 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      expect(find.text('Settings'), findsOneWidget);
+      expect(find.text('Meal Settings'), findsOneWidget);
       expect(find.text('COUNTER SETTINGS'), findsOneWidget);
-      expect(find.textContaining('THEME PRESETS'), findsOneWidget);
       expect(find.text('DATA MANAGEMENT'), findsOneWidget);
 
+      // Now test GlobalSettingsScreen
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: MaterialApp(
+            theme: theme,
+            home: const GlobalSettingsScreen(),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(find.text('App Settings'), findsOneWidget);
+      expect(find.textContaining('APPEARANCE & THEME'), findsOneWidget);
       expect(find.text('Soft Light'), findsOneWidget);
       expect(find.text('Pure White'), findsOneWidget);
       expect(find.text('Midnight Dark'), findsOneWidget);

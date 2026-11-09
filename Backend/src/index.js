@@ -4,6 +4,7 @@ const config = require('./config');
 const { connectDB, mongoose } = require('./db');
 const authRoutes = require('./routes/auth');
 const syncRoutes = require('./routes/sync');
+const groupRoutes = require('./routes/groups');
 
 const app = express();
 
@@ -81,6 +82,10 @@ app.use('/auth', authRoutes);
 // Mount Sync routes (supports both /api/sync and /sync)
 app.use('/api/sync', syncRoutes);
 app.use('/sync', syncRoutes);
+
+// Mount Group & Expense routes (supports both /api/groups and /groups)
+app.use('/api/groups', groupRoutes);
+app.use('/groups', groupRoutes);
 
 // Catch-all route for any direct rewrite path hits
 app.all(['/src/index.js', '/api/index.js', '/src/index', '/api/index'], (req, res, next) => {

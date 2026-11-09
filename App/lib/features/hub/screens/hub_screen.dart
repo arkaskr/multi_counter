@@ -8,6 +8,7 @@ import 'package:daily_counter/core/utils/date_utils.dart';
 import 'package:daily_counter/features/auth/providers/auth_providers.dart';
 import 'package:daily_counter/features/calorie_counter/screens/calorie_counter_screen.dart';
 import 'package:daily_counter/features/expense_counter/screens/expense_counter_screen.dart';
+import 'package:daily_counter/features/hub/screens/global_settings_screen.dart';
 import 'package:daily_counter/features/hub/widgets/hub_card.dart';
 import 'package:daily_counter/features/meal_counter/meal_counter_shell.dart';
 import 'package:daily_counter/features/meal_counter/providers/home_providers.dart';
@@ -212,9 +213,26 @@ class _HubScreenState extends ConsumerState<HubScreen> with WidgetsBindingObserv
                     ],
                   ),
 
-                  // Actions: Sync + Logout
+                  // Actions: Settings + Sync + Logout
                   Row(
                     children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (_) => const GlobalSettingsScreen()),
+                          );
+                        },
+                        child: NeumorphicContainer(
+                          borderRadius: 14,
+                          padding: const EdgeInsets.all(10),
+                          child: Icon(
+                            Icons.settings_outlined,
+                            size: 20,
+                            color: theme.accent,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
                       GestureDetector(
                         onTap: () async {
                           await _checkAndSync(showOfflineToast: true);

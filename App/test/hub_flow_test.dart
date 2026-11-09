@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:daily_counter/core/services/auth_service.dart';
 import 'package:daily_counter/features/auth/providers/auth_providers.dart';
 import 'package:daily_counter/features/calorie_counter/screens/calorie_counter_screen.dart';
+import 'package:daily_counter/features/expense_counter/models/group_model.dart';
+import 'package:daily_counter/features/expense_counter/providers/expense_providers.dart';
 import 'package:daily_counter/features/expense_counter/screens/expense_counter_screen.dart';
 import 'package:daily_counter/features/hub/screens/hub_screen.dart';
 import 'package:daily_counter/features/meal_counter/meal_counter_shell.dart';
@@ -33,6 +35,13 @@ class FakeLoggedInAuthService extends AuthService {
       );
 }
 
+class FakeGroupsNotifier extends GroupsNotifier {
+  @override
+  Future<GroupsData> build() async {
+    return (groups: <GroupModel>[], pendingInvitations: <GroupModel>[]);
+  }
+}
+
 void main() {
   testWidgets('HubScreen renders 4 cards in 2x2 setup with icon and name', (tester) async {
     final fakeAuth = FakeLoggedInAuthService();
@@ -41,6 +50,7 @@ void main() {
       ProviderScope(
         overrides: [
           authServiceProvider.overrideWithValue(fakeAuth),
+          groupsProvider.overrideWith(FakeGroupsNotifier.new),
         ],
         child: const MaterialApp(
           home: HubScreen(),
@@ -76,6 +86,7 @@ void main() {
       ProviderScope(
         overrides: [
           authServiceProvider.overrideWithValue(fakeAuth),
+          groupsProvider.overrideWith(FakeGroupsNotifier.new),
         ],
         child: const MaterialApp(
           home: HubScreen(),
@@ -111,6 +122,7 @@ void main() {
       ProviderScope(
         overrides: [
           authServiceProvider.overrideWithValue(fakeAuth),
+          groupsProvider.overrideWith(FakeGroupsNotifier.new),
         ],
         child: const MaterialApp(
           home: HubScreen(),
@@ -138,7 +150,7 @@ void main() {
     await tester.tap(find.text('Expense Counter'));
     await tester.pumpAndSettle();
     expect(find.byType(ExpenseCounterScreen), findsOneWidget);
-    expect(find.text('Track Food & Daily Expenses'), findsOneWidget);
+    expect(find.text('YOUR GROUPS'), findsOneWidget);
 
     // Back to hub via top app bar back button
     await tester.tap(find.byIcon(Icons.arrow_back_rounded));
