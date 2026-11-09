@@ -24,21 +24,32 @@ class GroupsNotifier extends AsyncNotifier<GroupsData> {
     return await service.getGroups();
   }
 
+  Future<void> refresh() async {
+    final service = ref.read(expenseServiceProvider);
+    final authState = ref.read(authStateProvider);
+
+    if (!authState.isLoggedIn || authState.token == null) {
+      state = const AsyncValue.data((groups: <GroupModel>[], pendingInvitations: <GroupModel>[]));
+      return;
+    }
+
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      return await service.getGroups();
+    });
+  }
+
   Future<GroupModel> createGroup(String name, String description) async {
     final service = ref.read(expenseServiceProvider);
     final group = await service.createGroup(name, description);
-    ref.invalidateSelf();
+    await refresh();
     return group;
   }
 
   Future<void> respondInvitation(String groupId, String action) async {
     final service = ref.read(expenseServiceProvider);
     await service.respondInvitation(groupId, action);
-    ref.invalidateSelf();
-  }
-
-  Future<void> refresh() async {
-    ref.invalidateSelf();
+    await refresh();
   }
 }
 

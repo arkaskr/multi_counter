@@ -21,11 +21,14 @@ class GroupListScreen extends ConsumerWidget {
     );
 
     if (newGroup != null && context.mounted) {
-      Navigator.of(context).push(
+      await Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => GroupDetailScreen(groupId: newGroup.id),
         ),
       );
+      if (context.mounted) {
+        ref.read(groupsProvider.notifier).refresh();
+      }
     }
   }
 
@@ -472,12 +475,15 @@ class GroupListScreen extends ConsumerWidget {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 14),
                                 child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(
+                                  onTap: () async {
+                                    await Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (_) => GroupDetailScreen(groupId: group.id),
                                       ),
                                     );
+                                    if (context.mounted) {
+                                      ref.read(groupsProvider.notifier).refresh();
+                                    }
                                   },
                                   child: NeumorphicContainer(
                                     borderRadius: 22,
