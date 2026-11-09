@@ -68,78 +68,52 @@ class HomeScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header Row
+                // Top Navigation & Badges Bar
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        if (onBackToHub != null || Navigator.of(context).canPop()) ...[
-                          GestureDetector(
-                            onTap: onBackToHub ?? () => Navigator.of(context).maybePop(),
-                            child: NeumorphicContainer(
-                              borderRadius: 14,
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(Icons.arrow_back_ios_new_rounded, size: 12, color: theme.secondaryText),
-                                  const SizedBox(width: 4),
-                                  Icon(Icons.grid_view_rounded, size: 14, color: theme.accent),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    'Hub',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700,
-                                      color: theme.text,
-                                    ),
-                                  ),
-                                ],
+                    if (onBackToHub != null || Navigator.of(context).canPop())
+                      GestureDetector(
+                        onTap: onBackToHub ?? () => Navigator.of(context).maybePop(),
+                        child: NeumorphicContainer(
+                          borderRadius: 14,
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.arrow_back_ios_new_rounded, size: 12, color: theme.secondaryText),
+                              const SizedBox(width: 4),
+                              Icon(Icons.grid_view_rounded, size: 14, color: theme.accent),
+                              const SizedBox(width: 6),
+                              Text(
+                                'Hub',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: theme.text,
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                          const SizedBox(width: 10),
-                        ],
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _getGreeting(),
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: theme.accent,
-                                letterSpacing: 0.3,
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              AppDateUtils.formatDisplayDate(todayStr),
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w800,
-                                color: theme.text,
-                              ),
-                            ),
-                          ],
                         ),
-                      ],
-                    ),
+                      )
+                    else
+                      const SizedBox.shrink(),
+
                     // Cycle Meals Counter Badge: shows total meals in current cycle
                     ref.watch(cycleMealsCountProvider).maybeWhen(
                           data: (cycleMeals) => NeumorphicContainer(
-                            borderRadius: 16,
-                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                            borderRadius: 14,
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.restaurant_rounded, size: 16, color: theme.accent),
+                                Icon(Icons.restaurant_rounded, size: 14, color: theme.accent),
                                 const SizedBox(width: 6),
                                 Text(
                                   '$cycleMeals ${cycleMeals == 1 ? "Meal" : "Meals"}',
                                   style: TextStyle(
-                                    fontSize: 13,
+                                    fontSize: 12,
                                     fontWeight: FontWeight.w800,
                                     color: theme.text,
                                   ),
@@ -151,196 +125,255 @@ class HomeScreen extends ConsumerWidget {
                         ),
                   ],
                 ),
-                const SizedBox(height: 28),
+                const SizedBox(height: 16),
 
-                // Main Counter Card (Hero Section)
+                // Greeting & Date Section (Uncrowded, spacious layout)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _getGreeting(),
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: theme.accent,
+                        letterSpacing: 0.3,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      AppDateUtils.formatDisplayDate(todayStr),
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w800,
+                        color: theme.text,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+
+                // Minimal Today's Counter Hero Card
                 NeumorphicContainer(
-                  borderRadius: 28,
+                  borderRadius: 24,
                   elevation: 1.2,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      Text(
-                        "TODAY'S COUNTER",
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 1.5,
-                          color: theme.secondaryText,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-
-                      // Animated Counter Display: "1 / 2"
-                      AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 250),
-                        transitionBuilder: (child, animation) {
-                          return ScaleTransition(scale: animation, child: child);
-                        },
-                        child: Row(
-                          key: ValueKey<int>(count),
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: [
-                            Text(
-                              '$count',
-                              style: TextStyle(
-                                fontSize: 64,
-                                fontWeight: FontWeight.w900,
-                                color: theme.text,
-                                height: 1.0,
-                              ),
-                            ),
-                            Text(
-                              ' / $dailyLimit',
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.w700,
-                                color: theme.secondaryText,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-
-                      // Remaining or Completed status
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: isCompleted
-                              ? Colors.green.withValues(alpha: 0.15)
-                              : theme.accent.withValues(alpha: 0.12),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          isCompleted
-                              ? '✓ DAILY GOAL COMPLETED'
-                              : 'REMAINING: $remaining',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 1.0,
-                            color: isCompleted ? Colors.green : theme.accent,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 28),
-
-                      // Big Tactile +1 Button
-                      SizedBox(
-                        width: 140,
-                        height: 64,
-                        child: NeumorphicButton(
-                          isProminent: true,
-                          isEnabled: !isCompleted,
-                          borderRadius: 24,
-                          onTap: () async {
-                            final res = await ref.read(todayRecordProvider.notifier).increment();
-                            if (!res.success && res.message != null && context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(res.message!),
-                                  backgroundColor: Colors.amber[800],
-                                ),
-                              );
-                            }
-                            ref.invalidate(homeWeeklySummaryProvider);
-                            ref.invalidate(cycleMealsCountProvider);
-                            ref.invalidate(cycleTotalAmountProvider);
-                            ref.read(syncServiceProvider).autoSync();
-                          },
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                      // Top Row: Count & Limit on left, Buttons on right
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // Left side: Counter Label, Count Display, and Goal Status
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Icon(Icons.add_rounded, size: 28, color: Colors.white),
-                              SizedBox(width: 4),
                               Text(
-                                '1',
+                                "TODAY'S COUNTER",
                                 style: TextStyle(
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.white,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w800,
+                                  letterSpacing: 1.2,
+                                  color: theme.secondaryText,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 200),
+                                transitionBuilder: (child, animation) =>
+                                    ScaleTransition(scale: animation, child: child),
+                                child: Row(
+                                  key: ValueKey<int>(count),
+                                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                                  textBaseline: TextBaseline.alphabetic,
+                                  children: [
+                                    Text(
+                                      '$count',
+                                      style: TextStyle(
+                                        fontSize: 44,
+                                        fontWeight: FontWeight.w900,
+                                        color: theme.text,
+                                        height: 1.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      ' / $dailyLimit',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                        color: theme.secondaryText,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              AnimatedContainer(
+                                duration: const Duration(milliseconds: 200),
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: isCompleted
+                                      ? Colors.green.withValues(alpha: 0.15)
+                                      : theme.accent.withValues(alpha: 0.12),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Text(
+                                  isCompleted ? '✓ GOAL MET' : 'REMAINING: $remaining',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: 0.8,
+                                    color: isCompleted ? Colors.green : theme.accent,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                      const SizedBox(height: 28),
 
-                      // Today's Amount Display
-                      Text(
-                        "TODAY'S AMOUNT",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1.3,
-                          color: theme.secondaryText,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 250),
-                        child: Text(
-                          CurrencyUtils.formatCurrency(todayAmount, currencySymbol),
-                          key: ValueKey<double>(todayAmount),
-                          style: TextStyle(
-                            fontSize: 34,
-                            fontWeight: FontWeight.w900,
-                            color: theme.accent,
+                          // Right side: - and +1 Actions
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (count > 0) ...[
+                                GestureDetector(
+                                  onTap: () async {
+                                    await ref.read(todayRecordProvider.notifier).decrement();
+                                    ref.invalidate(homeWeeklySummaryProvider);
+                                    ref.invalidate(cycleMealsCountProvider);
+                                    ref.invalidate(cycleTotalAmountProvider);
+                                    ref.read(syncServiceProvider).autoSync();
+                                  },
+                                  child: NeumorphicContainer(
+                                    borderRadius: 16,
+                                    padding: const EdgeInsets.all(12),
+                                    child: Icon(Icons.remove_rounded, size: 20, color: theme.secondaryText),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                              ],
+                              SizedBox(
+                                width: 92,
+                                height: 56,
+                                child: NeumorphicButton(
+                                  isProminent: true,
+                                  isEnabled: !isCompleted,
+                                  borderRadius: 18,
+                                  onTap: () async {
+                                    final res = await ref.read(todayRecordProvider.notifier).increment();
+                                    if (!res.success && res.message != null && context.mounted) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text(res.message!),
+                                          backgroundColor: Colors.amber[800],
+                                        ),
+                                      );
+                                    }
+                                    ref.invalidate(homeWeeklySummaryProvider);
+                                    ref.invalidate(cycleMealsCountProvider);
+                                    ref.invalidate(cycleTotalAmountProvider);
+                                    ref.read(syncServiceProvider).autoSync();
+                                  },
+                                  child: const Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.add_rounded, size: 22, color: Colors.white),
+                                      SizedBox(width: 2),
+                                      Text(
+                                        '1',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w900,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
+                        ],
                       ),
-                      if (todayRecord.amountOverride != null) ...[
-                        const SizedBox(height: 4),
-                        Text(
-                          '(Custom Override Applied)',
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.amber[800],
+
+                      const SizedBox(height: 16),
+                      Divider(color: theme.secondaryText.withValues(alpha: 0.12), height: 1),
+                      const SizedBox(height: 12),
+
+                      // Bottom Row: Today's Amount & Rate info
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: theme.accent.withValues(alpha: 0.12),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Icon(Icons.payments_outlined, size: 16, color: theme.accent),
+                              ),
+                              const SizedBox(width: 8),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "TODAY'S AMOUNT",
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w700,
+                                      letterSpacing: 0.8,
+                                      color: theme.secondaryText,
+                                    ),
+                                  ),
+                                  AnimatedSwitcher(
+                                    duration: const Duration(milliseconds: 200),
+                                    child: Text(
+                                      CurrencyUtils.formatCurrency(todayAmount, currencySymbol),
+                                      key: ValueKey<double>(todayAmount),
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w900,
+                                        color: theme.accent,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
+                          if (todayRecord.amountOverride != null)
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: Colors.amber.withValues(alpha: 0.15),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                'Custom Override',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.amber[800],
+                                ),
+                              ),
+                            )
+                          else
+                            Text(
+                              '${CurrencyUtils.formatCurrency(settings?.unitAmount ?? AppConstants.defaultUnitAmount, currencySymbol)} / meal',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: theme.secondaryText,
+                              ),
+                            ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 24),
-
-                // Today's Summary 2x2 Grid Card
-                NeumorphicContainer(
-                  borderRadius: 22,
-                  padding: const EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: _buildSummaryStat(
-                          context,
-                          label: 'Today Count',
-                          value: '$count',
-                          icon: Icons.tag_rounded,
-                        ),
-                      ),
-                      Container(
-                        height: 40,
-                        width: 1,
-                        color: theme.secondaryText.withValues(alpha: 0.15),
-                      ),
-                      Expanded(
-                        child: _buildSummaryStat(
-                          context,
-                          label: 'Today Amount',
-                          value: CurrencyUtils.formatCurrency(todayAmount, currencySymbol),
-                          icon: Icons.payments_outlined,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
 
                 // Current Cycle & Checkpoint Card
                 _buildCycleCheckpointCard(context, ref, theme, currencySymbol, todayStr),
@@ -389,37 +422,6 @@ class HomeScreen extends ConsumerWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildSummaryStat(
-    BuildContext context, {
-    required String label,
-    required String value,
-    required IconData icon,
-  }) {
-    final theme = context.appTheme;
-    return Column(
-      children: [
-        Icon(icon, size: 20, color: theme.secondaryText),
-        const SizedBox(height: 6),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w800,
-            color: theme.text,
-          ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            color: theme.secondaryText,
-          ),
-        ),
-      ],
     );
   }
 

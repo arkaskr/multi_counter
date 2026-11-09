@@ -301,32 +301,7 @@ class _HubScreenState extends ConsumerState<HubScreen> with WidgetsBindingObserv
                 ),
               ),
 
-              const SizedBox(height: 30),
-
-              // Section Title
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'MODULES & TRACKERS',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 1.2,
-                      color: theme.secondaryText,
-                    ),
-                  ),
-                  Text(
-                    '4 Modules',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: theme.accent,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 14),
+              const SizedBox(height: 24),
 
               // 2 Row x 2 Col Setup
               Row(
