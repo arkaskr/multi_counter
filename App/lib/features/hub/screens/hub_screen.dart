@@ -328,56 +328,15 @@ class _HubScreenState extends ConsumerState<HubScreen> with WidgetsBindingObserv
               ),
               const SizedBox(height: 14),
 
-              // Card 1: Meal Counter (Active)
-              ref.watch(cycleMealsCountProvider).maybeWhen(
-                    data: (cycleMeals) => HubCard(
+              // 2 Row x 2 Col Setup
+              Row(
+                children: [
+                  Expanded(
+                    child: HubCard(
                       icon: Icons.lunch_dining_rounded,
                       title: 'Meal Counter',
-                      subtitle: 'Track daily meals, monitor monthly food spend & record payment checkpoints.',
-                      tag: 'ACTIVE',
-                      tagColor: const Color(0xFF00E676),
                       iconColor: const Color(0xFF00E676),
                       iconBgColor: const Color(0xFF00E676).withValues(alpha: 0.15),
-                      isActive: true,
-                      trailingBadge: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: theme.accent.withValues(alpha: 0.12),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.restaurant_rounded, size: 14, color: theme.accent),
-                            const SizedBox(width: 6),
-                            Text(
-                              '$cycleMeals ${cycleMeals == 1 ? "Meal" : "Meals"} logged this cycle',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                color: theme.accent,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const MealCounterShell(),
-                          ),
-                        );
-                      },
-                    ),
-                    orElse: () => HubCard(
-                      icon: Icons.lunch_dining_rounded,
-                      title: 'Meal Counter',
-                      subtitle: 'Track daily meals, monitor monthly food spend & record payment checkpoints.',
-                      tag: 'ACTIVE',
-                      tagColor: const Color(0xFF00E676),
-                      iconColor: const Color(0xFF00E676),
-                      iconBgColor: const Color(0xFF00E676).withValues(alpha: 0.15),
-                      isActive: true,
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
@@ -387,65 +346,61 @@ class _HubScreenState extends ConsumerState<HubScreen> with WidgetsBindingObserv
                       },
                     ),
                   ),
-
-              const SizedBox(height: 16),
-
-              // Card 2: Calorie Counter (Coming Soon)
-              HubCard(
-                icon: Icons.local_fire_department_rounded,
-                title: 'Calorie Counter',
-                subtitle: 'Log macronutrients, set daily caloric limits & maintain nutrition balance.',
-                tag: 'COMING SOON',
-                tagColor: const Color(0xFFFF6D00),
-                iconColor: const Color(0xFFFF6D00),
-                iconBgColor: const Color(0xFFFF6D00).withValues(alpha: 0.15),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const CalorieCounterScreen(),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: HubCard(
+                      icon: Icons.local_fire_department_rounded,
+                      title: 'Calorie Counter',
+                      iconColor: const Color(0xFFFF6D00),
+                      iconBgColor: const Color(0xFFFF6D00).withValues(alpha: 0.15),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const CalorieCounterScreen(),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
+                  ),
+                ],
               ),
 
               const SizedBox(height: 16),
 
-              // Card 3: Expense Counter (Coming Soon)
-              HubCard(
-                icon: Icons.account_balance_wallet_rounded,
-                title: 'Expense Counter',
-                subtitle: 'Budget food spending, categorize grocery costs & split roommate dinner bills.',
-                tag: 'COMING SOON',
-                tagColor: const Color(0xFF2979FF),
-                iconColor: const Color(0xFF2979FF),
-                iconBgColor: const Color(0xFF2979FF).withValues(alpha: 0.15),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const ExpenseCounterScreen(),
+              Row(
+                children: [
+                  Expanded(
+                    child: HubCard(
+                      icon: Icons.account_balance_wallet_rounded,
+                      title: 'Expense Counter',
+                      iconColor: const Color(0xFF2979FF),
+                      iconBgColor: const Color(0xFF2979FF).withValues(alpha: 0.15),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const ExpenseCounterScreen(),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
-
-              const SizedBox(height: 16),
-
-              // Card 4: Surprise (Coming Soon)
-              HubCard(
-                icon: Icons.auto_awesome_rounded,
-                title: 'Surprise',
-                subtitle: 'Gamified streak rewards, AI meal optimizations & secret feature quests.',
-                tag: 'COMING SOON',
-                tagColor: const Color(0xFFA855F7),
-                iconColor: const Color(0xFFA855F7),
-                iconBgColor: const Color(0xFFA855F7).withValues(alpha: 0.15),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const SurpriseScreen(),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: HubCard(
+                      icon: Icons.auto_awesome_rounded,
+                      title: 'Surprise',
+                      iconColor: const Color(0xFFA855F7),
+                      iconBgColor: const Color(0xFFA855F7).withValues(alpha: 0.15),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const SurpriseScreen(),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
+                  ),
+                ],
               ),
 
               const SizedBox(height: 30),

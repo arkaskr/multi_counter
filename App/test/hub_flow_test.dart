@@ -34,7 +34,7 @@ class FakeLoggedInAuthService extends AuthService {
 }
 
 void main() {
-  testWidgets('HubScreen renders 4 cards: Meal Counter (Active), Calorie, Expense, Surprise (Coming Soon)', (tester) async {
+  testWidgets('HubScreen renders 4 cards in 2x2 setup with icon and name', (tester) async {
     final fakeAuth = FakeLoggedInAuthService();
 
     await tester.pumpWidget(
@@ -49,19 +49,24 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    // Verify user greeting
+    // Verify user greeting & top section
     expect(find.text('Welcome back,'), findsOneWidget);
     expect(find.text('Arka Sarkar'), findsOneWidget);
 
-    // Verify the 4 cards
+    // Verify the 4 cards by title
     expect(find.text('Meal Counter'), findsOneWidget);
     expect(find.text('Calorie Counter'), findsOneWidget);
     expect(find.text('Expense Counter'), findsOneWidget);
     expect(find.text('Surprise'), findsOneWidget);
 
-    // Verify tags
-    expect(find.text('ACTIVE'), findsOneWidget);
-    expect(find.text('COMING SOON'), findsNWidgets(3));
+    // Verify the 4 cards by icons
+    expect(find.byIcon(Icons.lunch_dining_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.local_fire_department_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.account_balance_wallet_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.auto_awesome_rounded), findsOneWidget);
+
+    // Verify no "ACTIVE" tag on hub cards
+    expect(find.text('ACTIVE'), findsNothing);
   });
 
   testWidgets('Tapping Meal Counter navigates to MealCounterShell and can return to Hub', (tester) async {
