@@ -108,6 +108,53 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> with Sing
     }
   }
 
+  Future<void> _handleDeleteGroup(GroupModel group) async {
+    final theme = context.appTheme;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: theme.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text('Delete Group?', style: TextStyle(color: theme.text, fontWeight: FontWeight.bold)),
+        content: Text(
+          'Are you sure you want to delete "${group.name}"? All members and expenses will be permanently deleted. This action cannot be undone.',
+          style: TextStyle(color: theme.secondaryText, height: 1.4),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text('Cancel', style: TextStyle(color: theme.secondaryText)),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Delete Group', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true && mounted) {
+      try {
+        await ref.read(groupsProvider.notifier).deleteGroup(group.id);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Group "${group.name}" deleted')),
+          );
+          Navigator.of(context).pop();
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Failed to delete group: $e'),
+              backgroundColor: Colors.redAccent,
+            ),
+          );
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = context.appTheme;
@@ -160,6 +207,8 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> with Sing
         final analytics = data.analytics;
         final expenses = data.expenses;
         final myNet = analytics.myNetBalance;
+        final isCreator = group.createdByEmail.toLowerCase() == myEmail;
+        final isAdmin = isCreator || group.members.any((m) => m.email.toLowerCase() == myEmail && m.role == 'admin');
 
         return Scaffold(
           backgroundColor: theme.background,
@@ -246,6 +295,17 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> with Sing
                               child: Icon(Icons.refresh_rounded, size: 14, color: theme.accent),
                             ),
                           ),
+                          if (isAdmin) ...[
+                            const SizedBox(width: 8),
+                            GestureDetector(
+                              onTap: () => _handleDeleteGroup(group),
+                              child: NeumorphicContainer(
+                                borderRadius: 14,
+                                padding: const EdgeInsets.all(8),
+                                child: const Icon(Icons.delete_outline_rounded, size: 14, color: Colors.redAccent),
+                              ),
+                            ),
+                          ],
                         ],
                       ),
                     ],
@@ -352,9 +412,9 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> with Sing
                                   const SizedBox(height: 1),
                                   Text(
                                     myNet > 0.01
-                                        ? '+₹${myNet.toStringAsFixed(0)}'
+                                        ? '+${CurrencyUtils.formatCurrency(myNet, '₹')}'
                                         : (myNet < -0.01
-                                            ? '-₹${myNet.abs().toStringAsFixed(0)}'
+                                            ? '-${CurrencyUtils.formatCurrency(myNet.abs(), '₹')}'
                                             : '₹0'),
                                     style: TextStyle(
                                       fontSize: 15,
@@ -690,7 +750,7 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> with Sing
                                 text: isPayer ? 'You' : debt.fromName,
                                 style: const TextStyle(fontWeight: FontWeight.w800),
                               ),
-                              const TextSpan(text: ' owes '),
+                              TextSpan(text: isPayer ? ' owe ' : ' owes '),
                               TextSpan(
                                 text: isReceiver ? 'You' : debt.toName,
                                 style: TextStyle(
@@ -845,17 +905,17 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> with Sing
                       ],
                     ),
                     Text(
-                      member.netBalance > 0
-                          ? '+₹${member.netBalance.toStringAsFixed(0)}'
-                          : (member.netBalance < 0
-                              ? '-₹${member.netBalance.abs().toStringAsFixed(0)}'
-                              : '₹0'),
+                      member.netBalance > 0.01
+                          ? '+${CurrencyUtils.formatCurrency(member.netBalance, '₹')}'
+                          : (member.netBalance < -0.01
+                              ? '-${CurrencyUtils.formatCurrency(member.netBalance.abs(), '₹')}'
+                              : 'Settled'),
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w800,
-                        color: member.netBalance > 0
+                        color: member.netBalance > 0.01
                             ? Colors.green[400]
-                            : (member.netBalance < 0 ? Colors.redAccent : theme.secondaryText),
+                            : (member.netBalance < -0.01 ? Colors.redAccent : theme.secondaryText),
                       ),
                     ),
                   ],
@@ -1018,6 +1078,55 @@ class _GroupDetailScreenState extends ConsumerState<GroupDetailScreen> with Sing
               ),
             );
           }),
+        ],
+
+        if (group.createdByEmail.toLowerCase() == myEmail ||
+            group.acceptedMembers.any((m) => m.email.toLowerCase() == myEmail && m.isAdmin)) ...[
+          const SizedBox(height: 28),
+          Text(
+            'DANGER ZONE',
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 1.1,
+              color: Colors.redAccent.withValues(alpha: 0.85),
+            ),
+          ),
+          const SizedBox(height: 10),
+          NeumorphicContainer(
+            borderRadius: 16,
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Delete Group',
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.redAccent),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        'Permanently delete this group and all its expenses',
+                        style: TextStyle(fontSize: 11, color: theme.secondaryText),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                NeumorphicButton(
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  onTap: () => _handleDeleteGroup(group),
+                  child: const Text(
+                    'Delete',
+                    style: TextStyle(color: Colors.redAccent, fontSize: 13, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ],
     );

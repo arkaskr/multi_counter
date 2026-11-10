@@ -444,14 +444,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
               const SizedBox(height: 28),
 
-              // SECTION B: BILLING & CHECKPOINT
-              _buildSectionHeader('BILLING & CHECKPOINT'),
+              // SECTION B: DATA MANAGEMENT (Checkpoint & Meal Resets)
+              _buildSectionHeader('DATA MANAGEMENT'),
               const SizedBox(height: 12),
               NeumorphicContainer(
                 borderRadius: 24,
                 padding: const EdgeInsets.all(20),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildDestructiveActionRow(
                       title: 'Billing Checkpoint',
@@ -474,19 +473,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         ref.read(syncServiceProvider).autoSync();
                       },
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 28),
-
-              // SECTION C: DATA MANAGEMENT (Meal Resets)
-              _buildSectionHeader('DATA MANAGEMENT'),
-              const SizedBox(height: 12),
-              NeumorphicContainer(
-                borderRadius: 24,
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
+                    Divider(color: theme.secondaryText.withValues(alpha: 0.15)),
                     _buildDestructiveActionRow(
                       title: 'Reset Today',
                       subtitle: 'Reset today\'s count to zero',

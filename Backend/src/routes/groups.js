@@ -569,5 +569,42 @@ router.get('/:id/analytics', async (req, res) => {
   }
 });
 
+/**
+ * 10. DELETE /api/groups/:id - Delete group & all its expenses (creator or admin only)
+ */
+router.delete('/:id', async (req, res) => {
+  try {
+    const group = await Group.findById(req.params.id);
+    if (!group) {
+      return res.status(404).json({ success: false, message: 'Group not found.' });
+    }
+
+    const userEmail = req.user.email.toLowerCase();
+    const isCreator = (group.createdByEmail && group.createdByEmail.toLowerCase() === userEmail) ||
+                      (group.createdBy && group.createdBy.toString() === req.user._id.toString());
+    const isAdmin = group.members.some(
+      (m) => m.email.toLowerCase() === userEmail && m.role === 'admin' && m.status === 'accepted'
+    );
+
+    if (!isCreator && !isAdmin) {
+      return res.status(403).json({ success: false, message: 'Only the group creator or admin can delete this group.' });
+    }
+
+    // Cascade delete all expenses for this group
+    await Expense.deleteMany({ group: group._id });
+
+    // Delete group
+    await Group.findByIdAndDelete(group._id);
+
+    res.json({
+      success: true,
+      message: 'Group and all associated expenses deleted successfully.',
+    });
+  } catch (err) {
+    console.error('[Groups] Delete group error:', err);
+    res.status(500).json({ success: false, message: 'Failed to delete group: ' + err.message });
+  }
+});
+
 module.exports = router;
 

@@ -51,6 +51,12 @@ class GroupsNotifier extends AsyncNotifier<GroupsData> {
     await service.respondInvitation(groupId, action);
     await refresh();
   }
+
+  Future<void> deleteGroup(String groupId) async {
+    final service = ref.read(expenseServiceProvider);
+    await service.deleteGroup(groupId);
+    await refresh();
+  }
 }
 
 final groupsProvider = AsyncNotifierProvider<GroupsNotifier, GroupsData>(GroupsNotifier.new);

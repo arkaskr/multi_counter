@@ -73,6 +73,22 @@ class ExpenseService {
     return GroupModel.fromJson(data['group'] as Map<String, dynamic>);
   }
 
+  /// Delete a group and all its expenses (creator or admin only)
+  Future<void> deleteGroup(String groupId) async {
+    final url = _buildUrl('/groups/$groupId');
+    final response = await _client.delete(url, headers: _headers());
+
+    if (response.statusCode != 200) {
+      try {
+        final data = jsonDecode(response.body) as Map<String, dynamic>;
+        throw Exception(data['message'] ?? 'Failed to delete group');
+      } catch (e) {
+        if (e is Exception) rethrow;
+        throw Exception('Failed to delete group: ${response.statusCode}');
+      }
+    }
+  }
+
   /// Fetch full details of a single group
   Future<Map<String, dynamic>> getGroupDetail(String groupId) async {
     final url = _buildUrl('/groups/$groupId');

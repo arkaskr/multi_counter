@@ -32,6 +32,60 @@ class GroupListScreen extends ConsumerWidget {
     }
   }
 
+  Future<void> _handleDeleteGroup(BuildContext context, WidgetRef ref, GroupModel group) async {
+    final userEmail = ref.read(authStateProvider).user?.email.toLowerCase() ?? '';
+    final isCreator = group.createdByEmail.toLowerCase() == userEmail;
+    final isAdmin = isCreator || group.members.any((m) => m.email.toLowerCase() == userEmail && m.role == 'admin');
+
+    if (!isAdmin) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Only group admins can delete this group')),
+      );
+      return;
+    }
+
+    final theme = context.appTheme;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: theme.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text('Delete Group?', style: TextStyle(color: theme.text, fontWeight: FontWeight.bold)),
+        content: Text(
+          'Are you sure you want to delete "${group.name}"? All associated expenses will be permanently deleted.',
+          style: TextStyle(color: theme.secondaryText, height: 1.4),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text('Cancel', style: TextStyle(color: theme.secondaryText)),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Delete Group', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true && context.mounted) {
+      try {
+        await ref.read(groupsProvider.notifier).deleteGroup(group.id);
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Group "${group.name}" deleted')),
+          );
+        }
+      } catch (e) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed to delete group: $e'), backgroundColor: Colors.redAccent),
+          );
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = context.appTheme;
@@ -485,6 +539,7 @@ class GroupListScreen extends ConsumerWidget {
                                       ref.read(groupsProvider.notifier).refresh();
                                     }
                                   },
+                                  onLongPress: () => _handleDeleteGroup(context, ref, group),
                                   child: NeumorphicContainer(
                                     borderRadius: 22,
                                     padding: const EdgeInsets.all(18),
@@ -550,9 +605,9 @@ class GroupListScreen extends ConsumerWidget {
                                               ),
                                               child: Text(
                                                 myNet > 0.01
-                                                    ? '+₹${myNet.toStringAsFixed(0)}'
+                                                    ? '+${CurrencyUtils.formatCurrency(myNet, '₹')}'
                                                     : (myNet < -0.01
-                                                        ? '-₹${myNet.abs().toStringAsFixed(0)}'
+                                                        ? '-${CurrencyUtils.formatCurrency(myNet.abs(), '₹')}'
                                                         : 'Settled'),
                                                 style: TextStyle(
                                                   fontSize: 12,

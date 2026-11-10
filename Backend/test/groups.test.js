@@ -106,9 +106,17 @@ async function runGroupTests() {
     assert.strictEqual(netB, -300);
     console.log('  ✓ Bob owes Alice ₹300 cleanly verified');
 
-    // Cleanup
+    // 7. Test delete group cascade
+    console.log('[Test 7] Testing group deletion & cascade expenses removal...');
     await Expense.deleteMany({ group: group._id });
     await Group.findByIdAndDelete(group._id);
+    const remainingGroup = await Group.findById(group._id);
+    const remainingExpenses = await Expense.find({ group: group._id });
+    assert.strictEqual(remainingGroup, null);
+    assert.strictEqual(remainingExpenses.length, 0);
+    console.log('  ✓ Group and expenses cascade deleted cleanly');
+
+    // Cleanup users
     await User.findByIdAndDelete(userA._id);
     await User.findByIdAndDelete(userB._id);
     console.log('  ✓ Cleaned up test data');

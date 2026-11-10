@@ -307,6 +307,99 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('ACTIVE MEMBERS (2)'), findsOneWidget);
       expect(find.text('Alice (You)'), findsOneWidget);
+      expect(find.text('DANGER ZONE'), findsOneWidget);
+      expect(find.text('Delete Group'), findsAtLeastNWidgets(1));
+    });
+
+    testWidgets('GroupDetailScreen formats fractional net balances with decimals and uses "You owe"', (tester) async {
+      final fakeAuth = FakeAuthService(); // alice@example.com
+
+      final testGroup = GroupModel(
+        id: 'g2',
+        name: 'Till 2028',
+        description: 'Roommate split',
+        createdBy: 'u_alice',
+        createdByName: 'Alice',
+        createdByEmail: 'alice@example.com',
+        totalSpend: 735.0,
+        myNetBalance: -47.5,
+        expenseCount: 1,
+        acceptedMemberCount: 2,
+        members: [
+          GroupMemberModel(email: 'alice@example.com', name: 'Alice', status: 'accepted', role: 'admin'),
+          GroupMemberModel(email: 'subhajit@example.com', name: 'Subhajit', status: 'accepted', role: 'member'),
+        ],
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+
+      final analytics = ExpenseAnalyticsReport(
+        totalSpend: 735.0,
+        expenseCount: 1,
+        myTotalPaid: 320.0,
+        myTotalShare: 367.5,
+        myNetBalance: -47.5,
+        categoryBreakdown: [
+          CategoryBreakdown(category: 'Food', totalAmount: 735.0, percentage: 100.0),
+        ],
+        memberBreakdown: [
+          MemberBreakdown(
+            name: 'Alice',
+            email: 'alice@example.com',
+            totalPaid: 320.0,
+            totalShare: 367.5,
+            netBalance: -47.5,
+            percentageOfTotalPaid: 43.54,
+          ),
+          MemberBreakdown(
+            name: 'Subhajit',
+            email: 'subhajit@example.com',
+            totalPaid: 415.0,
+            totalShare: 367.5,
+            netBalance: 47.5,
+            percentageOfTotalPaid: 56.46,
+          ),
+        ],
+        settlements: [
+          SettlementDebt(
+            fromEmail: 'alice@example.com',
+            fromName: 'Alice',
+            toEmail: 'subhajit@example.com',
+            toName: 'Subhajit',
+            amount: 47.5,
+          ),
+        ],
+      );
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            authServiceProvider.overrideWithValue(fakeAuth),
+            groupDetailProvider('g2').overrideWith((ref) async => (
+                  group: testGroup,
+                  membershipStatus: 'accepted',
+                  role: 'admin',
+                  analytics: analytics,
+                  expenses: <ExpenseModel>[],
+                )),
+          ],
+          child: const MaterialApp(
+            home: GroupDetailScreen(groupId: 'g2'),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      // Verify exact decimal display for fractional net balance
+      expect(find.text('YOU OWE'), findsOneWidget);
+      expect(find.text('-₹47.50'), findsOneWidget);
+
+      // Verify Settlement tab uses "You owe Subhajit" instead of "You owes"
+      await tester.tap(find.widgetWithText(Tab, 'Settlement'));
+      await tester.pumpAndSettle();
+      expect(find.text('You need to pay Subhajit'), findsOneWidget);
+      expect(find.text('₹47.50'), findsOneWidget);
     });
   });
 }
