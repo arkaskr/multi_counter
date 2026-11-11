@@ -24,33 +24,28 @@ class NeumorphicThemeCard extends StatelessWidget {
       },
       behavior: HitTestBehavior.opaque,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 150),
         curve: Curves.easeOutCubic,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: palette.surface,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(18),
           boxShadow: isSelected
               ? [
-                  ...ThemeShadows.raised(
-                    surface: palette.surface,
-                    isDark: palette.isDark,
-                    elevation: 1.2,
-                  ),
                   BoxShadow(
-                    color: palette.accent.withValues(alpha: 0.4),
-                    blurRadius: 10,
+                    color: palette.accent.withValues(alpha: 0.25),
+                    blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
                 ]
               : ThemeShadows.raised(
                   surface: palette.surface,
                   isDark: palette.isDark,
-                  elevation: 0.8,
+                  elevation: 0.6,
                 ),
           border: Border.all(
-            color: isSelected ? palette.accent : Colors.transparent,
-            width: 2.0,
+            color: isSelected ? palette.accent : palette.cardBorder,
+            width: isSelected ? 2.0 : 1.0,
           ),
         ),
         child: Column(
@@ -65,25 +60,25 @@ class NeumorphicThemeCard extends StatelessWidget {
                   style: TextStyle(
                     color: palette.text,
                     fontWeight: FontWeight.w700,
-                    fontSize: 16,
+                    fontSize: 15,
                   ),
                 ),
                 AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  width: 24,
-                  height: 24,
+                  duration: const Duration(milliseconds: 150),
+                  width: 22,
+                  height: 22,
                   decoration: BoxDecoration(
-                    color: isSelected ? palette.accent : palette.surface,
+                    color: isSelected ? palette.accent : Colors.transparent,
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: isSelected ? palette.accent : palette.secondaryText.withValues(alpha: 0.4),
+                      color: isSelected ? palette.accent : palette.cardBorder,
                       width: 1.5,
                     ),
                   ),
                   child: isSelected
                       ? const Icon(
                           Icons.check_rounded,
-                          size: 16,
+                          size: 14,
                           color: Colors.white,
                         )
                       : null,
@@ -97,11 +92,10 @@ class NeumorphicThemeCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               decoration: BoxDecoration(
                 color: palette.background,
-                borderRadius: BorderRadius.circular(14),
-                boxShadow: ThemeShadows.pressed(
-                  surface: palette.background,
-                  isDark: palette.isDark,
-                  distance: 2,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: palette.cardBorder,
+                  width: 0.8,
                 ),
               ),
               child: Row(
@@ -114,7 +108,7 @@ class NeumorphicThemeCard extends StatelessWidget {
                         '1 / 2',
                         style: TextStyle(
                           color: palette.text,
-                          fontSize: 16,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -123,7 +117,7 @@ class NeumorphicThemeCard extends StatelessWidget {
                         style: TextStyle(
                           color: palette.accent,
                           fontSize: 13,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ],
@@ -133,14 +127,7 @@ class NeumorphicThemeCard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
                       color: palette.accent,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: palette.accent.withValues(alpha: 0.35),
-                          blurRadius: 4,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: const Text(
                       '+1',

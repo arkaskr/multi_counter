@@ -109,7 +109,7 @@ class _GlobalSettingsScreenState extends ConsumerState<GlobalSettingsScreen> {
               _buildSectionHeader('APPEARANCE & THEME'),
               const SizedBox(height: 6),
               Text(
-                'Select a neumorphic theme palette for the entire application.',
+                'Select a color theme for the entire application.',
                 style: TextStyle(fontSize: 12, color: theme.secondaryText),
               ),
               const SizedBox(height: 14),

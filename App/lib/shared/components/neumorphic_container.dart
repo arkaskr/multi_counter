@@ -42,42 +42,19 @@ class NeumorphicContainer extends StatelessWidget {
     final theme = context.appTheme;
     final baseColor = color ?? theme.surface;
 
-    List<BoxShadow> shadows;
-    if (isPressed || shape == NeumorphicShape.pressed) {
-      shadows = ThemeShadows.pressed(
-        surface: baseColor,
-        isDark: theme.isDark,
-      );
-    } else {
-      shadows = ThemeShadows.raised(
-        surface: baseColor,
-        isDark: theme.isDark,
-        elevation: elevation,
-      );
-    }
+    final shadows = (isPressed || shape == NeumorphicShape.pressed)
+        ? const <BoxShadow>[]
+        : ThemeShadows.raised(
+            surface: baseColor,
+            isDark: theme.isDark,
+            elevation: elevation,
+          );
 
-    Gradient? gradient;
-    if (shape == NeumorphicShape.convex) {
-      gradient = LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          theme.isDark ? baseColor.withValues(alpha: 0.95) : Colors.white.withValues(alpha: 0.3),
-          baseColor,
-        ],
-      );
-    } else if (shape == NeumorphicShape.concave || isPressed || shape == NeumorphicShape.pressed) {
-      gradient = LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          theme.isDark
-              ? const Color(0xFF141722).withValues(alpha: 0.6)
-              : const Color(0xFFA3B1C6).withValues(alpha: 0.25),
-          baseColor,
-        ],
-      );
-    }
+    final effectiveBorder = border ??
+        Border.all(
+          color: theme.cardBorder,
+          width: 1.0,
+        );
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 150),
@@ -88,10 +65,9 @@ class NeumorphicContainer extends StatelessWidget {
       padding: padding,
       decoration: BoxDecoration(
         color: baseColor,
-        gradient: gradient,
         borderRadius: BorderRadius.circular(borderRadius),
         boxShadow: shadows,
-        border: border,
+        border: effectiveBorder,
       ),
       child: child,
     );

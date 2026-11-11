@@ -5,6 +5,7 @@ class ThemeColorPalette {
   final String name;
   final Color background;
   final Color surface;
+  final Color cardBorder;
   final Color accent;
   final Color text;
   final Color secondaryText;
@@ -15,6 +16,7 @@ class ThemeColorPalette {
     required this.name,
     required this.background,
     required this.surface,
+    required this.cardBorder,
     required this.accent,
     required this.text,
     required this.secondaryText,

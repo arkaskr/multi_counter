@@ -41,11 +41,20 @@ class NeumorphicInput extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.appTheme;
 
-    return NeumorphicContainer(
-      isPressed: true,
-      shape: NeumorphicShape.pressed,
-      borderRadius: 16.0,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+    final inputBg = theme.isDark
+        ? const Color(0xFF1A1D28)
+        : const Color(0xFFF3F5FA);
+
+    return Container(
+      decoration: BoxDecoration(
+        color: inputBg,
+        borderRadius: BorderRadius.circular(14.0),
+        border: Border.all(
+          color: theme.cardBorder,
+          width: 1.0,
+        ),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
       child: TextField(
         controller: controller,
         readOnly: readOnly,
@@ -57,7 +66,7 @@ class NeumorphicInput extends StatelessWidget {
         style: style ??
             TextStyle(
               color: theme.text,
-              fontSize: 16,
+              fontSize: 15,
               fontWeight: FontWeight.w600,
             ),
         cursorColor: theme.accent,
@@ -66,8 +75,8 @@ class NeumorphicInput extends StatelessWidget {
           hintText: hintText,
           hintStyle: hintStyle ??
               TextStyle(
-                color: theme.secondaryText.withValues(alpha: 0.6),
-                fontSize: 15,
+                color: theme.secondaryText.withValues(alpha: 0.7),
+                fontSize: 14,
                 fontWeight: FontWeight.normal,
               ),
           prefixIcon: prefixIcon,
@@ -75,13 +84,13 @@ class NeumorphicInput extends StatelessWidget {
           prefixText: prefixText,
           prefixStyle: TextStyle(
             color: theme.text,
-            fontSize: 16,
+            fontSize: 15,
             fontWeight: FontWeight.bold,
           ),
           suffixText: suffixText,
           suffixStyle: TextStyle(
             color: theme.secondaryText,
-            fontSize: 14,
+            fontSize: 13,
           ),
           contentPadding: const EdgeInsets.symmetric(vertical: 14),
         ),

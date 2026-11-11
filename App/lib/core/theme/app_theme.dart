@@ -9,6 +9,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
   final String name;
   final Color background;
   final Color surface;
+  final Color cardBorder;
   final Color accent;
   final Color text;
   final Color secondaryText;
@@ -19,6 +20,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
     required this.name,
     required this.background,
     required this.surface,
+    required this.cardBorder,
     required this.accent,
     required this.text,
     required this.secondaryText,
@@ -31,6 +33,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
       name: palette.name,
       background: palette.background,
       surface: palette.surface,
+      cardBorder: palette.cardBorder,
       accent: palette.accent,
       text: palette.text,
       secondaryText: palette.secondaryText,
@@ -44,6 +47,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
     String? name,
     Color? background,
     Color? surface,
+    Color? cardBorder,
     Color? accent,
     Color? text,
     Color? secondaryText,
@@ -54,6 +58,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
       name: name ?? this.name,
       background: background ?? this.background,
       surface: surface ?? this.surface,
+      cardBorder: cardBorder ?? this.cardBorder,
       accent: accent ?? this.accent,
       text: text ?? this.text,
       secondaryText: secondaryText ?? this.secondaryText,
@@ -69,6 +74,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
       name: t < 0.5 ? name : other.name,
       background: Color.lerp(background, other.background, t) ?? background,
       surface: Color.lerp(surface, other.surface, t) ?? surface,
+      cardBorder: Color.lerp(cardBorder, other.cardBorder, t) ?? cardBorder,
       accent: Color.lerp(accent, other.accent, t) ?? accent,
       text: Color.lerp(text, other.text, t) ?? text,
       secondaryText: Color.lerp(secondaryText, other.secondaryText, t) ?? secondaryText,

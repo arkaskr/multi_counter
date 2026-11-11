@@ -61,20 +61,20 @@ class _NeumorphicIconButtonState extends State<NeumorphicIconButton> {
     final baseColor = widget.backgroundColor ?? theme.surface;
 
     List<BoxShadow> shadows;
-    if (!widget.isEnabled) {
-      shadows = [];
-    } else if (_isPressed || widget.isActive) {
-      shadows = ThemeShadows.pressed(
-        surface: baseColor,
-        isDark: theme.isDark,
-      );
+    if (!widget.isEnabled || _isPressed) {
+      shadows = const [];
     } else {
       shadows = ThemeShadows.raised(
         surface: baseColor,
         isDark: theme.isDark,
-        elevation: 0.9,
+        elevation: 0.6,
       );
     }
+
+    final effectiveBorder = Border.all(
+      color: widget.isActive ? theme.accent : theme.cardBorder,
+      width: 1.0,
+    );
 
     final buttonWidget = GestureDetector(
       onTapDown: _handleTapDown,
@@ -82,12 +82,12 @@ class _NeumorphicIconButtonState extends State<NeumorphicIconButton> {
       onTapCancel: _handleTapCancel,
       behavior: HitTestBehavior.opaque,
       child: AnimatedScale(
-        scale: _isPressed ? 0.93 : 1.0,
-        duration: const Duration(milliseconds: 120),
+        scale: _isPressed ? 0.94 : 1.0,
+        duration: const Duration(milliseconds: 100),
         curve: Curves.easeOutCubic,
         child: AnimatedOpacity(
           opacity: widget.isEnabled ? 1.0 : 0.4,
-          duration: const Duration(milliseconds: 150),
+          duration: const Duration(milliseconds: 120),
           child: Container(
             width: widget.size,
             height: widget.size,
@@ -96,9 +96,7 @@ class _NeumorphicIconButtonState extends State<NeumorphicIconButton> {
               shape: widget.isCircle ? BoxShape.circle : BoxShape.rectangle,
               borderRadius: widget.isCircle ? null : BorderRadius.circular(widget.borderRadius),
               boxShadow: shadows,
-              border: widget.isActive
-                  ? Border.all(color: theme.accent.withValues(alpha: 0.4), width: 1.5)
-                  : null,
+              border: effectiveBorder,
             ),
             child: Icon(
               widget.icon,

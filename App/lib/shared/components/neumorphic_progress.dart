@@ -28,17 +28,21 @@ class NeumorphicProgress extends StatelessWidget {
       builder: (context, constraints) {
         final totalWidth = constraints.maxWidth;
 
-        return NeumorphicContainer(
-          isPressed: true,
-          shape: NeumorphicShape.pressed,
-          borderRadius: borderRadius,
+        return Container(
           height: height,
-          padding: const EdgeInsets.all(2),
+          decoration: BoxDecoration(
+            color: theme.isDark ? const Color(0xFF1B1E29) : const Color(0xFFE9EDF4),
+            borderRadius: BorderRadius.circular(borderRadius),
+            border: Border.all(
+              color: theme.cardBorder,
+              width: 0.8,
+            ),
+          ),
           child: Stack(
             children: [
               TweenAnimationBuilder<double>(
                 tween: Tween<double>(begin: 0.0, end: clampedProgress),
-                duration: const Duration(milliseconds: 350),
+                duration: const Duration(milliseconds: 300),
                 curve: Curves.easeOutCubic,
                 builder: (context, value, child) {
                   final fillWidth = totalWidth * value;
@@ -48,22 +52,8 @@ class NeumorphicProgress extends StatelessWidget {
                     width: fillWidth,
                     height: height,
                     decoration: BoxDecoration(
+                      color: fillColor,
                       borderRadius: BorderRadius.circular(borderRadius),
-                      gradient: LinearGradient(
-                        colors: [
-                          fillColor.withValues(alpha: 0.85),
-                          fillColor,
-                        ],
-                      ),
-                      boxShadow: showGlow && value > 0.05
-                          ? [
-                              BoxShadow(
-                                color: fillColor.withValues(alpha: 0.5),
-                                blurRadius: 6,
-                                offset: const Offset(0, 1),
-                              ),
-                            ]
-                          : null,
                     ),
                   );
                 },

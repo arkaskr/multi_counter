@@ -3,92 +3,57 @@ import 'package:flutter/material.dart';
 class ThemeShadows {
   ThemeShadows._();
 
-  /// Generates soft neomorphic shadows for raised components
+  /// Clean, modern, subtle card shadow for solid elevated cards
   static List<BoxShadow> raised({
     required Color surface,
     required bool isDark,
     double elevation = 1.0,
-    double blur = 12.0,
-    double distance = 5.0,
+    double blur = 8.0,
+    double distance = 2.0,
   }) {
-    final d = distance * elevation;
-    final b = blur * elevation;
+    if (elevation <= 0) return const [];
 
     if (isDark) {
       return [
-        // Top-left highlight
         BoxShadow(
-          color: const Color(0xFF2C3246).withValues(alpha: 0.6),
-          offset: Offset(-d, -d),
-          blurRadius: b,
-          spreadRadius: 0,
-        ),
-        // Bottom-right depth shadow
-        BoxShadow(
-          color: const Color(0xFF10121A).withValues(alpha: 0.85),
-          offset: Offset(d, d),
-          blurRadius: b,
+          color: Colors.black.withValues(alpha: 0.22 * elevation.clamp(0.5, 1.5)),
+          offset: Offset(0, distance * elevation),
+          blurRadius: blur * elevation,
           spreadRadius: 0,
         ),
       ];
     } else {
       return [
-        // Top-left light highlight
         BoxShadow(
-          color: Colors.white.withValues(alpha: 0.85),
-          offset: Offset(-d, -d),
-          blurRadius: b,
-          spreadRadius: 0,
-        ),
-        // Bottom-right soft depth shadow
-        BoxShadow(
-          color: const Color(0xFFA3B1C6).withValues(alpha: 0.45),
-          offset: Offset(d, d),
-          blurRadius: b,
+          color: const Color(0xFF141E30).withValues(alpha: 0.05 * elevation.clamp(0.5, 1.5)),
+          offset: Offset(0, distance * elevation),
+          blurRadius: blur * elevation,
           spreadRadius: 0,
         ),
       ];
     }
   }
 
-  /// Generates pressed / sunken shadows
+  /// Flat feedback for pressed state (no beveled / sunken shadow)
   static List<BoxShadow> pressed({
     required Color surface,
     required bool isDark,
-    double distance = 3.0,
+    double distance = 0.0,
   }) {
-    if (isDark) {
-      return [
-        BoxShadow(
-          color: const Color(0xFF10121A).withValues(alpha: 0.9),
-          offset: Offset(distance, distance),
-          blurRadius: distance * 2,
-          spreadRadius: 0,
-        ),
-      ];
-    } else {
-      return [
-        BoxShadow(
-          color: const Color(0xFFA3B1C6).withValues(alpha: 0.5),
-          offset: Offset(distance, distance),
-          blurRadius: distance * 2,
-          spreadRadius: 0,
-        ),
-      ];
-    }
+    return const [];
   }
 
-  /// Accent glow shadow for prominent buttons (+1 button)
+  /// Subtle elevation shadow for primary action buttons
   static List<BoxShadow> accentGlow({
     required Color accent,
-    double intensity = 0.4,
+    double intensity = 0.25,
   }) {
     return [
       BoxShadow(
         color: accent.withValues(alpha: intensity),
-        offset: const Offset(0, 6),
-        blurRadius: 18,
-        spreadRadius: 1,
+        offset: const Offset(0, 3),
+        blurRadius: 8,
+        spreadRadius: 0,
       ),
     ];
   }

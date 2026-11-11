@@ -60,32 +60,27 @@ class _NeumorphicButtonState extends State<NeumorphicButton> {
         : (widget.color ?? theme.surface);
 
     List<BoxShadow> shadows;
-    if (!widget.isEnabled) {
-      shadows = [];
-    } else if (_isPressed) {
-      shadows = ThemeShadows.pressed(
-        surface: baseColor,
-        isDark: theme.isDark,
-      );
+    if (!widget.isEnabled || _isPressed) {
+      shadows = const [];
     } else if (widget.isProminent) {
-      shadows = [
-        ...ThemeShadows.raised(
-          surface: theme.surface,
-          isDark: theme.isDark,
-          elevation: 1.2,
-        ),
-        ...ThemeShadows.accentGlow(
-          accent: theme.accent,
-          intensity: theme.isDark ? 0.35 : 0.45,
-        ),
-      ];
+      shadows = ThemeShadows.accentGlow(
+        accent: theme.accent,
+        intensity: theme.isDark ? 0.3 : 0.25,
+      );
     } else {
       shadows = ThemeShadows.raised(
         surface: baseColor,
         isDark: theme.isDark,
-        elevation: 1.0,
+        elevation: 0.8,
       );
     }
+
+    final effectiveBorder = widget.isProminent
+        ? null
+        : Border.all(
+            color: theme.cardBorder,
+            width: 1.0,
+          );
 
     return GestureDetector(
       onTapDown: _handleTapDown,
@@ -93,14 +88,14 @@ class _NeumorphicButtonState extends State<NeumorphicButton> {
       onTapCancel: _handleTapCancel,
       behavior: HitTestBehavior.opaque,
       child: AnimatedScale(
-        scale: _isPressed ? 0.96 : 1.0,
-        duration: const Duration(milliseconds: 120),
+        scale: _isPressed ? 0.97 : 1.0,
+        duration: const Duration(milliseconds: 100),
         curve: Curves.easeOutCubic,
         child: AnimatedOpacity(
           opacity: widget.isEnabled ? 1.0 : 0.45,
-          duration: const Duration(milliseconds: 150),
+          duration: const Duration(milliseconds: 120),
           child: AnimatedContainer(
-            duration: const Duration(milliseconds: 120),
+            duration: const Duration(milliseconds: 100),
             curve: Curves.easeOutCubic,
             width: widget.width,
             height: widget.height,
@@ -109,23 +104,14 @@ class _NeumorphicButtonState extends State<NeumorphicButton> {
               color: baseColor,
               borderRadius: BorderRadius.circular(widget.borderRadius),
               boxShadow: shadows,
-              gradient: widget.isProminent
-                  ? LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        theme.accent.withValues(alpha: 0.95),
-                        theme.accent,
-                      ],
-                    )
-                  : null,
+              border: effectiveBorder,
             ),
             child: Center(
               child: DefaultTextStyle(
                 style: TextStyle(
                   color: widget.isProminent ? Colors.white : theme.text,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15,
                 ),
                 child: widget.child,
               ),
