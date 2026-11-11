@@ -131,109 +131,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     }
   }
 
-  Future<void> _confirmResetToday() async {
-    final theme = context.appTheme;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: theme.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text('Reset Today?', style: TextStyle(color: theme.text, fontWeight: FontWeight.bold)),
-        content: Text('Are you sure you want to reset today\'s count to 0?', style: TextStyle(color: theme.secondaryText)),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('Cancel', style: TextStyle(color: theme.secondaryText))),
-          TextButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Reset', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold))),
-        ],
-      ),
-    );
-
-    if (confirmed == true && mounted) {
-      final todayStr = AppDateUtils.getTodayDateString();
-      final counterService = ref.read(counterServiceProvider);
-      await counterService.resetDay(todayStr);
-      ref.invalidate(todayRecordProvider);
-      ref.invalidate(homeWeeklySummaryProvider);
-      ref.invalidate(cycleMealsCountProvider);
-      ref.invalidate(cycleTotalAmountProvider);
-      ref.read(syncServiceProvider).autoSync();
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Today has been reset')),
-        );
-      }
-    }
-  }
-
-  Future<void> _confirmResetWeek() async {
-    final theme = context.appTheme;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: theme.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text('Reset Current Week?', style: TextStyle(color: theme.text, fontWeight: FontWeight.bold)),
-        content: Text('Are you sure you want to reset all counts and amounts for the current week to 0?', style: TextStyle(color: theme.secondaryText)),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('Cancel', style: TextStyle(color: theme.secondaryText))),
-          TextButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Reset Week', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold))),
-        ],
-      ),
-    );
-
-    if (confirmed == true && mounted) {
-      final settings = ref.read(settingsNotifierProvider).value;
-      final weekStart = settings?.weekStart ?? 'monday';
-      final weekDates = AppDateUtils.getWeekDates(DateTime.now(), weekStart);
-      final counterService = ref.read(counterServiceProvider);
-      await counterService.resetWeek(weekDates);
-      ref.invalidate(todayRecordProvider);
-      ref.invalidate(homeWeeklySummaryProvider);
-      ref.invalidate(cycleMealsCountProvider);
-      ref.invalidate(cycleTotalAmountProvider);
-      ref.read(syncServiceProvider).autoSync();
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Current week has been reset')),
-        );
-      }
-    }
-  }
-
-  Future<void> _confirmResetAllData() async {
-    final theme = context.appTheme;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: theme.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text('Reset All Meal Data?', style: TextStyle(color: theme.text, fontWeight: FontWeight.bold)),
-        content: Text(
-          'This will permanently delete all daily meal counts and history records. Your preferences and settings will be preserved.',
-          style: TextStyle(color: theme.secondaryText),
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('Cancel', style: TextStyle(color: theme.secondaryText))),
-          TextButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Delete Everything', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold))),
-        ],
-      ),
-    );
-
-    if (confirmed == true && mounted) {
-      final counterService = ref.read(counterServiceProvider);
-      await counterService.resetAllData();
-      ref.invalidate(todayRecordProvider);
-      ref.invalidate(homeWeeklySummaryProvider);
-      ref.invalidate(cycleMealsCountProvider);
-      ref.invalidate(cycleTotalAmountProvider);
-      ref.read(syncServiceProvider).autoSync();
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('All meal data has been reset')),
-        );
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = context.appTheme;
@@ -442,60 +339,32 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   ],
                 ),
               ),
-              const SizedBox(height: 28),
+              const SizedBox(height: 20),
 
-              // SECTION B: DATA MANAGEMENT (Checkpoint & Meal Resets)
-              _buildSectionHeader('DATA MANAGEMENT'),
-              const SizedBox(height: 12),
+              // Billing Checkpoint
               NeumorphicContainer(
                 borderRadius: 24,
                 padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    _buildDestructiveActionRow(
-                      title: 'Billing Checkpoint',
-                      subtitle: (settings?.checkpointDate != null && settings!.checkpointDate!.isNotEmpty)
-                          ? 'Active checkpoint: ${AppDateUtils.formatDisplayDate(settings.checkpointDate!)}. Homescreen & widget show meals/amount from the day after this date.'
-                          : 'Set a checkpoint when you pay your mess/caterer. Widget starts counting from zero the next day.',
-                      buttonLabel: (settings?.checkpointDate != null && settings!.checkpointDate!.isNotEmpty)
-                          ? 'Clear'
-                          : 'Set Today',
-                      onPressed: () async {
-                        if (settings?.checkpointDate != null && settings!.checkpointDate!.isNotEmpty) {
-                          await ref.read(counterServiceProvider).clearCheckpoint();
-                        } else {
-                          final today = AppDateUtils.getTodayDateString();
-                          await ref.read(counterServiceProvider).setCheckpoint(today);
-                        }
-                        ref.invalidate(settingsNotifierProvider);
-                        ref.invalidate(cycleMealsCountProvider);
-                        ref.invalidate(cycleTotalAmountProvider);
-                        ref.read(syncServiceProvider).autoSync();
-                      },
-                    ),
-                    Divider(color: theme.secondaryText.withValues(alpha: 0.15)),
-                    _buildDestructiveActionRow(
-                      title: 'Reset Today',
-                      subtitle: 'Reset today\'s count to zero',
-                      buttonLabel: 'Reset',
-                      onPressed: _confirmResetToday,
-                    ),
-                    Divider(color: theme.secondaryText.withValues(alpha: 0.15)),
-                    _buildDestructiveActionRow(
-                      title: 'Reset Current Week',
-                      subtitle: 'Clear all meal records in the active week',
-                      buttonLabel: 'Reset',
-                      onPressed: _confirmResetWeek,
-                    ),
-                    Divider(color: theme.secondaryText.withValues(alpha: 0.15)),
-                    _buildDestructiveActionRow(
-                      title: 'Reset All Meal Data',
-                      subtitle: 'Delete all meal records (settings preserved)',
-                      buttonLabel: 'Delete All',
-                      isHighRisk: true,
-                      onPressed: _confirmResetAllData,
-                    ),
-                  ],
+                child: _buildDestructiveActionRow(
+                  title: 'Billing Checkpoint',
+                  subtitle: (settings?.checkpointDate != null && settings!.checkpointDate!.isNotEmpty)
+                      ? 'Active checkpoint: ${AppDateUtils.formatDisplayDate(settings.checkpointDate!)}. Homescreen & widget show meals/amount from the day after this date.'
+                      : 'Set a checkpoint when you pay your mess/caterer. Widget starts counting from zero the next day.',
+                  buttonLabel: (settings?.checkpointDate != null && settings!.checkpointDate!.isNotEmpty)
+                      ? 'Clear'
+                      : 'Set Today',
+                  onPressed: () async {
+                    if (settings?.checkpointDate != null && settings!.checkpointDate!.isNotEmpty) {
+                      await ref.read(counterServiceProvider).clearCheckpoint();
+                    } else {
+                      final today = AppDateUtils.getTodayDateString();
+                      await ref.read(counterServiceProvider).setCheckpoint(today);
+                    }
+                    ref.invalidate(settingsNotifierProvider);
+                    ref.invalidate(cycleMealsCountProvider);
+                    ref.invalidate(cycleTotalAmountProvider);
+                    ref.read(syncServiceProvider).autoSync();
+                  },
                 ),
               ),
               const SizedBox(height: 30),

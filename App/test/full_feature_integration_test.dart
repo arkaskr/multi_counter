@@ -496,7 +496,11 @@ void main() {
 
       expect(find.text('Meal Settings'), findsOneWidget);
       expect(find.text('COUNTER SETTINGS'), findsOneWidget);
-      expect(find.text('DATA MANAGEMENT'), findsOneWidget);
+      expect(find.text('Billing Checkpoint'), findsOneWidget);
+      expect(find.text('DATA MANAGEMENT'), findsNothing);
+      expect(find.text('Reset Today'), findsNothing);
+      expect(find.text('Reset Current Week'), findsNothing);
+      expect(find.text('Reset All Meal Data'), findsNothing);
 
       // Now test GlobalSettingsScreen
       await tester.pumpWidget(
