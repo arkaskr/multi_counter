@@ -13,4 +13,11 @@ class AppConstants {
 
   // Platform Channel
   static const String widgetMethodChannel = 'com.dailycounter.app/widget';
+  static const String updaterMethodChannel = 'com.dailycounter.app/updater';
+
+  // App Update URLs
+  static const String updateManifestUrl =
+      'https://raw.githubusercontent.com/arkaskr/app-releases/main/latest.json';
+  static const String updateReleasesUrl =
+      'https://github.com/arkaskr/app-releases';
 }

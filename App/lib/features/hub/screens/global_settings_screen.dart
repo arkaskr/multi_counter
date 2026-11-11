@@ -4,6 +4,7 @@ import 'package:daily_counter/core/constants/app_constants.dart';
 import 'package:daily_counter/core/theme/app_theme.dart';
 import 'package:daily_counter/core/theme/theme_presets.dart';
 import 'package:daily_counter/core/theme/theme_provider.dart';
+import 'package:daily_counter/features/app_update/services/app_update_service.dart';
 import 'package:daily_counter/features/auth/providers/auth_providers.dart';
 import 'package:daily_counter/features/auth/screens/login_screen.dart';
 import 'package:daily_counter/features/meal_counter/providers/home_providers.dart';
@@ -279,6 +280,34 @@ class _GlobalSettingsScreenState extends ConsumerState<GlobalSettingsScreen> {
                     Text(
                       'Your meal records are preserved offline in local SQLite and synced with MongoDB Atlas. Expense counter synchronizes group spending in real-time.',
                       style: TextStyle(fontSize: 13, color: theme.secondaryText, height: 1.4),
+                    ),
+                    const SizedBox(height: 16),
+                    Divider(color: theme.secondaryText.withValues(alpha: 0.15)),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: NeumorphicButton(
+                            onTap: () {
+                              AppUpdateService.instance.checkForUpdateAndPrompt(
+                                context,
+                                isManualCheck: true,
+                              );
+                            },
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.system_update_rounded, size: 16),
+                                SizedBox(width: 8),
+                                Text(
+                                  'Check for Updates',
+                                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

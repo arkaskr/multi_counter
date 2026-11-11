@@ -43,3 +43,7 @@
 
 # Keep SQLite
 -keep class com.tekartik.sqflite.** { *; }
+
+# Keep FileProvider and PackageInfo for In-App Updates
+-keep class androidx.core.content.FileProvider { *; }
+-keep class androidx.core.content.pm.PackageInfoCompat { *; }

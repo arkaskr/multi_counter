@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
-import 'neumorphic_container.dart';
 
 class NeumorphicProgress extends StatelessWidget {
   final double progress; // 0.0 to 1.0

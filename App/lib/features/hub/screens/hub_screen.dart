@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:daily_counter/core/constants/app_constants.dart';
 import 'package:daily_counter/core/services/widget_service.dart';
 import 'package:daily_counter/core/theme/app_theme.dart';
 import 'package:daily_counter/core/theme/theme_provider.dart';

@@ -7,10 +7,10 @@ import 'core/config/app_config.dart';
 import 'core/constants/app_constants.dart';
 import 'core/database/database_helper.dart';
 import 'core/theme/theme_provider.dart';
+import 'features/app_update/services/app_update_service.dart';
 import 'features/auth/providers/auth_providers.dart';
 import 'features/auth/screens/login_screen.dart';
 import 'features/hub/screens/hub_screen.dart';
-import 'features/meal_counter/meal_counter_shell.dart';
 
 export 'features/meal_counter/meal_counter_shell.dart';
 
@@ -55,11 +55,44 @@ void main() async {
   );
 }
 
-class DailyCounterApp extends ConsumerWidget {
+final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
+
+class DailyCounterApp extends ConsumerStatefulWidget {
   const DailyCounterApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<DailyCounterApp> createState() => _DailyCounterAppState();
+}
+
+class _DailyCounterAppState extends ConsumerState<DailyCounterApp> {
+  bool _hasCheckedUpdate = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkUpdateOnLaunch();
+    });
+  }
+
+  void _checkUpdateOnLaunch() {
+    if (_hasCheckedUpdate) return;
+    _hasCheckedUpdate = true;
+
+    // Asynchronously check for GitHub updates without delaying app startup
+    Future.delayed(const Duration(milliseconds: 1500), () {
+      final context = appNavigatorKey.currentContext;
+      if (context != null && context.mounted) {
+        AppUpdateService.instance.checkForUpdateAndPrompt(
+          context,
+          isManualCheck: false,
+        );
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final themeData = ref.watch(themeProvider);
     final authState = ref.watch(authStateProvider);
 
@@ -76,6 +109,7 @@ class DailyCounterApp extends ConsumerWidget {
     }
 
     return MaterialApp(
+      navigatorKey: appNavigatorKey,
       title: AppConstants.appName,
       debugShowCheckedModeBanner: false,
       theme: themeData.toThemeData(),
