@@ -527,39 +527,80 @@ class _UpdateDialogState extends State<UpdateDialog> {
   }
 
   Widget _buildInstallingView(dynamic theme) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Column(
-        children: [
-          SizedBox(
-            width: 28,
-            height: 28,
-            child: CircularProgressIndicator(
-              strokeWidth: 2.5,
-              valueColor: AlwaysStoppedAnimation<Color>(theme.accent),
-            ),
+    final bool isForce = widget.manifest.forceUpdate;
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: Column(
+            children: [
+              SizedBox(
+                width: 28,
+                height: 28,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  valueColor: AlwaysStoppedAnimation<Color>(theme.accent),
+                ),
+              ),
+              const SizedBox(height: 14),
+              Text(
+                'Opening system package installer...',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: theme.text,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Follow the prompt on your screen to complete the installation.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 11,
+                  color: theme.secondaryText,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 14),
-          Text(
-            'Opening system package installer...',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: theme.text,
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            if (!isForce) ...[
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: theme.secondaryText,
+                    side: BorderSide(color: theme.cardBorder, width: 1.5),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                  child: const Text('Later', style: TextStyle(fontWeight: FontWeight.w700)),
+                ),
+              ),
+              const SizedBox(width: 12),
+            ],
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_verifiedApkFile != null) {
+                    _checkPermissionAndInstall(_verifiedApkFile!);
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.accent,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+                child: const Text('Install Again', style: TextStyle(fontWeight: FontWeight.w800)),
+              ),
             ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            'Follow the prompt on your screen to complete the installation.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 11,
-              color: theme.secondaryText,
-            ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      ],
     );
   }
 
