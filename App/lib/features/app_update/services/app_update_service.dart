@@ -337,9 +337,14 @@ class AppUpdateService {
         _isDialogOpen = true;
         await showDialog<void>(
           context: context,
-          barrierDismissible: !result.manifest!.forceUpdate,
+          barrierDismissible: true,
           builder: (dialogCtx) => PopScope(
-            canPop: !result.manifest!.forceUpdate,
+            canPop: false,
+            onPopInvokedWithResult: (didPop, result) {
+              if (!didPop) {
+                SystemNavigator.pop();
+              }
+            },
             child: UpdateDialog(
               manifest: result.manifest!,
               currentVersionName: result.currentVersionName,

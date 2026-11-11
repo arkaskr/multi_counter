@@ -210,7 +210,7 @@ void main() {
       );
     }
 
-    testWidgets('Renders optional update dialog with Later and Update Now buttons', (tester) async {
+    testWidgets('Renders compulsory update dialog with REQUIRED badge and NO Later button', (tester) async {
       const manifest = UpdateManifest(
         versionName: '1.2.0',
         versionCode: 3,
@@ -223,15 +223,16 @@ void main() {
       await tester.pumpWidget(buildTestDialog(manifest: manifest));
       await tester.pumpAndSettle();
 
-      expect(find.text('New Update Available'), findsOneWidget);
+      expect(find.text('Update Required'), findsOneWidget);
       expect(find.text('v1.0.0  →  v1.2.0'), findsOneWidget);
+      expect(find.text('REQUIRED'), findsOneWidget);
       expect(find.text('• Major UI revamp\n• Performance optimizations'), findsOneWidget);
-      expect(find.text('Later'), findsOneWidget);
       expect(find.text('Update Now'), findsOneWidget);
-      expect(find.text('REQUIRED'), findsNothing);
+      expect(find.text('Exit App'), findsOneWidget);
+      expect(find.text('Later'), findsNothing); // Must never have Later option
     });
 
-    testWidgets('Renders mandatory update dialog with REQUIRED badge and NO Later button', (tester) async {
+    testWidgets('Renders mandatory update dialog with release notes and Update Now', (tester) async {
       const manifest = UpdateManifest(
         versionName: '2.0.0',
         versionCode: 10,
@@ -244,11 +245,12 @@ void main() {
       await tester.pumpWidget(buildTestDialog(manifest: manifest));
       await tester.pumpAndSettle();
 
-      expect(find.text('Mandatory Update'), findsOneWidget);
+      expect(find.text('Update Required'), findsOneWidget);
       expect(find.text('REQUIRED'), findsOneWidget);
       expect(find.text('Critical security update. Update immediately.'), findsOneWidget);
       expect(find.text('Update Now'), findsOneWidget);
-      expect(find.text('Later'), findsNothing); // Force update must not have Later button
+      expect(find.text('Exit App'), findsOneWidget);
+      expect(find.text('Later'), findsNothing);
     });
   });
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../core/theme/app_theme.dart';
 import '../models/update_manifest.dart';
 import '../services/app_update_service.dart';
@@ -149,75 +150,76 @@ class _UpdateDialogState extends State<UpdateDialog> {
     }
   }
 
-  void _cancelDownload() {
-    _isCancelled = true;
-    setState(() {
-      _state = UpdateDialogState.ready;
-      _downloadProgress = 0.0;
-    });
+  void _exitApp() {
+    SystemNavigator.pop();
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = context.appTheme;
-    final bool isForce = widget.manifest.forceUpdate;
 
-    return Dialog(
-      backgroundColor: theme.surface,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
-        side: BorderSide(color: theme.cardBorder, width: 1.5),
-      ),
-      insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-      child: Container(
-        padding: const EdgeInsets.all(22),
-        constraints: const BoxConstraints(maxWidth: 420),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Top Header: Icon + Title + Version Tag
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: (isForce ? Colors.amber : theme.accent).withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(14),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          _exitApp();
+        }
+      },
+      child: Dialog(
+        backgroundColor: theme.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+          side: BorderSide(color: theme.cardBorder, width: 1.5),
+        ),
+        insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+        child: Container(
+          padding: const EdgeInsets.all(22),
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Top Header: Icon + Title + Version Tag
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.amber.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: Icon(
+                      Icons.system_update_rounded,
+                      color: Colors.amber[700] ?? Colors.amber,
+                      size: 26,
+                    ),
                   ),
-                  child: Icon(
-                    isForce ? Icons.warning_amber_rounded : Icons.system_update_rounded,
-                    color: isForce ? Colors.amber[700] ?? Colors.amber : theme.accent,
-                    size: 26,
-                  ),
-                ),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        isForce ? 'Mandatory Update' : 'New Update Available',
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w800,
-                          color: theme.text,
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Update Required',
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w800,
+                            color: theme.text,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 3),
-                      Text(
-                        'v${widget.currentVersionName}  →  v${widget.manifest.versionName}',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: theme.accent,
+                        const SizedBox(height: 3),
+                        Text(
+                          'v${widget.currentVersionName}  →  v${widget.manifest.versionName}',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: theme.accent,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                if (isForce)
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
@@ -235,28 +237,29 @@ class _UpdateDialogState extends State<UpdateDialog> {
                       ),
                     ),
                   ),
+                ],
+              ),
+
+              const SizedBox(height: 18),
+
+              // Dynamic Body Content based on State
+              if (_state == UpdateDialogState.ready) ...[
+                _buildReleaseNotes(theme),
+                const SizedBox(height: 22),
+                _buildActionButtons(theme),
+              ] else if (_state == UpdateDialogState.downloading) ...[
+                _buildDownloadingView(theme),
+              ] else if (_state == UpdateDialogState.verifying) ...[
+                _buildVerifyingView(theme),
+              ] else if (_state == UpdateDialogState.permissionRequired) ...[
+                _buildPermissionRequiredView(theme),
+              ] else if (_state == UpdateDialogState.installing) ...[
+                _buildInstallingView(theme),
+              ] else if (_state == UpdateDialogState.error) ...[
+                _buildErrorView(theme),
               ],
-            ),
-
-            const SizedBox(height: 18),
-
-            // Dynamic Body Content based on State
-            if (_state == UpdateDialogState.ready) ...[
-              _buildReleaseNotes(theme),
-              const SizedBox(height: 22),
-              _buildActionButtons(theme, isForce),
-            ] else if (_state == UpdateDialogState.downloading) ...[
-              _buildDownloadingView(theme, isForce),
-            ] else if (_state == UpdateDialogState.verifying) ...[
-              _buildVerifyingView(theme),
-            ] else if (_state == UpdateDialogState.permissionRequired) ...[
-              _buildPermissionRequiredView(theme),
-            ] else if (_state == UpdateDialogState.installing) ...[
-              _buildInstallingView(theme),
-            ] else if (_state == UpdateDialogState.error) ...[
-              _buildErrorView(theme, isForce),
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -302,56 +305,48 @@ class _UpdateDialogState extends State<UpdateDialog> {
     );
   }
 
-  Widget _buildActionButtons(dynamic theme, bool isForce) {
-    return Row(
+  Widget _buildActionButtons(dynamic theme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (!isForce) ...[
-          Expanded(
-            child: OutlinedButton(
-              onPressed: () => Navigator.of(context).pop(),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: theme.secondaryText,
-                side: BorderSide(color: theme.cardBorder, width: 1.5),
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-              ),
-              child: const Text(
-                'Later',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-              ),
-            ),
+        ElevatedButton(
+          onPressed: _startUpdate,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: theme.accent,
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            elevation: 0,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           ),
-          const SizedBox(width: 12),
-        ],
-        Expanded(
-          flex: isForce ? 1 : 2,
-          child: ElevatedButton(
-            onPressed: _startUpdate,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: theme.accent,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              elevation: 0,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-            ),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.download_rounded, size: 18),
-                SizedBox(width: 8),
-                Text(
-                  'Update Now',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
-                ),
-              ],
-            ),
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.download_rounded, size: 18),
+              SizedBox(width: 8),
+              Text(
+                'Update Now',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 8),
+        TextButton(
+          onPressed: _exitApp,
+          style: TextButton.styleFrom(
+            foregroundColor: theme.secondaryText,
+            padding: const EdgeInsets.symmetric(vertical: 8),
+          ),
+          child: const Text(
+            'Exit App',
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildDownloadingView(dynamic theme, bool isForce) {
+  Widget _buildDownloadingView(dynamic theme) {
     final int percent = (_downloadProgress * 100).toInt();
 
     return Column(
@@ -388,32 +383,18 @@ class _UpdateDialogState extends State<UpdateDialog> {
           ),
         ),
         const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              _totalBytes > 0
-                  ? '${_formatBytes(_receivedBytes)} of ${_formatBytes(_totalBytes)}'
-                  : _formatBytes(_receivedBytes),
-              style: TextStyle(
-                fontSize: 12,
-                color: theme.secondaryText,
-                fontWeight: FontWeight.w500,
-              ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            _totalBytes > 0
+                ? '${_formatBytes(_receivedBytes)} of ${_formatBytes(_totalBytes)}'
+                : _formatBytes(_receivedBytes),
+            style: TextStyle(
+              fontSize: 12,
+              color: theme.secondaryText,
+              fontWeight: FontWeight.w500,
             ),
-            if (!isForce)
-              GestureDetector(
-                onTap: _cancelDownload,
-                child: Text(
-                  'Cancel',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.redAccent.withValues(alpha: 0.9),
-                  ),
-                ),
-              ),
-          ],
+          ),
         ),
       ],
     );
@@ -522,12 +503,22 @@ class _UpdateDialogState extends State<UpdateDialog> {
             ),
           ),
         ),
+        const SizedBox(height: 4),
+        TextButton(
+          onPressed: _exitApp,
+          child: Text(
+            'Exit App',
+            style: TextStyle(
+              fontSize: 13,
+              color: theme.secondaryText,
+            ),
+          ),
+        ),
       ],
     );
   }
 
   Widget _buildInstallingView(dynamic theme) {
-    final bool isForce = widget.manifest.forceUpdate;
     return Column(
       children: [
         Container(
@@ -565,46 +556,36 @@ class _UpdateDialogState extends State<UpdateDialog> {
           ),
         ),
         const SizedBox(height: 12),
-        Row(
-          children: [
-            if (!isForce) ...[
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: theme.secondaryText,
-                    side: BorderSide(color: theme.cardBorder, width: 1.5),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  ),
-                  child: const Text('Later', style: TextStyle(fontWeight: FontWeight.w700)),
-                ),
-              ),
-              const SizedBox(width: 12),
-            ],
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_verifiedApkFile != null) {
-                    _checkPermissionAndInstall(_verifiedApkFile!);
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.accent,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                ),
-                child: const Text('Install Again', style: TextStyle(fontWeight: FontWeight.w800)),
-              ),
+        ElevatedButton(
+          onPressed: () {
+            if (_verifiedApkFile != null) {
+              _checkPermissionAndInstall(_verifiedApkFile!);
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: theme.accent,
+            foregroundColor: Colors.white,
+            minimumSize: const Size.fromHeight(46),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+          child: const Text('Install Again', style: TextStyle(fontWeight: FontWeight.w800)),
+        ),
+        const SizedBox(height: 6),
+        TextButton(
+          onPressed: _exitApp,
+          child: Text(
+            'Exit App',
+            style: TextStyle(
+              fontSize: 13,
+              color: theme.secondaryText,
             ),
-          ],
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildErrorView(dynamic theme, bool isForce) {
+  Widget _buildErrorView(dynamic theme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -648,36 +629,26 @@ class _UpdateDialogState extends State<UpdateDialog> {
           ),
         ),
         const SizedBox(height: 16),
-        Row(
-          children: [
-            if (!isForce) ...[
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: theme.secondaryText,
-                    side: BorderSide(color: theme.cardBorder, width: 1.5),
-                    padding: const EdgeInsets.symmetric(vertical: 13),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  ),
-                  child: const Text('Dismiss', style: TextStyle(fontWeight: FontWeight.w700)),
-                ),
-              ),
-              const SizedBox(width: 12),
-            ],
-            Expanded(
-              child: ElevatedButton(
-                onPressed: _startUpdate,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.accent,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 13),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                ),
-                child: const Text('Retry', style: TextStyle(fontWeight: FontWeight.w800)),
-              ),
+        ElevatedButton(
+          onPressed: _startUpdate,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: theme.accent,
+            foregroundColor: Colors.white,
+            minimumSize: const Size.fromHeight(46),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+          child: const Text('Retry', style: TextStyle(fontWeight: FontWeight.w800)),
+        ),
+        const SizedBox(height: 6),
+        TextButton(
+          onPressed: _exitApp,
+          child: Text(
+            'Exit App',
+            style: TextStyle(
+              fontSize: 13,
+              color: theme.secondaryText,
             ),
-          ],
+          ),
         ),
       ],
     );
