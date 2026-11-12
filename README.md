@@ -46,7 +46,7 @@ Copy `.env.example` to `.env` (or configure the provided `.env`):
 
 ```bash
 # MongoDB Connection URI
-MONGODB_URI=mongodb+srv://arkaskr24_db_user:wVvVLeD9fGrnMnBO@counter.v7ndlkx.mongodb.net/daily_counter?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-url>.mongodb.net/daily_counter?retryWrites=true&w=majority
 
 # Backend Server Configuration
 PORT=5000
