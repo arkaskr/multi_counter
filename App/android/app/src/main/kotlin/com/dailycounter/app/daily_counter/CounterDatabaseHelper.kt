@@ -39,7 +39,8 @@ class CounterDatabaseHelper(context: Context) : SQLiteOpenHelper(
 ) {
     companion object {
         const val DATABASE_NAME = "daily_counter.db"
-        const val DATABASE_VERSION = 1
+        // Must stay >= DatabaseConstants.databaseVersion in Flutter (lib/core/constants/database_constants.dart)
+        const val DATABASE_VERSION = 2
 
         // Table: daily_records
         const val TABLE_DAILY_RECORDS = "daily_records"
@@ -122,7 +123,10 @@ class CounterDatabaseHelper(context: Context) : SQLiteOpenHelper(
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        // Version 1 - no migrations yet
+        // Nutrition tables are managed idempotently by Flutter on open/upgrade; ensure base widget tables exist.
+        if (oldVersion < 2) {
+            onCreate(db)
+        }
     }
 
     fun getTodayString(): String {

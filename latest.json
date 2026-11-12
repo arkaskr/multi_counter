@@ -4,5 +4,5 @@
   "forceUpdate": true,
   "releaseNotes": "• New Calorie Counter & Nutrition Tracker module\n• Verified Indian & international food catalogue with 2D illustrations\n• AI-powered Diet Planner (Gemini) with server-verified nutrition\n• Daily/monthly goals, meal logging, analytics & cloud sync",
   "apkUrl": "https://github.com/arkaskr/multi_counter/releases/download/v1.3.0/app-release.apk",
-  "sha256": "d5c5e2d4f02084a5ddf1b4fa8037f2cb821e1b7c085e95d324adce9c85571112"
+  "sha256": "03bda25589ff2c2558f6bb24fc9ef801c9da7065ba78bd4db97593ca4b19164f"
 }

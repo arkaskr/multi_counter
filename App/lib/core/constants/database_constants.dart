@@ -2,6 +2,7 @@ class DatabaseConstants {
   DatabaseConstants._();
 
   static const String databaseName = 'daily_counter.db';
+  // Keep synchronized with CounterDatabaseHelper.DATABASE_VERSION in Android native widget code.
   static const int databaseVersion = 2;
 
   // Table: daily_records

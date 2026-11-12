@@ -47,6 +47,7 @@ class DatabaseHelper {
       version: DatabaseConstants.databaseVersion,
       onCreate: _createDB,
       onUpgrade: _onUpgrade,
+      onOpen: _onOpen,
       onConfigure: _onConfigure,
     );
   }
@@ -63,6 +64,11 @@ class DatabaseHelper {
     if (oldVersion < 2) {
       await NutritionDatabaseSchema.createTables(db);
     }
+  }
+
+  Future<void> _onOpen(Database db) async {
+    // Also ensure nutrition tables if the native Android widget opened/upgraded the DB to v2 first.
+    await NutritionDatabaseSchema.createTables(db);
   }
 
   /// Ensures nutrition tables exist (useful for in-memory test databases).
