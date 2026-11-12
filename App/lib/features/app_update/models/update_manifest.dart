@@ -8,7 +8,7 @@ import 'dart:convert';
 ///   "versionCode": 2,
 ///   "forceUpdate": false,
 ///   "releaseNotes": "Bug fixes and improvements",
-///   "apkUrl": "https://github.com/arkaskr/app-releases/releases/download/v1.1.0/app-release.apk",
+///   "apkUrl": "https://github.com/arkaskr/multi_counter/releases/download/v1.1.0/app-release.apk",
 ///   "sha256": "APK_SHA256_HASH"
 /// }
 /// ```

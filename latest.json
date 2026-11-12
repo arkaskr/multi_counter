@@ -1,0 +1,8 @@
+{
+  "versionName": "1.2.0",
+  "versionCode": 3,
+  "forceUpdate": true,
+  "releaseNotes": "• Compulsory update to v1.2.0\n• Expense splitter & settlement tracker\n• Modern clean solid UI aesthetic\n• Performance optimizations and bug fixes",
+  "apkUrl": "https://github.com/arkaskr/multi_counter/releases/download/v1.2.0/app-release.apk",
+  "sha256": "ba190502608df86ff35cf0e91cce55eef09f6e046f10d42210d1044348eef709"
+}

@@ -17,7 +17,7 @@ class AppConstants {
 
   // App Update URLs
   static const String updateManifestUrl =
-      'https://raw.githubusercontent.com/arkaskr/app-releases/main/latest.json';
+      'https://raw.githubusercontent.com/arkaskr/multi_counter/main/latest.json';
   static const String updateReleasesUrl =
-      'https://github.com/arkaskr/app-releases';
+      'https://github.com/arkaskr/multi_counter';
 }

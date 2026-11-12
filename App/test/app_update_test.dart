@@ -23,7 +23,7 @@ void main() {
         "versionCode": 2,
         "forceUpdate": true,
         "releaseNotes": "Fixes and performance boosts",
-        "apkUrl": "https://github.com/arkaskr/app-releases/releases/download/v1.1.0/app-release.apk",
+        "apkUrl": "https://github.com/arkaskr/multi_counter/releases/download/v1.1.0/app-release.apk",
         "sha256": "A1B2C3D4E5F6"
       }
       ''';
@@ -34,7 +34,7 @@ void main() {
       expect(manifest.versionCode, 2);
       expect(manifest.forceUpdate, isTrue);
       expect(manifest.releaseNotes, 'Fixes and performance boosts');
-      expect(manifest.apkUrl, 'https://github.com/arkaskr/app-releases/releases/download/v1.1.0/app-release.apk');
+      expect(manifest.apkUrl, 'https://github.com/arkaskr/multi_counter/releases/download/v1.1.0/app-release.apk');
       expect(manifest.sha256, 'a1b2c3d4e5f6'); // trimmed and lowercased
     });
 
@@ -79,7 +79,7 @@ void main() {
             'versionCode': 5,
             'forceUpdate': false,
             'releaseNotes': 'New shiny features',
-            'apkUrl': 'https://github.com/arkaskr/app-releases/releases/download/v1.1.0/app-release.apk',
+            'apkUrl': 'https://github.com/arkaskr/multi_counter/releases/download/v1.1.0/app-release.apk',
             'sha256': '1234567890abcdef',
           }),
           200,
@@ -216,7 +216,7 @@ void main() {
         versionCode: 3,
         forceUpdate: false,
         releaseNotes: '• Major UI revamp\n• Performance optimizations',
-        apkUrl: 'https://github.com/arkaskr/app-releases/releases/download/v1.2.0/app-release.apk',
+        apkUrl: 'https://github.com/arkaskr/multi_counter/releases/download/v1.2.0/app-release.apk',
         sha256: 'abcdef123456',
       );
 
@@ -238,7 +238,7 @@ void main() {
         versionCode: 10,
         forceUpdate: true,
         releaseNotes: 'Critical security update. Update immediately.',
-        apkUrl: 'https://github.com/arkaskr/app-releases/releases/download/v2.0.0/app-release.apk',
+        apkUrl: 'https://github.com/arkaskr/multi_counter/releases/download/v2.0.0/app-release.apk',
         sha256: 'abcdef123456',
       );
 
