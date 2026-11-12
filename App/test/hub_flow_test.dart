@@ -3,6 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:daily_counter/core/services/auth_service.dart';
 import 'package:daily_counter/features/auth/providers/auth_providers.dart';
+import 'package:daily_counter/features/calorie_counter/models/meal_log_model.dart';
+import 'package:daily_counter/features/calorie_counter/models/nutrition_goal_models.dart';
+import 'package:daily_counter/features/calorie_counter/providers/calorie_providers.dart';
 import 'package:daily_counter/features/calorie_counter/screens/calorie_counter_screen.dart';
 import 'package:daily_counter/features/expense_counter/models/group_model.dart';
 import 'package:daily_counter/features/expense_counter/providers/expense_providers.dart';
@@ -42,6 +45,21 @@ class FakeGroupsNotifier extends GroupsNotifier {
   }
 }
 
+class FakeDailyDashboardNotifier extends DailyDashboardNotifier {
+  @override
+  Future<DailyDashboardState> build() async {
+    const uid = 'u1';
+    const date = '2026-11-12';
+    return DailyDashboardState(
+      dateString: date,
+      totals: DailyNutritionTotals.fromLogs(date: date, logs: const []),
+      goal: DailyNutritionGoal.fallbackDefault(uid),
+      recentFoods: const [],
+      preferences: UserNutritionPreferences.initial(uid),
+    );
+  }
+}
+
 void main() {
   testWidgets('HubScreen renders 4 cards in 2x2 setup with icon and name', (tester) async {
     final fakeAuth = FakeLoggedInAuthService();
@@ -51,6 +69,7 @@ void main() {
         overrides: [
           authServiceProvider.overrideWithValue(fakeAuth),
           groupsProvider.overrideWith(FakeGroupsNotifier.new),
+          dailyDashboardProvider.overrideWith(FakeDailyDashboardNotifier.new),
         ],
         child: const MaterialApp(
           home: HubScreen(),
@@ -87,6 +106,7 @@ void main() {
         overrides: [
           authServiceProvider.overrideWithValue(fakeAuth),
           groupsProvider.overrideWith(FakeGroupsNotifier.new),
+          dailyDashboardProvider.overrideWith(FakeDailyDashboardNotifier.new),
         ],
         child: const MaterialApp(
           home: HubScreen(),
@@ -123,6 +143,7 @@ void main() {
         overrides: [
           authServiceProvider.overrideWithValue(fakeAuth),
           groupsProvider.overrideWith(FakeGroupsNotifier.new),
+          dailyDashboardProvider.overrideWith(FakeDailyDashboardNotifier.new),
         ],
         child: const MaterialApp(
           home: HubScreen(),
@@ -137,7 +158,7 @@ void main() {
     await tester.tap(find.text('Calorie Counter'));
     await tester.pumpAndSettle();
     expect(find.byType(CalorieCounterScreen), findsOneWidget);
-    expect(find.text('Track Your Daily Calories'), findsOneWidget);
+    expect(find.text('Quick Add Food'), findsOneWidget);
 
     // Back to hub via top app bar back button
     await tester.tap(find.byIcon(Icons.arrow_back_rounded));

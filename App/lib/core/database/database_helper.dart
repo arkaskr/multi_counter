@@ -6,6 +6,7 @@ import '../constants/database_constants.dart';
 import '../../shared/models/app_settings.dart';
 import '../../shared/models/daily_record.dart';
 import 'database_schema.dart';
+import 'nutrition_database_schema.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
@@ -45,6 +46,7 @@ class DatabaseHelper {
       path,
       version: DatabaseConstants.databaseVersion,
       onCreate: _createDB,
+      onUpgrade: _onUpgrade,
       onConfigure: _onConfigure,
     );
   }
@@ -57,10 +59,23 @@ class DatabaseHelper {
     } catch (_) {}
   }
 
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await NutritionDatabaseSchema.createTables(db);
+    }
+  }
+
+  /// Ensures nutrition tables exist (useful for in-memory test databases).
+  Future<void> ensureNutritionTables() async {
+    final db = await database;
+    await NutritionDatabaseSchema.createTables(db);
+  }
+
   Future<void> _createDB(Database db, int version) async {
     await db.execute(DatabaseSchema.createDailyRecordsTable);
     await db.execute(DatabaseSchema.createDailyRecordsDateIndex);
     await db.execute(DatabaseSchema.createAppSettingsTable);
+    await NutritionDatabaseSchema.createTables(db);
 
     // Seed default settings
     final batch = db.batch();

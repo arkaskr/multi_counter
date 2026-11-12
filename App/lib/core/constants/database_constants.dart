@@ -2,7 +2,7 @@ class DatabaseConstants {
   DatabaseConstants._();
 
   static const String databaseName = 'daily_counter.db';
-  static const int databaseVersion = 1;
+  static const int databaseVersion = 2;
 
   // Table: daily_records
   static const String tableDailyRecords = 'daily_records';

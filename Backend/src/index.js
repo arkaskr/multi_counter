@@ -5,6 +5,7 @@ const { connectDB, mongoose } = require('./db');
 const authRoutes = require('./routes/auth');
 const syncRoutes = require('./routes/sync');
 const groupRoutes = require('./routes/groups');
+const nutritionRoutes = require('./routes/nutrition');
 
 const app = express();
 
@@ -89,6 +90,11 @@ app.use('/api/api/sync', syncRoutes);
 app.use('/api/groups', groupRoutes);
 app.use('/groups', groupRoutes);
 app.use('/api/api/groups', groupRoutes);
+
+// Mount Calorie Counter & Nutrition routes (supports /api/nutrition, /nutrition, and rewrite fallbacks)
+app.use('/api/nutrition', nutritionRoutes);
+app.use('/nutrition', nutritionRoutes);
+app.use('/api/api/nutrition', nutritionRoutes);
 
 // Catch-all route for any direct rewrite path hits
 app.all(['/src/index.js', '/api/index.js', '/src/index', '/api/index'], (req, res, next) => {

@@ -1,0 +1,6477 @@
+{
+  "catalogueVersion": 1,
+  "sources": [
+    "ICMR-NIN Indian Food Composition Tables (IFCT 2017)",
+    "USDA FoodData Central (SR Legacy & Foundation Foods, CC0 Public Domain)"
+  ],
+  "categories": [
+    {
+      "id": "indian_meals",
+      "slug": "indian-meals",
+      "name": "Indian Meals",
+      "description": "Roti, dal, rice, curries & regional dishes",
+      "iconKey": "indian_bowl",
+      "sortOrder": 1
+    },
+    {
+      "id": "fruits",
+      "slug": "fruits",
+      "name": "Fruits",
+      "description": "Fresh seasonal & tropical fruits",
+      "iconKey": "fruit_apple",
+      "sortOrder": 2
+    },
+    {
+      "id": "vegetables",
+      "slug": "vegetables",
+      "name": "Vegetables",
+      "description": "Raw, steamed & boiled vegetables",
+      "iconKey": "veg_greens",
+      "sortOrder": 3
+    },
+    {
+      "id": "dairy",
+      "slug": "dairy",
+      "name": "Dairy",
+      "description": "Milk, curd, paneer, cheese & fats",
+      "iconKey": "dairy_milk",
+      "sortOrder": 4
+    },
+    {
+      "id": "nuts_seeds",
+      "slug": "nuts-seeds",
+      "name": "Nuts & Seeds",
+      "description": "Almonds, walnuts, peanuts & seeds",
+      "iconKey": "nuts_almond",
+      "sortOrder": 5
+    },
+    {
+      "id": "protein",
+      "slug": "protein",
+      "name": "Protein",
+      "description": "Eggs, poultry, fish, soy & legumes",
+      "iconKey": "protein_meat",
+      "sortOrder": 6
+    },
+    {
+      "id": "beverages",
+      "slug": "beverages",
+      "name": "Beverages",
+      "description": "Tea, coffee, juices & hydrating drinks",
+      "iconKey": "beverage_cup",
+      "sortOrder": 7
+    },
+    {
+      "id": "international",
+      "slug": "international",
+      "name": "International",
+      "description": "Oats, breads, pasta & global meals",
+      "iconKey": "intl_plate",
+      "sortOrder": 8
+    }
+  ],
+  "foods": [
+    {
+      "id": "roti_plain",
+      "name": "Whole Wheat Roti / Chapati (Plain)",
+      "commonNames": "phulka, chapatti, wheat flatbread, tandoori roti plain",
+      "categoryId": "indian_meals",
+      "illustrationId": "roti",
+      "preparationState": "Cooked on tawa without oil or ghee",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [
+        "gluten",
+        "wheat"
+      ],
+      "sourceName": "ICMR-NIN IFCT 2017 (Whole Wheat Atta yield)",
+      "sourceReference": "IFCT 2017 Wheat flour whole (A019) hydrated ~65% moisture",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Plain chapati without added ghee/oil.",
+      "nutritionPer100g": {
+        "calories": 240,
+        "protein": 7.8,
+        "carbs": 46.5,
+        "fat": 1.5,
+        "fibre": 7.4,
+        "sugar": 1.2,
+        "sodiumMg": 12,
+        "saturatedFat": 0.3,
+        "potassiumMg": 210,
+        "calciumMg": 28,
+        "ironMg": 2.9,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "med_roti",
+          "label": "1 medium roti",
+          "unitType": "piece",
+          "gramsPerUnit": 35,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "large_roti",
+          "label": "1 large roti",
+          "unitType": "piece",
+          "gramsPerUnit": 50,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "small_phulka",
+          "label": "1 small phulka",
+          "unitType": "piece",
+          "gramsPerUnit": 25,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 5
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 6
+        }
+      ]
+    },
+    {
+      "id": "paratha_plain",
+      "name": "Plain Whole Wheat Paratha (With Oil/Ghee)",
+      "commonNames": "tawa paratha, layered paratha, ghee paratha",
+      "categoryId": "indian_meals",
+      "illustrationId": "paratha",
+      "preparationState": "Pan-fried with ~5g oil/ghee per 60g paratha",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "gluten",
+        "wheat",
+        "dairy"
+      ],
+      "sourceName": "ICMR-NIN IFCT 2017 + Composite Recipe",
+      "sourceReference": "IFCT 2017 Whole Wheat Flour + 8% Added Fat",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Distinct from plain roti due to added pan-frying fat.",
+      "nutritionPer100g": {
+        "calories": 318,
+        "protein": 6.9,
+        "carbs": 42.5,
+        "fat": 13,
+        "fibre": 6.1,
+        "sugar": 1,
+        "sodiumMg": 210,
+        "saturatedFat": 5.5,
+        "potassiumMg": 185,
+        "calciumMg": 24,
+        "ironMg": 2.5,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "med_paratha",
+          "label": "1 medium paratha",
+          "unitType": "piece",
+          "gramsPerUnit": 60,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "large_paratha",
+          "label": "1 large paratha",
+          "unitType": "piece",
+          "gramsPerUnit": 85,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "paratha_aloo",
+      "name": "Aloo Paratha (Potato Stuffed)",
+      "commonNames": "stuffed potato flatbread, breakfast paratha",
+      "categoryId": "indian_meals",
+      "illustrationId": "paratha",
+      "preparationState": "Pan-fried with spiced potato stuffing & oil/ghee",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "gluten",
+        "wheat",
+        "dairy"
+      ],
+      "sourceName": "ICMR-NIN Dietary Guidelines Recipe Basis",
+      "sourceReference": "NIN Balanced Diet Composite Dish Analysis",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Includes spiced potato filling and cooking fat.",
+      "nutritionPer100g": {
+        "calories": 256,
+        "protein": 5.4,
+        "carbs": 37.8,
+        "fat": 9.2,
+        "fibre": 4.1,
+        "sugar": 1.4,
+        "sodiumMg": 295,
+        "saturatedFat": 3.8,
+        "potassiumMg": 265,
+        "calciumMg": 20,
+        "ironMg": 1.9,
+        "vitaminCMg": 5.2
+      },
+      "servings": [
+        {
+          "id": "med_aloo_paratha",
+          "label": "1 medium paratha",
+          "unitType": "piece",
+          "gramsPerUnit": 100,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "large_aloo_paratha",
+          "label": "1 large stuffed paratha",
+          "unitType": "piece",
+          "gramsPerUnit": 140,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "dal_plain",
+      "name": "Plain Boiled Dal (Toor / Moong, No Fat)",
+      "commonNames": "boiled lentil, plain yellow dal, sadi dal",
+      "categoryId": "indian_meals",
+      "illustrationId": "dal_bowl",
+      "preparationState": "Boiled with turmeric & salt, no oil/ghee tempering",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "ICMR-NIN IFCT 2017 (Red Gram Split, Cooked Yield)",
+      "sourceReference": "IFCT 2017 Red gram dal (B018) boiled 1:3 ratio",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Plain boiled dal without tadka oil or ghee.",
+      "nutritionPer100g": {
+        "calories": 102,
+        "protein": 6.4,
+        "carbs": 17.2,
+        "fat": 0.6,
+        "fibre": 3.2,
+        "sugar": 0.9,
+        "sodiumMg": 165,
+        "saturatedFat": 0.1,
+        "potassiumMg": 280,
+        "calciumMg": 22,
+        "ironMg": 1.3,
+        "vitaminCMg": 0.4
+      },
+      "servings": [
+        {
+          "id": "bowl_dal",
+          "label": "1 bowl (katori)",
+          "unitType": "bowl",
+          "gramsPerUnit": 150,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "cup_dal",
+          "label": "1 cup",
+          "unitType": "cup",
+          "gramsPerUnit": 220,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "dal_tadka",
+      "name": "Dal Tadka (With Ghee/Oil Tempering)",
+      "commonNames": "dal fry, yellow dal tadka, tempered lentils",
+      "categoryId": "indian_meals",
+      "illustrationId": "dal_bowl",
+      "preparationState": "Cooked lentils tempered with ghee/oil, garlic, cumin & onion",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "dairy"
+      ],
+      "sourceName": "ICMR-NIN IFCT 2017 + Standard Recipe",
+      "sourceReference": "Red gram dal with 4% tempering ghee/oil & aromatics",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Distinct from plain boiled dal due to tadka oil/ghee.",
+      "nutritionPer100g": {
+        "calories": 142,
+        "protein": 5.9,
+        "carbs": 16.5,
+        "fat": 5.6,
+        "fibre": 3.1,
+        "sugar": 1.3,
+        "sodiumMg": 290,
+        "saturatedFat": 2.6,
+        "potassiumMg": 270,
+        "calciumMg": 24,
+        "ironMg": 1.4,
+        "vitaminCMg": 1.8
+      },
+      "servings": [
+        {
+          "id": "bowl_dal_tadka",
+          "label": "1 bowl (katori)",
+          "unitType": "bowl",
+          "gramsPerUnit": 150,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "cup_dal_tadka",
+          "label": "1 cup",
+          "unitType": "cup",
+          "gramsPerUnit": 220,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "rice_white_raw",
+      "name": "White Rice (Raw, Uncooked)",
+      "commonNames": "chawal raw, basmati raw, milled rice dry",
+      "categoryId": "indian_meals",
+      "illustrationId": "rice_bowl",
+      "preparationState": "Raw dry grains (uncooked)",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "ICMR-NIN IFCT 2017",
+      "sourceReference": "IFCT 2017 Rice, raw, milled (A014)",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Dry weight before boiling; absorbs ~2.7x water when cooked.",
+      "nutritionPer100g": {
+        "calories": 356,
+        "protein": 7.9,
+        "carbs": 78.2,
+        "fat": 0.5,
+        "fibre": 2.8,
+        "sugar": 0.1,
+        "sodiumMg": 3,
+        "saturatedFat": 0.1,
+        "potassiumMg": 108,
+        "calciumMg": 7.5,
+        "ironMg": 0.65,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "cup_raw_rice",
+          "label": "1 cup (dry)",
+          "unitType": "cup",
+          "gramsPerUnit": 185,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "half_cup_raw_rice",
+          "label": "1/2 cup (dry)",
+          "unitType": "cup",
+          "gramsPerUnit": 92,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "rice_white_cooked",
+      "name": "White Rice (Steamed / Boiled, Cooked)",
+      "commonNames": "steamed chawal, plain cooked rice, boiled white rice",
+      "categoryId": "indian_meals",
+      "illustrationId": "rice_bowl",
+      "preparationState": "Steamed or boiled in water (cooked weight)",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central / ICMR-NIN Cooked Yield",
+      "sourceReference": "USDA FDC 169757 Rice, white, medium-grain, cooked",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Hydrated cooked weight; ~130 kcal per 100g.",
+      "nutritionPer100g": {
+        "calories": 130,
+        "protein": 2.4,
+        "carbs": 28.6,
+        "fat": 0.2,
+        "fibre": 0.4,
+        "sugar": 0.05,
+        "sodiumMg": 1,
+        "saturatedFat": 0.06,
+        "potassiumMg": 29,
+        "calciumMg": 3,
+        "ironMg": 0.2,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "cup_cooked_rice",
+          "label": "1 cup cooked",
+          "unitType": "cup",
+          "gramsPerUnit": 158,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "bowl_cooked_rice",
+          "label": "1 bowl (katori)",
+          "unitType": "bowl",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "rice_brown_cooked",
+      "name": "Brown Rice (Cooked)",
+      "commonNames": "whole grain rice cooked, unpolished brown rice",
+      "categoryId": "indian_meals",
+      "illustrationId": "rice_bowl",
+      "preparationState": "Boiled / steamed in water (cooked weight)",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 169704 Rice, brown, long-grain, cooked",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Cooked whole grain brown rice.",
+      "nutritionPer100g": {
+        "calories": 112,
+        "protein": 2.6,
+        "carbs": 23.5,
+        "fat": 0.9,
+        "fibre": 1.8,
+        "sugar": 0.35,
+        "sodiumMg": 5,
+        "saturatedFat": 0.2,
+        "potassiumMg": 43,
+        "calciumMg": 10,
+        "ironMg": 0.42,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "cup_brown_rice",
+          "label": "1 cup cooked",
+          "unitType": "cup",
+          "gramsPerUnit": 195,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "bowl_brown_rice",
+          "label": "1 bowl (katori)",
+          "unitType": "bowl",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "khichdi_moong",
+      "name": "Moong Dal Khichdi (Standard Recipe)",
+      "commonNames": "khichri, rice and lentil porridge",
+      "categoryId": "indian_meals",
+      "illustrationId": "rice_bowl",
+      "preparationState": "Cooked rice & yellow moong dal with minimal ghee & spices",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "dairy"
+      ],
+      "sourceName": "ICMR-NIN Composite Diet Recipe",
+      "sourceReference": "NIN Standardized Rice-Moong Khichdi (3:1 water ratio)",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Light home-style khichdi with 1 tsp ghee per serving.",
+      "nutritionPer100g": {
+        "calories": 124,
+        "protein": 4.1,
+        "carbs": 21.4,
+        "fat": 2.3,
+        "fibre": 1.9,
+        "sugar": 0.4,
+        "sodiumMg": 210,
+        "saturatedFat": 1.1,
+        "potassiumMg": 145,
+        "calciumMg": 16,
+        "ironMg": 0.9,
+        "vitaminCMg": 0.5
+      },
+      "servings": [
+        {
+          "id": "bowl_khichdi",
+          "label": "1 bowl",
+          "unitType": "bowl",
+          "gramsPerUnit": 200,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "plate_khichdi",
+          "label": "1 full plate",
+          "unitType": "plate",
+          "gramsPerUnit": 300,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "rajma_curry",
+      "name": "Rajma Masala (Kidney Bean Curry)",
+      "commonNames": "rajma chawal curry, punjabi rajma",
+      "categoryId": "indian_meals",
+      "illustrationId": "curry_bowl",
+      "preparationState": "Simmered red kidney beans in spiced onion-tomato gravy",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "ICMR-NIN IFCT 2017 + Composite Recipe",
+      "sourceReference": "Rajma dry (B016) cooked in tomato-onion base with oil",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Values vary slightly with gravy thickness and oil.",
+      "nutritionPer100g": {
+        "calories": 138,
+        "protein": 5.8,
+        "carbs": 18.6,
+        "fat": 4.2,
+        "fibre": 4.5,
+        "sugar": 2.1,
+        "sodiumMg": 310,
+        "saturatedFat": 0.6,
+        "potassiumMg": 320,
+        "calciumMg": 32,
+        "ironMg": 1.8,
+        "vitaminCMg": 3.5
+      },
+      "servings": [
+        {
+          "id": "bowl_rajma",
+          "label": "1 bowl (katori)",
+          "unitType": "bowl",
+          "gramsPerUnit": 160,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "cup_rajma",
+          "label": "1 cup",
+          "unitType": "cup",
+          "gramsPerUnit": 240,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "chole_curry",
+      "name": "Chole / Chana Masala (Chickpea Curry)",
+      "commonNames": "chana masala, kabuli chana curry",
+      "categoryId": "indian_meals",
+      "illustrationId": "curry_bowl",
+      "preparationState": "Cooked chickpeas in spiced onion-tomato gravy with oil",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "ICMR-NIN IFCT 2017 + Composite Recipe",
+      "sourceReference": "Bengal gram whole (B001) cooked masala recipe",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Standard home-style chole masala.",
+      "nutritionPer100g": {
+        "calories": 152,
+        "protein": 6.1,
+        "carbs": 20.5,
+        "fat": 4.9,
+        "fibre": 5.2,
+        "sugar": 2.3,
+        "sodiumMg": 325,
+        "saturatedFat": 0.7,
+        "potassiumMg": 295,
+        "calciumMg": 42,
+        "ironMg": 2.1,
+        "vitaminCMg": 3.8
+      },
+      "servings": [
+        {
+          "id": "bowl_chole",
+          "label": "1 bowl (katori)",
+          "unitType": "bowl",
+          "gramsPerUnit": 160,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "cup_chole",
+          "label": "1 cup",
+          "unitType": "cup",
+          "gramsPerUnit": 240,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "paneer_bhurji",
+      "name": "Paneer Masala / Bhurji (Cooked)",
+      "commonNames": "paneer curry, scrambled cottage cheese masala",
+      "categoryId": "indian_meals",
+      "illustrationId": "curry_bowl",
+      "preparationState": "Crumbled or cubed paneer sauteed in onion-tomato masala",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "dairy"
+      ],
+      "sourceName": "ICMR-NIN IFCT 2017 + Composite Recipe",
+      "sourceReference": "Milk Paneer + Tomato-Onion Base + Vegetable Oil",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Home-style dry/semi-gravy paneer preparation.",
+      "nutritionPer100g": {
+        "calories": 235,
+        "protein": 12.2,
+        "carbs": 5.4,
+        "fat": 18.2,
+        "fibre": 1.1,
+        "sugar": 2.5,
+        "sodiumMg": 340,
+        "saturatedFat": 9.8,
+        "potassiumMg": 165,
+        "calciumMg": 310,
+        "ironMg": 0.8,
+        "vitaminCMg": 6.2
+      },
+      "servings": [
+        {
+          "id": "bowl_paneer_bhurji",
+          "label": "1 bowl (katori)",
+          "unitType": "bowl",
+          "gramsPerUnit": 140,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "biryani_chicken",
+      "name": "Chicken Biryani (Home / Hyderabadi Style)",
+      "commonNames": "murgh biryani, spiced chicken rice",
+      "categoryId": "indian_meals",
+      "illustrationId": "biryani",
+      "preparationState": "Layered basmati rice & spiced marinated chicken with ghee/oil",
+      "dietaryTags": [
+        "non_vegetarian"
+      ],
+      "allergenTags": [
+        "dairy"
+      ],
+      "sourceName": "ICMR-NIN Dietary Composite Reference",
+      "sourceReference": "Standardized Mixed Rice-Chicken Dish Calculation",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": false,
+      "verificationNotes": "Restaurant styles may contain extra ghee/oil. Micronutrients estimated from base ingredients.",
+      "nutritionPer100g": {
+        "calories": 178,
+        "protein": 10.6,
+        "carbs": 19.2,
+        "fat": 6.4,
+        "fibre": 1,
+        "sugar": 0.9,
+        "sodiumMg": 370,
+        "saturatedFat": 2.2,
+        "potassiumMg": 175,
+        "calciumMg": 28,
+        "ironMg": 1.1,
+        "vitaminCMg": 2
+      },
+      "servings": [
+        {
+          "id": "plate_biryani",
+          "label": "1 medium plate",
+          "unitType": "plate",
+          "gramsPerUnit": 300,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "bowl_biryani",
+          "label": "1 bowl",
+          "unitType": "bowl",
+          "gramsPerUnit": 220,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "biryani_veg",
+      "name": "Vegetable Biryani",
+      "commonNames": "veg biryani, subz biryani",
+      "categoryId": "indian_meals",
+      "illustrationId": "biryani",
+      "preparationState": "Layered basmati rice with mixed vegetables, spices & oil/ghee",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "dairy"
+      ],
+      "sourceName": "ICMR-NIN Dietary Composite Reference",
+      "sourceReference": "Standardized Rice-Vegetable Spice Preparation",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": false,
+      "verificationNotes": "Nutrient values depend on oil/paneer/cashew additions.",
+      "nutritionPer100g": {
+        "calories": 146,
+        "protein": 3.4,
+        "carbs": 23.1,
+        "fat": 4.4,
+        "fibre": 2.2,
+        "sugar": 1.4,
+        "sodiumMg": 315,
+        "saturatedFat": 1.4,
+        "potassiumMg": 155,
+        "calciumMg": 24,
+        "ironMg": 0.9,
+        "vitaminCMg": 4.5
+      },
+      "servings": [
+        {
+          "id": "plate_veg_biryani",
+          "label": "1 medium plate",
+          "unitType": "plate",
+          "gramsPerUnit": 280,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "bowl_veg_biryani",
+          "label": "1 bowl",
+          "unitType": "bowl",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "pulao_veg",
+      "name": "Vegetable Pulao",
+      "commonNames": "veg pulao, spiced vegetable rice",
+      "categoryId": "indian_meals",
+      "illustrationId": "rice_bowl",
+      "preparationState": "Cooked rice with peas, carrots & mild whole spices",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "ICMR-NIN Composite Recipe Basis",
+      "sourceReference": "Cooked rice + 20% mixed vegetables + 3% oil",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Light home-style vegetable pulao.",
+      "nutritionPer100g": {
+        "calories": 138,
+        "protein": 2.9,
+        "carbs": 23.8,
+        "fat": 3.3,
+        "fibre": 1.8,
+        "sugar": 1.1,
+        "sodiumMg": 265,
+        "saturatedFat": 0.6,
+        "potassiumMg": 110,
+        "calciumMg": 14,
+        "ironMg": 0.7,
+        "vitaminCMg": 3.2
+      },
+      "servings": [
+        {
+          "id": "bowl_pulao",
+          "label": "1 bowl",
+          "unitType": "bowl",
+          "gramsPerUnit": 200,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "plate_pulao",
+          "label": "1 plate",
+          "unitType": "plate",
+          "gramsPerUnit": 280,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "dosa_plain",
+      "name": "Plain Dosa (Rice-Lentil Crepe)",
+      "commonNames": "sada dosa, crisp rice crepe",
+      "categoryId": "indian_meals",
+      "illustrationId": "dosa",
+      "preparationState": "Griddle-cooked fermented rice & urad dal batter with minimal oil",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "ICMR-NIN Dietary Reference",
+      "sourceReference": "Fermented Rice & Black Gram (3:1) Batter Griddle Yield",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Plain crisp dosa without potato filling.",
+      "nutritionPer100g": {
+        "calories": 185,
+        "protein": 4.6,
+        "carbs": 32.8,
+        "fat": 3.8,
+        "fibre": 1.5,
+        "sugar": 0.4,
+        "sodiumMg": 245,
+        "saturatedFat": 0.6,
+        "potassiumMg": 98,
+        "calciumMg": 15,
+        "ironMg": 1,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "med_plain_dosa",
+          "label": "1 medium dosa",
+          "unitType": "piece",
+          "gramsPerUnit": 80,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "large_plain_dosa",
+          "label": "1 large dosa",
+          "unitType": "piece",
+          "gramsPerUnit": 120,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "dosa_masala",
+      "name": "Masala Dosa (With Potato Bhaji)",
+      "commonNames": "mysore masala dosa, potato stuffed dosa",
+      "categoryId": "indian_meals",
+      "illustrationId": "dosa",
+      "preparationState": "Crisp dosa filled with spiced boiled potato masala",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "ICMR-NIN Dietary Composite Recipe",
+      "sourceReference": "Plain Dosa (60%) + Potato Onion Filling (40%)",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Excludes coconut chutney and sambar; log those separately.",
+      "nutritionPer100g": {
+        "calories": 168,
+        "protein": 3.8,
+        "carbs": 27.6,
+        "fat": 4.8,
+        "fibre": 2.1,
+        "sugar": 1.1,
+        "sodiumMg": 295,
+        "saturatedFat": 0.8,
+        "potassiumMg": 215,
+        "calciumMg": 16,
+        "ironMg": 0.9,
+        "vitaminCMg": 4.5
+      },
+      "servings": [
+        {
+          "id": "std_masala_dosa",
+          "label": "1 masala dosa",
+          "unitType": "piece",
+          "gramsPerUnit": 180,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "idli_steamed",
+      "name": "Steamed Idli (Rice-Lentil Cake)",
+      "commonNames": "idly, south indian steamed cake",
+      "categoryId": "indian_meals",
+      "illustrationId": "idli",
+      "preparationState": "Steamed fermented parboiled rice & urad dal batter (fat-free)",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "ICMR-NIN Dietary Reference",
+      "sourceReference": "Fermented Parboiled Rice & Urad Dal (2:1) Steamed",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Steamed without oil; log sambar/chutney separately.",
+      "nutritionPer100g": {
+        "calories": 132,
+        "protein": 4.3,
+        "carbs": 27.5,
+        "fat": 0.4,
+        "fibre": 1.4,
+        "sugar": 0.2,
+        "sodiumMg": 215,
+        "saturatedFat": 0.1,
+        "potassiumMg": 92,
+        "calciumMg": 14,
+        "ironMg": 0.9,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "one_idli",
+          "label": "1 medium idli",
+          "unitType": "piece",
+          "gramsPerUnit": 40,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "two_idli",
+          "label": "2 medium idlis",
+          "unitType": "piece",
+          "gramsPerUnit": 80,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "three_idli",
+          "label": "3 medium idlis",
+          "unitType": "piece",
+          "gramsPerUnit": 120,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 5
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 6
+        }
+      ]
+    },
+    {
+      "id": "poha_veg",
+      "name": "Vegetable Poha (Kanda Batata Poha)",
+      "commonNames": "flattened rice breakfast, kanda poha",
+      "categoryId": "indian_meals",
+      "illustrationId": "poha",
+      "preparationState": "Hydrated flattened rice cooked with onion, peas, mustard & oil",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [
+        "peanuts"
+      ],
+      "sourceName": "ICMR-NIN Composite Breakfast Recipe",
+      "sourceReference": "Rice flakes (A015) cooked with aromatics & 3% oil",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Light home-style breakfast poha without extra sev.",
+      "nutritionPer100g": {
+        "calories": 148,
+        "protein": 2.9,
+        "carbs": 25.8,
+        "fat": 3.6,
+        "fibre": 1.7,
+        "sugar": 1.2,
+        "sodiumMg": 270,
+        "saturatedFat": 0.5,
+        "potassiumMg": 105,
+        "calciumMg": 15,
+        "ironMg": 2.2,
+        "vitaminCMg": 4.2
+      },
+      "servings": [
+        {
+          "id": "bowl_poha",
+          "label": "1 medium bowl",
+          "unitType": "bowl",
+          "gramsPerUnit": 160,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "plate_poha",
+          "label": "1 breakfast plate",
+          "unitType": "plate",
+          "gramsPerUnit": 220,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "upma_rava",
+      "name": "Rava / Suji Upma",
+      "commonNames": "semolina upma, vegetable upma",
+      "categoryId": "indian_meals",
+      "illustrationId": "poha",
+      "preparationState": "Roasted semolina simmered with vegetables, mustard & oil",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [
+        "gluten",
+        "wheat"
+      ],
+      "sourceName": "ICMR-NIN Composite Breakfast Recipe",
+      "sourceReference": "Wheat semolina (A020) hydrated cooked with 4% oil",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Standard home-style vegetable suji upma.",
+      "nutritionPer100g": {
+        "calories": 142,
+        "protein": 3.5,
+        "carbs": 22.8,
+        "fat": 4.1,
+        "fibre": 1.6,
+        "sugar": 0.9,
+        "sodiumMg": 280,
+        "saturatedFat": 0.8,
+        "potassiumMg": 98,
+        "calciumMg": 14,
+        "ironMg": 0.8,
+        "vitaminCMg": 2.8
+      },
+      "servings": [
+        {
+          "id": "bowl_upma",
+          "label": "1 bowl (katori)",
+          "unitType": "bowl",
+          "gramsPerUnit": 160,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "sambar",
+      "name": "South Indian Vegetable Sambar",
+      "commonNames": "sambhar, lentil vegetable stew",
+      "categoryId": "indian_meals",
+      "illustrationId": "dal_bowl",
+      "preparationState": "Toor dal & mixed vegetables cooked in tamarind broth",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "ICMR-NIN Composite Recipe",
+      "sourceReference": "Red gram dal + Drumstick/Vegetables + Tamarind + Oil",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Thin-to-medium consistency home-style sambar.",
+      "nutritionPer100g": {
+        "calories": 68,
+        "protein": 3.1,
+        "carbs": 10.4,
+        "fat": 1.5,
+        "fibre": 2.4,
+        "sugar": 1.8,
+        "sodiumMg": 275,
+        "saturatedFat": 0.2,
+        "potassiumMg": 220,
+        "calciumMg": 28,
+        "ironMg": 0.9,
+        "vitaminCMg": 5.5
+      },
+      "servings": [
+        {
+          "id": "bowl_sambar",
+          "label": "1 bowl (katori)",
+          "unitType": "bowl",
+          "gramsPerUnit": 150,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "cup_sambar",
+          "label": "1 cup",
+          "unitType": "cup",
+          "gramsPerUnit": 220,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "chicken_curry",
+      "name": "Home-Style Chicken Curry",
+      "commonNames": "murgh tariwala, indian chicken gravy",
+      "categoryId": "indian_meals",
+      "illustrationId": "curry_bowl",
+      "preparationState": "Simmered chicken in onion-tomato-spice gravy with oil",
+      "dietaryTags": [
+        "non_vegetarian"
+      ],
+      "allergenTags": [],
+      "sourceName": "ICMR-NIN IFCT 2017 + Composite Recipe",
+      "sourceReference": "Poultry Chicken + Onion Tomato Spices + Oil",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Edible meat and gravy portion (excluding bones).",
+      "nutritionPer100g": {
+        "calories": 164,
+        "protein": 16.5,
+        "carbs": 4.5,
+        "fat": 8.8,
+        "fibre": 0.9,
+        "sugar": 1.8,
+        "sodiumMg": 345,
+        "saturatedFat": 2.1,
+        "potassiumMg": 245,
+        "calciumMg": 18,
+        "ironMg": 1.2,
+        "vitaminCMg": 3.5
+      },
+      "servings": [
+        {
+          "id": "bowl_chicken_curry",
+          "label": "1 bowl (2-3 pieces + gravy)",
+          "unitType": "bowl",
+          "gramsPerUnit": 180,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "fish_curry",
+      "name": "Home-Style Fish Curry",
+      "commonNames": "machli curry, bengali fish curry, fish masala",
+      "categoryId": "indian_meals",
+      "illustrationId": "curry_bowl",
+      "preparationState": "Freshwater fish simmered in spiced mustard/tomato gravy",
+      "dietaryTags": [
+        "non_vegetarian"
+      ],
+      "allergenTags": [
+        "fish"
+      ],
+      "sourceName": "ICMR-NIN IFCT 2017 + Composite Recipe",
+      "sourceReference": "Rohu fish edible portion + Gravy base",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Edible fish flesh and curry gravy (excluding bones).",
+      "nutritionPer100g": {
+        "calories": 132,
+        "protein": 14.2,
+        "carbs": 3.8,
+        "fat": 6.5,
+        "fibre": 0.7,
+        "sugar": 1.4,
+        "sodiumMg": 330,
+        "saturatedFat": 1.4,
+        "potassiumMg": 265,
+        "calciumMg": 48,
+        "ironMg": 1,
+        "vitaminCMg": 2.5
+      },
+      "servings": [
+        {
+          "id": "bowl_fish_curry",
+          "label": "1 bowl (1-2 pieces + gravy)",
+          "unitType": "bowl",
+          "gramsPerUnit": 180,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "egg_curry",
+      "name": "Boiled Egg Curry (Anda Masala)",
+      "commonNames": "anda curry, egg masala gravy",
+      "categoryId": "indian_meals",
+      "illustrationId": "curry_bowl",
+      "preparationState": "Hard-boiled eggs simmered in onion-tomato masala gravy",
+      "dietaryTags": [
+        "eggetarian",
+        "non_vegetarian"
+      ],
+      "allergenTags": [
+        "eggs"
+      ],
+      "sourceName": "USDA / ICMR-NIN Composite Recipe",
+      "sourceReference": "Boiled Eggs (55%) + Onion-Tomato Spice Gravy (45%)",
+      "sourceLicense": "ICMR-NIN / USDA Public Domain",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Based on 2 eggs per 200g serving with moderate oil gravy.",
+      "nutritionPer100g": {
+        "calories": 148,
+        "protein": 8.6,
+        "carbs": 5.2,
+        "fat": 10.3,
+        "fibre": 1,
+        "sugar": 2.1,
+        "sodiumMg": 320,
+        "saturatedFat": 2.5,
+        "potassiumMg": 175,
+        "calciumMg": 35,
+        "ironMg": 1.4,
+        "vitaminCMg": 3.8
+      },
+      "servings": [
+        {
+          "id": "bowl_egg_curry",
+          "label": "1 bowl (2 eggs + gravy)",
+          "unitType": "bowl",
+          "gramsPerUnit": 200,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "half_egg_curry",
+          "label": "1/2 bowl (1 egg + gravy)",
+          "unitType": "bowl",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "banana_ripe",
+      "name": "Banana (Ripe, Peeled)",
+      "commonNames": "kela, cavendish banana, robasta banana",
+      "categoryId": "fruits",
+      "illustrationId": "banana",
+      "preparationState": "Fresh, ripe, peeled edible portion",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central / ICMR-NIN IFCT 2017",
+      "sourceReference": "USDA FDC 173944 Bananas, raw / IFCT E009",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Edible weight excluding peel (~118g medium banana).",
+      "nutritionPer100g": {
+        "calories": 89,
+        "protein": 1.1,
+        "carbs": 22.8,
+        "fat": 0.3,
+        "fibre": 2.6,
+        "sugar": 12.2,
+        "sodiumMg": 1,
+        "saturatedFat": 0.1,
+        "potassiumMg": 358,
+        "calciumMg": 5,
+        "ironMg": 0.26,
+        "vitaminCMg": 8.7
+      },
+      "servings": [
+        {
+          "id": "med_banana",
+          "label": "1 medium banana",
+          "unitType": "piece",
+          "gramsPerUnit": 118,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "small_banana",
+          "label": "1 small banana (elaichi)",
+          "unitType": "piece",
+          "gramsPerUnit": 80,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "large_banana",
+          "label": "1 large banana",
+          "unitType": "piece",
+          "gramsPerUnit": 136,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 5
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 6
+        }
+      ]
+    },
+    {
+      "id": "apple_raw",
+      "name": "Apple (Fresh, With Skin)",
+      "commonNames": "seb, red apple, fuji apple",
+      "categoryId": "fruits",
+      "illustrationId": "apple",
+      "preparationState": "Raw, fresh, unpeeled",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 171688 Apples, raw, with skin",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Edible portion excluding core.",
+      "nutritionPer100g": {
+        "calories": 52,
+        "protein": 0.3,
+        "carbs": 13.8,
+        "fat": 0.2,
+        "fibre": 2.4,
+        "sugar": 10.4,
+        "sodiumMg": 1,
+        "saturatedFat": 0.03,
+        "potassiumMg": 107,
+        "calciumMg": 6,
+        "ironMg": 0.12,
+        "vitaminCMg": 4.6
+      },
+      "servings": [
+        {
+          "id": "med_apple",
+          "label": "1 medium apple",
+          "unitType": "piece",
+          "gramsPerUnit": 182,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "small_apple",
+          "label": "1 small apple",
+          "unitType": "piece",
+          "gramsPerUnit": 149,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "orange_raw",
+      "name": "Orange (Fresh, Peeled)",
+      "commonNames": "santra, mosambi citrus, navel orange",
+      "categoryId": "fruits",
+      "illustrationId": "orange",
+      "preparationState": "Fresh, peeled segments",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 169097 Oranges, raw, navels",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Edible portion excluding peel and seeds.",
+      "nutritionPer100g": {
+        "calories": 47,
+        "protein": 0.9,
+        "carbs": 11.8,
+        "fat": 0.1,
+        "fibre": 2.4,
+        "sugar": 9.4,
+        "sodiumMg": 0,
+        "saturatedFat": 0.02,
+        "potassiumMg": 181,
+        "calciumMg": 40,
+        "ironMg": 0.1,
+        "vitaminCMg": 53.2
+      },
+      "servings": [
+        {
+          "id": "med_orange",
+          "label": "1 medium orange",
+          "unitType": "piece",
+          "gramsPerUnit": 131,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "mango_ripe",
+      "name": "Mango (Ripe, Pulp)",
+      "commonNames": "aam, alphonso mango, kesar mango",
+      "categoryId": "fruits",
+      "illustrationId": "mango",
+      "preparationState": "Fresh ripe pulp without stone or peel",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "ICMR-NIN IFCT 2017 / USDA FDC",
+      "sourceReference": "USDA FDC 169910 Mangos, raw / IFCT E042",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Edible fruit flesh only.",
+      "nutritionPer100g": {
+        "calories": 60,
+        "protein": 0.8,
+        "carbs": 15,
+        "fat": 0.4,
+        "fibre": 1.6,
+        "sugar": 13.7,
+        "sodiumMg": 1,
+        "saturatedFat": 0.09,
+        "potassiumMg": 168,
+        "calciumMg": 11,
+        "ironMg": 0.16,
+        "vitaminCMg": 36.4
+      },
+      "servings": [
+        {
+          "id": "cup_mango",
+          "label": "1 cup sliced mango",
+          "unitType": "cup",
+          "gramsPerUnit": 165,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "med_mango",
+          "label": "1 medium mango (edible pulp)",
+          "unitType": "piece",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "papaya_ripe",
+      "name": "Papaya (Ripe, Cubed)",
+      "commonNames": "papita, ripe papaya",
+      "categoryId": "fruits",
+      "illustrationId": "papaya",
+      "preparationState": "Fresh ripe fruit without seeds or peel",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central / ICMR-NIN",
+      "sourceReference": "USDA FDC 169926 Papayas, raw / IFCT E050",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Low-calorie enzyme-rich tropical fruit.",
+      "nutritionPer100g": {
+        "calories": 43,
+        "protein": 0.5,
+        "carbs": 10.8,
+        "fat": 0.3,
+        "fibre": 1.7,
+        "sugar": 7.8,
+        "sodiumMg": 8,
+        "saturatedFat": 0.08,
+        "potassiumMg": 182,
+        "calciumMg": 20,
+        "ironMg": 0.25,
+        "vitaminCMg": 60.9
+      },
+      "servings": [
+        {
+          "id": "cup_papaya",
+          "label": "1 cup cubed papaya",
+          "unitType": "cup",
+          "gramsPerUnit": 145,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "bowl_papaya",
+          "label": "1 bowl",
+          "unitType": "bowl",
+          "gramsPerUnit": 160,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "guava_raw",
+      "name": "Guava (Fresh)",
+      "commonNames": "amrood, peru, white/pink guava",
+      "categoryId": "fruits",
+      "illustrationId": "guava",
+      "preparationState": "Fresh whole fruit (edible portion)",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "ICMR-NIN IFCT 2017 / USDA FDC",
+      "sourceReference": "USDA FDC 173044 Guavas, common, raw / IFCT E026",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "High in dietary fibre and Vitamin C.",
+      "nutritionPer100g": {
+        "calories": 68,
+        "protein": 2.6,
+        "carbs": 14.3,
+        "fat": 1,
+        "fibre": 5.4,
+        "sugar": 8.9,
+        "sodiumMg": 2,
+        "saturatedFat": 0.27,
+        "potassiumMg": 417,
+        "calciumMg": 18,
+        "ironMg": 0.26,
+        "vitaminCMg": 228.3
+      },
+      "servings": [
+        {
+          "id": "med_guava",
+          "label": "1 medium guava",
+          "unitType": "piece",
+          "gramsPerUnit": 110,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "watermelon_raw",
+      "name": "Watermelon (Fresh Cubes)",
+      "commonNames": "tarbooz, kalindi",
+      "categoryId": "fruits",
+      "illustrationId": "watermelon",
+      "preparationState": "Fresh red edible pulp without rind",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 167765 Watermelon, raw",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Over 91% water; hydrating low-calorie fruit.",
+      "nutritionPer100g": {
+        "calories": 30,
+        "protein": 0.6,
+        "carbs": 7.6,
+        "fat": 0.2,
+        "fibre": 0.4,
+        "sugar": 6.2,
+        "sodiumMg": 1,
+        "saturatedFat": 0.02,
+        "potassiumMg": 112,
+        "calciumMg": 7,
+        "ironMg": 0.24,
+        "vitaminCMg": 8.1
+      },
+      "servings": [
+        {
+          "id": "cup_watermelon",
+          "label": "1 cup diced",
+          "unitType": "cup",
+          "gramsPerUnit": 152,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "wedge_watermelon",
+          "label": "1 medium wedge (edible)",
+          "unitType": "piece",
+          "gramsPerUnit": 286,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "grapes_green",
+      "name": "Grapes (Green/Red Fresh)",
+      "commonNames": "angoor, seedless grapes",
+      "categoryId": "fruits",
+      "illustrationId": "grapes",
+      "preparationState": "Fresh whole seedless berries",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 174683 Grapes, red or green, raw",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Standard seedless table grapes.",
+      "nutritionPer100g": {
+        "calories": 69,
+        "protein": 0.7,
+        "carbs": 18.1,
+        "fat": 0.2,
+        "fibre": 0.9,
+        "sugar": 15.5,
+        "sodiumMg": 2,
+        "saturatedFat": 0.05,
+        "potassiumMg": 191,
+        "calciumMg": 10,
+        "ironMg": 0.36,
+        "vitaminCMg": 3.2
+      },
+      "servings": [
+        {
+          "id": "cup_grapes",
+          "label": "1 cup (~30 grapes)",
+          "unitType": "cup",
+          "gramsPerUnit": 151,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "pineapple_raw",
+      "name": "Pineapple (Fresh Chunks)",
+      "commonNames": "ananas, fresh pineapple",
+      "categoryId": "fruits",
+      "illustrationId": "pineapple",
+      "preparationState": "Fresh edible flesh without skin or core",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 169124 Pineapple, raw",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Fresh unsweetened pineapple chunks.",
+      "nutritionPer100g": {
+        "calories": 50,
+        "protein": 0.5,
+        "carbs": 13.1,
+        "fat": 0.1,
+        "fibre": 1.4,
+        "sugar": 9.9,
+        "sodiumMg": 1,
+        "saturatedFat": 0.01,
+        "potassiumMg": 109,
+        "calciumMg": 13,
+        "ironMg": 0.29,
+        "vitaminCMg": 47.8
+      },
+      "servings": [
+        {
+          "id": "cup_pineapple",
+          "label": "1 cup chunks",
+          "unitType": "cup",
+          "gramsPerUnit": 165,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "slice_pineapple",
+          "label": "1 thick slice",
+          "unitType": "piece",
+          "gramsPerUnit": 84,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "pomegranate_arils",
+      "name": "Pomegranate Seeds (Arils)",
+      "commonNames": "anar, anardana fresh",
+      "categoryId": "fruits",
+      "illustrationId": "pomegranate",
+      "preparationState": "Fresh edible arils separated from rind",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central / ICMR-NIN",
+      "sourceReference": "USDA FDC 169134 Pomegranates, raw / IFCT E056",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Edible arils only.",
+      "nutritionPer100g": {
+        "calories": 83,
+        "protein": 1.7,
+        "carbs": 18.7,
+        "fat": 1.2,
+        "fibre": 4,
+        "sugar": 13.7,
+        "sodiumMg": 3,
+        "saturatedFat": 0.12,
+        "potassiumMg": 236,
+        "calciumMg": 10,
+        "ironMg": 0.3,
+        "vitaminCMg": 10.2
+      },
+      "servings": [
+        {
+          "id": "half_cup_anar",
+          "label": "1/2 cup arils",
+          "unitType": "cup",
+          "gramsPerUnit": 87,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "one_fruit_anar",
+          "label": "1 medium pomegranate (arils)",
+          "unitType": "piece",
+          "gramsPerUnit": 154,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "potato_boiled",
+      "name": "Potato (Boiled, Without Skin)",
+      "commonNames": "ubla aloo, boiled potatoes",
+      "categoryId": "vegetables",
+      "illustrationId": "potato",
+      "preparationState": "Boiled in water without salt or oil, peeled",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central / ICMR-NIN",
+      "sourceReference": "USDA FDC 170032 Potatoes, boiled, cooked without skin",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Plain boiled potato; fried potato has vastly higher calories.",
+      "nutritionPer100g": {
+        "calories": 87,
+        "protein": 1.9,
+        "carbs": 20.1,
+        "fat": 0.1,
+        "fibre": 1.8,
+        "sugar": 0.9,
+        "sodiumMg": 4,
+        "saturatedFat": 0.03,
+        "potassiumMg": 379,
+        "calciumMg": 5,
+        "ironMg": 0.31,
+        "vitaminCMg": 13
+      },
+      "servings": [
+        {
+          "id": "med_potato",
+          "label": "1 medium boiled potato",
+          "unitType": "piece",
+          "gramsPerUnit": 150,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "tomato_raw",
+      "name": "Tomato (Fresh, Ripe)",
+      "commonNames": "tamatar, red tomato",
+      "categoryId": "vegetables",
+      "illustrationId": "tomato",
+      "preparationState": "Fresh raw whole tomato",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central / ICMR-NIN",
+      "sourceReference": "USDA FDC 170457 Tomatoes, red, ripe, raw",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Fresh salad tomato.",
+      "nutritionPer100g": {
+        "calories": 18,
+        "protein": 0.9,
+        "carbs": 3.9,
+        "fat": 0.2,
+        "fibre": 1.2,
+        "sugar": 2.6,
+        "sodiumMg": 5,
+        "saturatedFat": 0.03,
+        "potassiumMg": 237,
+        "calciumMg": 10,
+        "ironMg": 0.27,
+        "vitaminCMg": 13.7
+      },
+      "servings": [
+        {
+          "id": "med_tomato",
+          "label": "1 medium tomato",
+          "unitType": "piece",
+          "gramsPerUnit": 123,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "spinach_raw",
+      "name": "Spinach / Palak (Fresh Leaves)",
+      "commonNames": "palak, fresh spinach",
+      "categoryId": "vegetables",
+      "illustrationId": "leafy_greens",
+      "preparationState": "Fresh raw spinach leaves",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central / ICMR-NIN IFCT 2017",
+      "sourceReference": "USDA FDC 168462 Spinach, raw / IFCT C025",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Raw leafy greens; ~1 cup raw is ~30g.",
+      "nutritionPer100g": {
+        "calories": 23,
+        "protein": 2.9,
+        "carbs": 3.6,
+        "fat": 0.4,
+        "fibre": 2.2,
+        "sugar": 0.4,
+        "sodiumMg": 79,
+        "saturatedFat": 0.06,
+        "potassiumMg": 558,
+        "calciumMg": 99,
+        "ironMg": 2.71,
+        "vitaminCMg": 28.1
+      },
+      "servings": [
+        {
+          "id": "cup_spinach",
+          "label": "1 cup raw leaves",
+          "unitType": "cup",
+          "gramsPerUnit": 30,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "broccoli_cooked",
+      "name": "Broccoli (Steamed / Boiled)",
+      "commonNames": "steamed broccoli florets",
+      "categoryId": "vegetables",
+      "illustrationId": "broccoli",
+      "preparationState": "Steamed/boiled without oil or butter",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 169967 Broccoli, cooked, boiled, drained",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Steamed/boiled florets without salt/oil.",
+      "nutritionPer100g": {
+        "calories": 35,
+        "protein": 2.4,
+        "carbs": 7.2,
+        "fat": 0.4,
+        "fibre": 3.3,
+        "sugar": 1.4,
+        "sodiumMg": 41,
+        "saturatedFat": 0.08,
+        "potassiumMg": 293,
+        "calciumMg": 40,
+        "ironMg": 0.67,
+        "vitaminCMg": 64.9
+      },
+      "servings": [
+        {
+          "id": "cup_broccoli",
+          "label": "1 cup florets",
+          "unitType": "cup",
+          "gramsPerUnit": 156,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "carrot_raw",
+      "name": "Carrot (Fresh, Raw)",
+      "commonNames": "gajar, red/orange carrot",
+      "categoryId": "vegetables",
+      "illustrationId": "carrot",
+      "preparationState": "Fresh raw peeled carrot",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central / ICMR-NIN",
+      "sourceReference": "USDA FDC 170393 Carrots, raw",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Rich in beta-carotene and fibre.",
+      "nutritionPer100g": {
+        "calories": 41,
+        "protein": 0.9,
+        "carbs": 9.6,
+        "fat": 0.2,
+        "fibre": 2.8,
+        "sugar": 4.7,
+        "sodiumMg": 69,
+        "saturatedFat": 0.04,
+        "potassiumMg": 320,
+        "calciumMg": 33,
+        "ironMg": 0.3,
+        "vitaminCMg": 5.9
+      },
+      "servings": [
+        {
+          "id": "med_carrot",
+          "label": "1 medium carrot",
+          "unitType": "piece",
+          "gramsPerUnit": 61,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "cup_carrot",
+          "label": "1 cup chopped",
+          "unitType": "cup",
+          "gramsPerUnit": 128,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "cucumber_raw",
+      "name": "Cucumber (Fresh, With Peel)",
+      "commonNames": "kheera, kakdi, salad cucumber",
+      "categoryId": "vegetables",
+      "illustrationId": "cucumber",
+      "preparationState": "Fresh raw sliced cucumber",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central / ICMR-NIN",
+      "sourceReference": "USDA FDC 168409 Cucumber, with peel, raw",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "95% water hydrating salad vegetable.",
+      "nutritionPer100g": {
+        "calories": 15,
+        "protein": 0.7,
+        "carbs": 3.6,
+        "fat": 0.1,
+        "fibre": 0.5,
+        "sugar": 1.7,
+        "sodiumMg": 2,
+        "saturatedFat": 0.04,
+        "potassiumMg": 147,
+        "calciumMg": 16,
+        "ironMg": 0.28,
+        "vitaminCMg": 2.8
+      },
+      "servings": [
+        {
+          "id": "cup_cucumber",
+          "label": "1 cup sliced",
+          "unitType": "cup",
+          "gramsPerUnit": 104,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "med_cucumber",
+          "label": "1 medium cucumber",
+          "unitType": "piece",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "cauliflower_cooked",
+      "name": "Cauliflower / Gobhi (Steamed / Boiled)",
+      "commonNames": "phool gobhi boiled, steamed cauliflower",
+      "categoryId": "vegetables",
+      "illustrationId": "broccoli",
+      "preparationState": "Steamed or boiled without oil",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 169987 Cauliflower, cooked, boiled",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Plain boiled/steamed florets.",
+      "nutritionPer100g": {
+        "calories": 23,
+        "protein": 1.8,
+        "carbs": 4.1,
+        "fat": 0.5,
+        "fibre": 2.3,
+        "sugar": 2.1,
+        "sodiumMg": 15,
+        "saturatedFat": 0.07,
+        "potassiumMg": 142,
+        "calciumMg": 16,
+        "ironMg": 0.32,
+        "vitaminCMg": 44.3
+      },
+      "servings": [
+        {
+          "id": "cup_cauliflower",
+          "label": "1 cup florets",
+          "unitType": "cup",
+          "gramsPerUnit": 124,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "beetroot_raw",
+      "name": "Beetroot (Fresh / Boiled)",
+      "commonNames": "chukandar, red beet",
+      "categoryId": "vegetables",
+      "illustrationId": "beetroot",
+      "preparationState": "Fresh peeled or plain boiled beetroot",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 169145 Beets, raw",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Natural dietary nitrates and folate source.",
+      "nutritionPer100g": {
+        "calories": 43,
+        "protein": 1.6,
+        "carbs": 9.6,
+        "fat": 0.2,
+        "fibre": 2.8,
+        "sugar": 6.8,
+        "sodiumMg": 78,
+        "saturatedFat": 0.03,
+        "potassiumMg": 325,
+        "calciumMg": 16,
+        "ironMg": 0.8,
+        "vitaminCMg": 4.9
+      },
+      "servings": [
+        {
+          "id": "med_beet",
+          "label": "1 medium beetroot",
+          "unitType": "piece",
+          "gramsPerUnit": 82,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "onion_raw",
+      "name": "Onion (Fresh)",
+      "commonNames": "pyaaz, kanda, red/yellow onion",
+      "categoryId": "vegetables",
+      "illustrationId": "onion",
+      "preparationState": "Fresh raw peeled onion",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central / ICMR-NIN",
+      "sourceReference": "USDA FDC 170000 Onions, raw",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Raw salad/cooking onion.",
+      "nutritionPer100g": {
+        "calories": 40,
+        "protein": 1.1,
+        "carbs": 9.3,
+        "fat": 0.1,
+        "fibre": 1.7,
+        "sugar": 4.2,
+        "sodiumMg": 4,
+        "saturatedFat": 0.04,
+        "potassiumMg": 146,
+        "calciumMg": 23,
+        "ironMg": 0.21,
+        "vitaminCMg": 7.4
+      },
+      "servings": [
+        {
+          "id": "med_onion",
+          "label": "1 medium onion",
+          "unitType": "piece",
+          "gramsPerUnit": 110,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "milk_cow_whole",
+      "name": "Cow's Milk (Whole, 3.5% Fat)",
+      "commonNames": "doodh, full cream cow milk",
+      "categoryId": "dairy",
+      "illustrationId": "milk_glass",
+      "preparationState": "Plain whole milk without added sugar",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "dairy"
+      ],
+      "sourceName": "USDA FoodData Central / ICMR-NIN",
+      "sourceReference": "USDA FDC 171265 Milk, whole, 3.25% milkfat",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Unsweetened cow whole milk.",
+      "nutritionPer100g": {
+        "calories": 61,
+        "protein": 3.2,
+        "carbs": 4.8,
+        "fat": 3.3,
+        "fibre": 0,
+        "sugar": 5,
+        "sodiumMg": 43,
+        "saturatedFat": 1.9,
+        "potassiumMg": 132,
+        "calciumMg": 113,
+        "ironMg": 0.03,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "glass_milk",
+          "label": "1 glass (250 ml)",
+          "unitType": "glass",
+          "gramsPerUnit": 255,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "cup_milk",
+          "label": "1 cup (200 ml)",
+          "unitType": "cup",
+          "gramsPerUnit": 205,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 ml (~100 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 ml (~150 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 ml (~200 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "milk_toned",
+      "name": "Toned Milk (3% Fat)",
+      "commonNames": "amul taza, double toned, low fat milk",
+      "categoryId": "dairy",
+      "illustrationId": "milk_glass",
+      "preparationState": "Plain pasteurized toned milk without sugar",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "dairy"
+      ],
+      "sourceName": "ICMR-NIN IFCT 2017 / Standard Dairy Composition",
+      "sourceReference": "FSSAI Toned Milk standard (min 3.0% fat, 8.5% SNF)",
+      "sourceLicense": "ICMR-NIN / FSSAI Standard",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Standard Indian packaged toned milk.",
+      "nutritionPer100g": {
+        "calories": 58,
+        "protein": 3.1,
+        "carbs": 4.9,
+        "fat": 3,
+        "fibre": 0,
+        "sugar": 4.9,
+        "sodiumMg": 42,
+        "saturatedFat": 1.8,
+        "potassiumMg": 140,
+        "calciumMg": 118,
+        "ironMg": 0.03,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "glass_toned_milk",
+          "label": "1 glass (250 ml)",
+          "unitType": "glass",
+          "gramsPerUnit": 255,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "cup_toned_milk",
+          "label": "1 cup (200 ml)",
+          "unitType": "cup",
+          "gramsPerUnit": 205,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 ml (~100 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 ml (~150 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 ml (~200 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "curd_dahi",
+      "name": "Curd / Dahi (Plain Whole Milk)",
+      "commonNames": "plain yogurt, dahi, home set curd",
+      "categoryId": "dairy",
+      "illustrationId": "yogurt_bowl",
+      "preparationState": "Plain fermented milk curd without added sugar",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "dairy"
+      ],
+      "sourceName": "USDA FoodData Central / ICMR-NIN IFCT 2017",
+      "sourceReference": "USDA FDC 171284 Yogurt, plain, whole milk",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Unsweetened plain curd/dahi.",
+      "nutritionPer100g": {
+        "calories": 61,
+        "protein": 3.5,
+        "carbs": 4.7,
+        "fat": 3.3,
+        "fibre": 0,
+        "sugar": 4.7,
+        "sodiumMg": 46,
+        "saturatedFat": 2.1,
+        "potassiumMg": 155,
+        "calciumMg": 121,
+        "ironMg": 0.05,
+        "vitaminCMg": 0.5
+      },
+      "servings": [
+        {
+          "id": "bowl_curd",
+          "label": "1 bowl (katori)",
+          "unitType": "bowl",
+          "gramsPerUnit": 150,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "cup_curd",
+          "label": "1 cup",
+          "unitType": "cup",
+          "gramsPerUnit": 245,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "greek_yogurt_plain",
+      "name": "Greek Yogurt (Plain, Non-Fat)",
+      "commonNames": "strained yogurt, high protein hung curd",
+      "categoryId": "dairy",
+      "illustrationId": "yogurt_bowl",
+      "preparationState": "Strained plain non-fat yogurt, unsweetened",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "dairy"
+      ],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 170903 Yogurt, Greek, plain, nonfat",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "High protein strained yogurt.",
+      "nutritionPer100g": {
+        "calories": 59,
+        "protein": 10.2,
+        "carbs": 3.6,
+        "fat": 0.4,
+        "fibre": 0,
+        "sugar": 3.2,
+        "sodiumMg": 36,
+        "saturatedFat": 0.1,
+        "potassiumMg": 141,
+        "calciumMg": 110,
+        "ironMg": 0.07,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "cup_greek_yogurt",
+          "label": "1 single-serve cup",
+          "unitType": "cup",
+          "gramsPerUnit": 150,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "paneer_fresh",
+      "name": "Paneer (Fresh Cottage Cheese)",
+      "commonNames": "cottage cheese block, malai paneer raw",
+      "categoryId": "dairy",
+      "illustrationId": "paneer",
+      "preparationState": "Fresh un-cooked whole-milk paneer block",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "dairy"
+      ],
+      "sourceName": "ICMR-NIN IFCT 2017",
+      "sourceReference": "IFCT 2017 Chhena / Paneer (Cow & Buffalo Milk average)",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Plain raw paneer before frying/gravy.",
+      "nutritionPer100g": {
+        "calories": 265,
+        "protein": 18.3,
+        "carbs": 3.4,
+        "fat": 20.8,
+        "fibre": 0,
+        "sugar": 1.2,
+        "sodiumMg": 18,
+        "saturatedFat": 13,
+        "potassiumMg": 100,
+        "calciumMg": 480,
+        "ironMg": 0.2,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "cubes_50g",
+          "label": "50 g (5-6 medium cubes)",
+          "unitType": "gram",
+          "gramsPerUnit": 50,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "cubes_100g",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "cheese_cheddar",
+      "name": "Cheddar Cheese",
+      "commonNames": "cheese slice, block cheese",
+      "categoryId": "dairy",
+      "illustrationId": "cheese",
+      "preparationState": "Ready to eat aged cheddar cheese",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "dairy"
+      ],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 170899 Cheese, cheddar",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Standard cheddar cheese.",
+      "nutritionPer100g": {
+        "calories": 403,
+        "protein": 24.9,
+        "carbs": 1.3,
+        "fat": 33.1,
+        "fibre": 0,
+        "sugar": 0.5,
+        "sodiumMg": 621,
+        "saturatedFat": 21.1,
+        "potassiumMg": 98,
+        "calciumMg": 721,
+        "ironMg": 0.68,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "slice_cheese",
+          "label": "1 slice / cube",
+          "unitType": "slice",
+          "gramsPerUnit": 20,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "oz_cheese",
+          "label": "1 oz (28 g)",
+          "unitType": "serving",
+          "gramsPerUnit": 28,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "butter_salted",
+      "name": "Butter (Salted)",
+      "commonNames": "makhan, table butter, amul butter",
+      "categoryId": "dairy",
+      "illustrationId": "butter",
+      "preparationState": "Ready-to-spread dairy butter",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "dairy"
+      ],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 173410 Butter, salted",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "High saturated fat spread.",
+      "nutritionPer100g": {
+        "calories": 717,
+        "protein": 0.85,
+        "carbs": 0.06,
+        "fat": 81.1,
+        "fibre": 0,
+        "sugar": 0.06,
+        "sodiumMg": 643,
+        "saturatedFat": 51.4,
+        "potassiumMg": 24,
+        "calciumMg": 24,
+        "ironMg": 0.02,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "tsp_butter",
+          "label": "1 teaspoon (5 g)",
+          "unitType": "tsp",
+          "gramsPerUnit": 5,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "tbsp_butter",
+          "label": "1 tablespoon (14 g)",
+          "unitType": "tbsp",
+          "gramsPerUnit": 14,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "ghee_cow",
+      "name": "Desi Ghee (Clarified Butter)",
+      "commonNames": "cow ghee, shudh ghee, clarified butter",
+      "categoryId": "dairy",
+      "illustrationId": "butter",
+      "preparationState": "Pure anhydrous milk fat",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "dairy"
+      ],
+      "sourceName": "ICMR-NIN IFCT 2017 / USDA FDC",
+      "sourceReference": "USDA FDC 171314 Butter oil, anhydrous",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Pure 99.5% milk fat.",
+      "nutritionPer100g": {
+        "calories": 876,
+        "protein": 0.28,
+        "carbs": 0,
+        "fat": 99.5,
+        "fibre": 0,
+        "sugar": 0,
+        "sodiumMg": 2,
+        "saturatedFat": 61.9,
+        "potassiumMg": 5,
+        "calciumMg": 4,
+        "ironMg": 0,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "tsp_ghee",
+          "label": "1 teaspoon (5 g)",
+          "unitType": "tsp",
+          "gramsPerUnit": 5,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "tbsp_ghee",
+          "label": "1 tablespoon (14 g)",
+          "unitType": "tbsp",
+          "gramsPerUnit": 14,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "almonds_raw",
+      "name": "Almonds (Raw / Soaked)",
+      "commonNames": "badam, california almonds",
+      "categoryId": "nuts_seeds",
+      "illustrationId": "almonds",
+      "preparationState": "Raw whole almond kernels",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [
+        "tree_nuts"
+      ],
+      "sourceName": "USDA FoodData Central / ICMR-NIN IFCT 2017",
+      "sourceReference": "USDA FDC 170567 Almonds, raw",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Calorie-dense healthy monounsaturated fats & vitamin E.",
+      "nutritionPer100g": {
+        "calories": 579,
+        "protein": 21.2,
+        "carbs": 21.6,
+        "fat": 49.9,
+        "fibre": 12.5,
+        "sugar": 4.4,
+        "sodiumMg": 1,
+        "saturatedFat": 3.8,
+        "potassiumMg": 733,
+        "calciumMg": 269,
+        "ironMg": 3.71,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "ten_almonds",
+          "label": "10 almonds (~12 g)",
+          "unitType": "piece",
+          "gramsPerUnit": 12,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "handful_almonds",
+          "label": "1 handful (~28 g / 23 nuts)",
+          "unitType": "serving",
+          "gramsPerUnit": 28,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "cashews_raw",
+      "name": "Cashews (Raw, Whole)",
+      "commonNames": "kaju, cashew nuts",
+      "categoryId": "nuts_seeds",
+      "illustrationId": "cashews",
+      "preparationState": "Raw unsalted cashew kernels",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [
+        "tree_nuts"
+      ],
+      "sourceName": "USDA FoodData Central / ICMR-NIN",
+      "sourceReference": "USDA FDC 170162 Nuts, cashew nuts, raw",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Unsalted whole cashews.",
+      "nutritionPer100g": {
+        "calories": 553,
+        "protein": 18.2,
+        "carbs": 30.2,
+        "fat": 43.9,
+        "fibre": 3.3,
+        "sugar": 5.9,
+        "sodiumMg": 12,
+        "saturatedFat": 7.8,
+        "potassiumMg": 660,
+        "calciumMg": 37,
+        "ironMg": 6.68,
+        "vitaminCMg": 0.5
+      },
+      "servings": [
+        {
+          "id": "ten_cashews",
+          "label": "10 cashews (~15 g)",
+          "unitType": "piece",
+          "gramsPerUnit": 15,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "oz_cashews",
+          "label": "1 handful (~28 g)",
+          "unitType": "serving",
+          "gramsPerUnit": 28,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "walnuts_raw",
+      "name": "Walnuts (Shelled Halves)",
+      "commonNames": "akhrot, english walnuts",
+      "categoryId": "nuts_seeds",
+      "illustrationId": "walnuts",
+      "preparationState": "Raw walnut halves",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [
+        "tree_nuts"
+      ],
+      "sourceName": "USDA FoodData Central / ICMR-NIN",
+      "sourceReference": "USDA FDC 170187 Nuts, walnuts, english",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Rich plant source of ALA Omega-3.",
+      "nutritionPer100g": {
+        "calories": 654,
+        "protein": 15.2,
+        "carbs": 13.7,
+        "fat": 65.2,
+        "fibre": 6.7,
+        "sugar": 2.6,
+        "sodiumMg": 2,
+        "saturatedFat": 6.1,
+        "potassiumMg": 441,
+        "calciumMg": 98,
+        "ironMg": 2.91,
+        "vitaminCMg": 1.3
+      },
+      "servings": [
+        {
+          "id": "four_halves",
+          "label": "4 walnut halves (~8 g)",
+          "unitType": "piece",
+          "gramsPerUnit": 8,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "handful_walnuts",
+          "label": "1 handful (~28 g)",
+          "unitType": "serving",
+          "gramsPerUnit": 28,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "peanuts_roasted",
+      "name": "Peanuts (Dry Roasted, Unsalted)",
+      "commonNames": "moongphali, singdana, groundnuts",
+      "categoryId": "nuts_seeds",
+      "illustrationId": "peanuts",
+      "preparationState": "Dry roasted groundnuts without oil",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [
+        "peanuts"
+      ],
+      "sourceName": "USDA FoodData Central / ICMR-NIN",
+      "sourceReference": "USDA FDC 172431 Peanuts, all types, dry-roasted",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "High protein legume/nut.",
+      "nutritionPer100g": {
+        "calories": 587,
+        "protein": 24.4,
+        "carbs": 21.3,
+        "fat": 49.7,
+        "fibre": 8.4,
+        "sugar": 4.9,
+        "sodiumMg": 6,
+        "saturatedFat": 7.7,
+        "potassiumMg": 634,
+        "calciumMg": 58,
+        "ironMg": 1.58,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "handful_peanuts",
+          "label": "1 small handful (30 g)",
+          "unitType": "serving",
+          "gramsPerUnit": 30,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "pistachios_raw",
+      "name": "Pistachios (Shelled)",
+      "commonNames": "pista, pistachio kernels",
+      "categoryId": "nuts_seeds",
+      "illustrationId": "almonds",
+      "preparationState": "Raw shelled pistachio kernels",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [
+        "tree_nuts"
+      ],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 170184 Nuts, pistachio nuts, raw",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Edible kernel weight without shells.",
+      "nutritionPer100g": {
+        "calories": 560,
+        "protein": 20.2,
+        "carbs": 27.2,
+        "fat": 45.3,
+        "fibre": 10.6,
+        "sugar": 7.7,
+        "sodiumMg": 1,
+        "saturatedFat": 5.9,
+        "potassiumMg": 1025,
+        "calciumMg": 105,
+        "ironMg": 3.92,
+        "vitaminCMg": 5.6
+      },
+      "servings": [
+        {
+          "id": "handful_pista",
+          "label": "1 oz / ~49 kernels (28 g)",
+          "unitType": "serving",
+          "gramsPerUnit": 28,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "chia_seeds",
+      "name": "Chia Seeds (Dried)",
+      "commonNames": "salba chia, chia",
+      "categoryId": "nuts_seeds",
+      "illustrationId": "seeds",
+      "preparationState": "Raw dried chia seeds",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 170554 Seeds, chia seeds, dried",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Very high dietary fibre and plant omega-3.",
+      "nutritionPer100g": {
+        "calories": 486,
+        "protein": 16.5,
+        "carbs": 42.1,
+        "fat": 30.7,
+        "fibre": 34.4,
+        "sugar": 0,
+        "sodiumMg": 16,
+        "saturatedFat": 3.3,
+        "potassiumMg": 407,
+        "calciumMg": 631,
+        "ironMg": 7.72,
+        "vitaminCMg": 1.6
+      },
+      "servings": [
+        {
+          "id": "tbsp_chia",
+          "label": "1 tablespoon (12 g)",
+          "unitType": "tbsp",
+          "gramsPerUnit": 12,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "tsp_chia",
+          "label": "1 teaspoon (4 g)",
+          "unitType": "tsp",
+          "gramsPerUnit": 4,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "flax_seeds",
+      "name": "Flax Seeds (Alsi)",
+      "commonNames": "alsi, linseed, ground flaxseed",
+      "categoryId": "nuts_seeds",
+      "illustrationId": "seeds",
+      "preparationState": "Whole or ground roasted flax seeds",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 169414 Seeds, flaxseed",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Ground flax seeds are best absorbed.",
+      "nutritionPer100g": {
+        "calories": 534,
+        "protein": 18.3,
+        "carbs": 28.9,
+        "fat": 42.2,
+        "fibre": 27.3,
+        "sugar": 1.6,
+        "sodiumMg": 30,
+        "saturatedFat": 3.7,
+        "potassiumMg": 813,
+        "calciumMg": 255,
+        "ironMg": 5.73,
+        "vitaminCMg": 0.6
+      },
+      "servings": [
+        {
+          "id": "tbsp_flax",
+          "label": "1 tablespoon (10 g)",
+          "unitType": "tbsp",
+          "gramsPerUnit": 10,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "chicken_breast_raw",
+      "name": "Chicken Breast (Raw, Boneless Skinless)",
+      "commonNames": "raw murgh breast, uncooked chicken breast",
+      "categoryId": "protein",
+      "illustrationId": "chicken",
+      "preparationState": "Raw, uncooked, skinless & boneless",
+      "dietaryTags": [
+        "non_vegetarian"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 171477 Chicken, broilers or fryers, breast, meat only, raw",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Raw weight before cooking moisture loss.",
+      "nutritionPer100g": {
+        "calories": 120,
+        "protein": 22.5,
+        "carbs": 0,
+        "fat": 2.6,
+        "fibre": 0,
+        "sugar": 0,
+        "sodiumMg": 45,
+        "saturatedFat": 0.6,
+        "potassiumMg": 334,
+        "calciumMg": 5,
+        "ironMg": 0.37,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "raw_fillet",
+          "label": "1 medium fillet (150 g)",
+          "unitType": "piece",
+          "gramsPerUnit": 150,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "chicken_breast_cooked",
+      "name": "Chicken Breast (Grilled / Roasted, Cooked)",
+      "commonNames": "cooked chicken breast, boiled chicken breast, grilled chicken",
+      "categoryId": "protein",
+      "illustrationId": "chicken",
+      "preparationState": "Cooked/grilled without added breading or oil",
+      "dietaryTags": [
+        "non_vegetarian"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 171479 Chicken, breast, meat only, cooked, roasted",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Cooked weight has higher nutrient density due to ~25% water loss.",
+      "nutritionPer100g": {
+        "calories": 165,
+        "protein": 31,
+        "carbs": 0,
+        "fat": 3.6,
+        "fibre": 0,
+        "sugar": 0,
+        "sodiumMg": 74,
+        "saturatedFat": 1,
+        "potassiumMg": 256,
+        "calciumMg": 15,
+        "ironMg": 1.04,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "cooked_fillet",
+          "label": "1 cooked breast piece (120 g)",
+          "unitType": "piece",
+          "gramsPerUnit": 120,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "fish_rohu_raw",
+      "name": "Rohu / Freshwater Fish (Raw, Fillet)",
+      "commonNames": "rohu fish raw, katla raw, indian carp",
+      "categoryId": "protein",
+      "illustrationId": "fish",
+      "preparationState": "Raw edible fish fillet (no bones)",
+      "dietaryTags": [
+        "non_vegetarian"
+      ],
+      "allergenTags": [
+        "fish"
+      ],
+      "sourceName": "ICMR-NIN IFCT 2017",
+      "sourceReference": "IFCT 2017 Rohu (Rahu) raw edible muscle",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Raw edible portion.",
+      "nutritionPer100g": {
+        "calories": 97,
+        "protein": 16.6,
+        "carbs": 0,
+        "fat": 3.1,
+        "fibre": 0,
+        "sugar": 0,
+        "sodiumMg": 58,
+        "saturatedFat": 0.9,
+        "potassiumMg": 285,
+        "calciumMg": 45,
+        "ironMg": 1,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "piece_rohu",
+          "label": "1 medium fillet piece (100 g)",
+          "unitType": "piece",
+          "gramsPerUnit": 100,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "fish_salmon_cooked",
+      "name": "Salmon (Baked / Grilled, Cooked)",
+      "commonNames": "cooked salmon fillet, atlantic salmon",
+      "categoryId": "protein",
+      "illustrationId": "fish",
+      "preparationState": "Baked or grilled without oil/butter",
+      "dietaryTags": [
+        "non_vegetarian"
+      ],
+      "allergenTags": [
+        "fish"
+      ],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 175168 Fish, salmon, Atlantic, cooked, dry heat",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Rich in EPA/DHA omega-3 fatty acids.",
+      "nutritionPer100g": {
+        "calories": 206,
+        "protein": 22.1,
+        "carbs": 0,
+        "fat": 12.4,
+        "fibre": 0,
+        "sugar": 0,
+        "sodiumMg": 61,
+        "saturatedFat": 2.5,
+        "potassiumMg": 384,
+        "calciumMg": 15,
+        "ironMg": 0.34,
+        "vitaminCMg": 3.7
+      },
+      "servings": [
+        {
+          "id": "fillet_salmon",
+          "label": "1 cooked fillet (150 g)",
+          "unitType": "piece",
+          "gramsPerUnit": 150,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "egg_boiled",
+      "name": "Whole Egg (Hard Boiled / Poached)",
+      "commonNames": "ubla anda, boiled egg",
+      "categoryId": "protein",
+      "illustrationId": "egg_boiled",
+      "preparationState": "Hard-boiled in shell, peeled (no oil)",
+      "dietaryTags": [
+        "eggetarian",
+        "non_vegetarian"
+      ],
+      "allergenTags": [
+        "eggs"
+      ],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 173424 Egg, whole, cooked, hard-boiled",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "1 large egg weighs ~50g.",
+      "nutritionPer100g": {
+        "calories": 155,
+        "protein": 12.6,
+        "carbs": 1.1,
+        "fat": 10.6,
+        "fibre": 0,
+        "sugar": 1.1,
+        "sodiumMg": 124,
+        "saturatedFat": 3.3,
+        "potassiumMg": 126,
+        "calciumMg": 50,
+        "ironMg": 1.19,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "one_boiled_egg",
+          "label": "1 boiled egg",
+          "unitType": "egg",
+          "gramsPerUnit": 50,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "two_boiled_eggs",
+          "label": "2 boiled eggs",
+          "unitType": "egg",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "three_boiled_eggs",
+          "label": "3 boiled eggs",
+          "unitType": "egg",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 5
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 6
+        }
+      ]
+    },
+    {
+      "id": "egg_fried",
+      "name": "Whole Egg (Pan-Fried in Oil)",
+      "commonNames": "fried egg, half fry, sunny side up, poached with oil",
+      "categoryId": "protein",
+      "illustrationId": "egg_fried",
+      "preparationState": "Pan-fried with ~1 tsp cooking oil per 2 eggs",
+      "dietaryTags": [
+        "eggetarian",
+        "non_vegetarian"
+      ],
+      "allergenTags": [
+        "eggs"
+      ],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 173423 Egg, whole, cooked, fried",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Higher calorie/fat than boiled egg due to frying oil.",
+      "nutritionPer100g": {
+        "calories": 196,
+        "protein": 13.6,
+        "carbs": 0.8,
+        "fat": 14.8,
+        "fibre": 0,
+        "sugar": 0.4,
+        "sodiumMg": 207,
+        "saturatedFat": 4.3,
+        "potassiumMg": 152,
+        "calciumMg": 62,
+        "ironMg": 1.89,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "one_fried_egg",
+          "label": "1 fried egg (~46 g)",
+          "unitType": "egg",
+          "gramsPerUnit": 46,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "two_fried_eggs",
+          "label": "2 fried eggs (~92 g)",
+          "unitType": "egg",
+          "gramsPerUnit": 92,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "egg_white_boiled",
+      "name": "Egg White (Boiled)",
+      "commonNames": "anda white, albumin",
+      "categoryId": "protein",
+      "illustrationId": "egg_boiled",
+      "preparationState": "Boiled egg white only (yolk discarded)",
+      "dietaryTags": [
+        "eggetarian",
+        "non_vegetarian"
+      ],
+      "allergenTags": [
+        "eggs"
+      ],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 172187 Egg, white, raw/boiled",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Almost pure lean protein, virtually zero fat.",
+      "nutritionPer100g": {
+        "calories": 52,
+        "protein": 10.9,
+        "carbs": 0.7,
+        "fat": 0.2,
+        "fibre": 0,
+        "sugar": 0.7,
+        "sodiumMg": 166,
+        "saturatedFat": 0,
+        "potassiumMg": 163,
+        "calciumMg": 7,
+        "ironMg": 0.08,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "one_egg_white",
+          "label": "1 egg white (33 g)",
+          "unitType": "egg",
+          "gramsPerUnit": 33,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "three_egg_whites",
+          "label": "3 egg whites (100 g)",
+          "unitType": "egg",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "tofu_firm",
+      "name": "Tofu (Firm, Plain)",
+      "commonNames": "soy paneer, bean curd",
+      "categoryId": "protein",
+      "illustrationId": "paneer",
+      "preparationState": "Fresh plain firm soy tofu",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [
+        "soy"
+      ],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 172475 Tofu, raw, firm, prepared with calcium sulfate",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Lean vegan soy protein alternative to paneer.",
+      "nutritionPer100g": {
+        "calories": 76,
+        "protein": 8.1,
+        "carbs": 1.9,
+        "fat": 4.8,
+        "fibre": 0.3,
+        "sugar": 0.6,
+        "sodiumMg": 7,
+        "saturatedFat": 0.7,
+        "potassiumMg": 121,
+        "calciumMg": 350,
+        "ironMg": 5.36,
+        "vitaminCMg": 0.1
+      },
+      "servings": [
+        {
+          "id": "serving_tofu",
+          "label": "100 g block",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "soy_chunks_dry",
+      "name": "Soy Chunks (Dry, Textured Soy Protein)",
+      "commonNames": "nutrela, soya badi, meal maker",
+      "categoryId": "protein",
+      "illustrationId": "soy_chunks",
+      "preparationState": "Dry weight before boiling in water",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [
+        "soy"
+      ],
+      "sourceName": "USDA FoodData Central (Defatted Soy Flour)",
+      "sourceReference": "USDA FDC 174277 Soy flour, defatted / TVP dry",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Weigh dry before soaking (~52g protein per 100g dry).",
+      "nutritionPer100g": {
+        "calories": 345,
+        "protein": 52,
+        "carbs": 33,
+        "fat": 0.5,
+        "fibre": 13,
+        "sugar": 2,
+        "sodiumMg": 12,
+        "saturatedFat": 0.1,
+        "potassiumMg": 2380,
+        "calciumMg": 240,
+        "ironMg": 9.2,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "half_cup_soy",
+          "label": "50 g (dry chunks)",
+          "unitType": "gram",
+          "gramsPerUnit": 50,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "small_soy",
+          "label": "25 g (dry chunks)",
+          "unitType": "gram",
+          "gramsPerUnit": 25,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "lentils_cooked",
+      "name": "Lentils / Masoor Dal (Boiled, Plain)",
+      "commonNames": "boiled lentils, red lentils cooked",
+      "categoryId": "protein",
+      "illustrationId": "dal_bowl",
+      "preparationState": "Boiled in water without added oil",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 172421 Lentils, mature seeds, cooked, boiled",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Thick boiled lentils (distinct from thin dal soup).",
+      "nutritionPer100g": {
+        "calories": 116,
+        "protein": 9,
+        "carbs": 20.1,
+        "fat": 0.4,
+        "fibre": 7.9,
+        "sugar": 1.8,
+        "sodiumMg": 2,
+        "saturatedFat": 0.05,
+        "potassiumMg": 369,
+        "calciumMg": 19,
+        "ironMg": 3.33,
+        "vitaminCMg": 1.5
+      },
+      "servings": [
+        {
+          "id": "cup_lentils",
+          "label": "1 cup boiled",
+          "unitType": "cup",
+          "gramsPerUnit": 198,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "chickpeas_boiled",
+      "name": "Chickpeas / Kabuli Chana (Boiled, Plain)",
+      "commonNames": "garbanzo beans boiled, safed chana",
+      "categoryId": "protein",
+      "illustrationId": "curry_bowl",
+      "preparationState": "Boiled in water, drained, no oil",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 173757 Chickpeas, mature seeds, cooked, boiled",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Plain boiled chickpeas for salads/snacks.",
+      "nutritionPer100g": {
+        "calories": 164,
+        "protein": 8.9,
+        "carbs": 27.4,
+        "fat": 2.6,
+        "fibre": 7.6,
+        "sugar": 4.8,
+        "sodiumMg": 7,
+        "saturatedFat": 0.27,
+        "potassiumMg": 291,
+        "calciumMg": 49,
+        "ironMg": 2.89,
+        "vitaminCMg": 1.3
+      },
+      "servings": [
+        {
+          "id": "cup_chickpeas",
+          "label": "1 cup boiled",
+          "unitType": "cup",
+          "gramsPerUnit": 164,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "kidney_beans_boiled",
+      "name": "Kidney Beans / Rajma (Boiled, Plain)",
+      "commonNames": "boiled red kidney beans, salad rajma",
+      "categoryId": "protein",
+      "illustrationId": "curry_bowl",
+      "preparationState": "Boiled in water, drained, no gravy or oil",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 173740 Beans, kidney, red, mature seeds, cooked, boiled",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Plain boiled kidney beans.",
+      "nutritionPer100g": {
+        "calories": 127,
+        "protein": 8.7,
+        "carbs": 22.8,
+        "fat": 0.5,
+        "fibre": 6.4,
+        "sugar": 0.3,
+        "sodiumMg": 2,
+        "saturatedFat": 0.07,
+        "potassiumMg": 403,
+        "calciumMg": 28,
+        "ironMg": 2.94,
+        "vitaminCMg": 1.2
+      },
+      "servings": [
+        {
+          "id": "cup_rajma_boiled",
+          "label": "1 cup boiled",
+          "unitType": "cup",
+          "gramsPerUnit": 177,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "whey_protein",
+      "name": "Whey Protein Powder (Concentrate/Isolate)",
+      "commonNames": "protein shake powder, whey scoop",
+      "categoryId": "protein",
+      "illustrationId": "protein_shake",
+      "preparationState": "Dry supplement powder (mix with water/milk separately)",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "dairy"
+      ],
+      "sourceName": "USDA FoodData Central Branded Standard Reference",
+      "sourceReference": "Standard Whey Protein Blend Reference (~78% protein)",
+      "sourceLicense": "USDA Public Domain / Manufacturer Label Avg",
+      "isVerified": true,
+      "isComplete": false,
+      "verificationNotes": "Micronutrients vary by brand flavor/fortification; macronutrients verified per 100g.",
+      "nutritionPer100g": {
+        "calories": 385,
+        "protein": 78,
+        "carbs": 8.5,
+        "fat": 4.5,
+        "fibre": 1.5,
+        "sugar": 3.5,
+        "sodiumMg": 220,
+        "saturatedFat": 2.2,
+        "potassiumMg": 480,
+        "calciumMg": 380,
+        "ironMg": 0.8,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "one_scoop_whey",
+          "label": "1 scoop (32 g)",
+          "unitType": "scoop",
+          "gramsPerUnit": 32,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "tea_milk_sugar",
+      "name": "Indian Chai (Milk Tea With Sugar)",
+      "commonNames": "masala chai, doodh wali chai, tea with milk",
+      "categoryId": "beverages",
+      "illustrationId": "chai_cup",
+      "preparationState": "50% toned milk + 50% water + tea leaves + 1 tsp sugar",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "dairy"
+      ],
+      "sourceName": "ICMR-NIN Composite Beverage Standard",
+      "sourceReference": "Toned milk (75ml) + water + 5g cane sugar per 150ml cup",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Sugar levels vary by preference.",
+      "nutritionPer100g": {
+        "calories": 43,
+        "protein": 1.6,
+        "carbs": 5.8,
+        "fat": 1.5,
+        "fibre": 0,
+        "sugar": 5.5,
+        "sodiumMg": 21,
+        "saturatedFat": 0.9,
+        "potassiumMg": 72,
+        "calciumMg": 58,
+        "ironMg": 0,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "cup_chai",
+          "label": "1 standard cup (150 ml)",
+          "unitType": "cup",
+          "gramsPerUnit": 150,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "mug_chai",
+          "label": "1 large mug (250 ml)",
+          "unitType": "glass",
+          "gramsPerUnit": 250,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 ml (~100 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 ml (~150 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 ml (~200 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "tea_green_plain",
+      "name": "Green Tea (Brewed, Unsweetened)",
+      "commonNames": "plain green tea, herbal tea unsweetened",
+      "categoryId": "beverages",
+      "illustrationId": "tea_cup",
+      "preparationState": "Brewed in water, no milk or sugar",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 171917 Beverages, tea, green, brewed",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Virtually zero calories.",
+      "nutritionPer100g": {
+        "calories": 1,
+        "protein": 0.2,
+        "carbs": 0,
+        "fat": 0,
+        "fibre": 0,
+        "sugar": 0,
+        "sodiumMg": 1,
+        "saturatedFat": 0,
+        "potassiumMg": 8,
+        "calciumMg": 0,
+        "ironMg": 0.02,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "cup_green_tea",
+          "label": "1 cup (240 ml)",
+          "unitType": "cup",
+          "gramsPerUnit": 240,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 ml (~100 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 ml (~150 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 ml (~200 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "coffee_black",
+      "name": "Black Coffee (Brewed, Unsweetened)",
+      "commonNames": "americano, espresso with water, plain black coffee",
+      "categoryId": "beverages",
+      "illustrationId": "coffee_cup",
+      "preparationState": "Brewed black coffee without milk or sugar",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 171890 Beverages, coffee, brewed",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Zero added sugar/milk.",
+      "nutritionPer100g": {
+        "calories": 2,
+        "protein": 0.1,
+        "carbs": 0,
+        "fat": 0.02,
+        "fibre": 0,
+        "sugar": 0,
+        "sodiumMg": 2,
+        "saturatedFat": 0,
+        "potassiumMg": 49,
+        "calciumMg": 2,
+        "ironMg": 0.01,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "cup_black_coffee",
+          "label": "1 mug (240 ml)",
+          "unitType": "cup",
+          "gramsPerUnit": 240,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 ml (~100 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 ml (~150 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 ml (~200 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "coffee_milk",
+      "name": "Coffee With Milk & 1 tsp Sugar",
+      "commonNames": "filter coffee, latte, home coffee",
+      "categoryId": "beverages",
+      "illustrationId": "coffee_cup",
+      "preparationState": "Brewed coffee with milk and 1 tsp sugar",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "dairy"
+      ],
+      "sourceName": "ICMR-NIN / USDA Composite Beverage",
+      "sourceReference": "Toned milk (120ml) + brewed coffee + 5g sugar per 200ml",
+      "sourceLicense": "USDA / ICMR-NIN Composite",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Calories come mainly from milk and sugar.",
+      "nutritionPer100g": {
+        "calories": 47,
+        "protein": 1.9,
+        "carbs": 5.5,
+        "fat": 1.9,
+        "fibre": 0,
+        "sugar": 5.2,
+        "sodiumMg": 26,
+        "saturatedFat": 1.1,
+        "potassiumMg": 95,
+        "calciumMg": 70,
+        "ironMg": 0.03,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "cup_milk_coffee",
+          "label": "1 cup (200 ml)",
+          "unitType": "cup",
+          "gramsPerUnit": 200,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 ml (~100 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 ml (~150 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 ml (~200 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "orange_juice_fresh",
+      "name": "Fresh Orange Juice (Unsweetened)",
+      "commonNames": "fresh citrus juice, squeezed orange juice",
+      "categoryId": "beverages",
+      "illustrationId": "juice_glass",
+      "preparationState": "100% freshly squeezed orange juice, no added sugar",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 169098 Orange juice, raw",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Contains natural fruit sugars without pulp fibre.",
+      "nutritionPer100g": {
+        "calories": 45,
+        "protein": 0.7,
+        "carbs": 10.4,
+        "fat": 0.2,
+        "fibre": 0.2,
+        "sugar": 8.4,
+        "sodiumMg": 1,
+        "saturatedFat": 0.02,
+        "potassiumMg": 200,
+        "calciumMg": 11,
+        "ironMg": 0.2,
+        "vitaminCMg": 50
+      },
+      "servings": [
+        {
+          "id": "glass_oj",
+          "label": "1 glass (250 ml)",
+          "unitType": "glass",
+          "gramsPerUnit": 250,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 ml (~100 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 ml (~150 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 ml (~200 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "buttermilk_chaas",
+      "name": "Spiced Buttermilk / Chaas",
+      "commonNames": "mattha, masala chaas, salted lassi thin",
+      "categoryId": "beverages",
+      "illustrationId": "milk_glass",
+      "preparationState": "Whipped low-fat curd diluted 1:2 with water, cumin & salt",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "dairy"
+      ],
+      "sourceName": "ICMR-NIN IFCT 2017 Composite Beverage",
+      "sourceReference": "Curd diluted with water + roasted cumin",
+      "sourceLicense": "ICMR-NIN Reference Data",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Probiotic low-calorie refresher.",
+      "nutritionPer100g": {
+        "calories": 21,
+        "protein": 1.2,
+        "carbs": 1.6,
+        "fat": 1.1,
+        "fibre": 0,
+        "sugar": 1.5,
+        "sodiumMg": 110,
+        "saturatedFat": 0.7,
+        "potassiumMg": 55,
+        "calciumMg": 42,
+        "ironMg": 0.05,
+        "vitaminCMg": 0.2
+      },
+      "servings": [
+        {
+          "id": "glass_chaas",
+          "label": "1 tall glass (250 ml)",
+          "unitType": "glass",
+          "gramsPerUnit": 250,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 ml (~100 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 ml (~150 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 ml (~200 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "coconut_water",
+      "name": "Tender Coconut Water (Fresh)",
+      "commonNames": "nariyal pani, green coconut water",
+      "categoryId": "beverages",
+      "illustrationId": "coconut_water",
+      "preparationState": "Natural fresh liquid from tender green coconut",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [],
+      "sourceName": "USDA FoodData Central / ICMR-NIN",
+      "sourceReference": "USDA FDC 170174 Nuts, coconut water",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Natural electrolyte drink.",
+      "nutritionPer100g": {
+        "calories": 19,
+        "protein": 0.7,
+        "carbs": 3.7,
+        "fat": 0.2,
+        "fibre": 1.1,
+        "sugar": 2.6,
+        "sodiumMg": 105,
+        "saturatedFat": 0.18,
+        "potassiumMg": 250,
+        "calciumMg": 24,
+        "ironMg": 0.29,
+        "vitaminCMg": 2.4
+      },
+      "servings": [
+        {
+          "id": "glass_coco",
+          "label": "1 coconut / glass (240 ml)",
+          "unitType": "glass",
+          "gramsPerUnit": 240,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 ml (~100 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 ml (~150 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 ml (~200 g)",
+          "unitType": "ml",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "oats_rolled_dry",
+      "name": "Rolled Oats (Dry, Uncooked)",
+      "commonNames": "quaker oats dry, old fashioned oats, porridge oats raw",
+      "categoryId": "international",
+      "illustrationId": "oats_bowl",
+      "preparationState": "Dry uncooked rolled oat flakes",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [
+        "oats"
+      ],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 173904 Oats",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Dry weight before boiling in water or milk.",
+      "nutritionPer100g": {
+        "calories": 389,
+        "protein": 16.9,
+        "carbs": 66.3,
+        "fat": 6.9,
+        "fibre": 10.6,
+        "sugar": 0.9,
+        "sodiumMg": 2,
+        "saturatedFat": 1.2,
+        "potassiumMg": 429,
+        "calciumMg": 54,
+        "ironMg": 4.72,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "half_cup_oats",
+          "label": "1/2 cup dry (40 g)",
+          "unitType": "cup",
+          "gramsPerUnit": 40,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "full_cup_oats",
+          "label": "1 cup dry (80 g)",
+          "unitType": "cup",
+          "gramsPerUnit": 80,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "oats_cooked_water",
+      "name": "Oatmeal / Oats Porridge (Cooked in Water)",
+      "commonNames": "cooked oatmeal, plain oats porridge",
+      "categoryId": "international",
+      "illustrationId": "oats_bowl",
+      "preparationState": "Boiled with water, plain (no milk/sugar)",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [
+        "oats"
+      ],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 173905 Cereals, oats, regular, cooked with water",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Hydrated cooked weight; log milk/toppings separately.",
+      "nutritionPer100g": {
+        "calories": 71,
+        "protein": 2.5,
+        "carbs": 12,
+        "fat": 1.5,
+        "fibre": 1.7,
+        "sugar": 0.3,
+        "sodiumMg": 4,
+        "saturatedFat": 0.25,
+        "potassiumMg": 70,
+        "calciumMg": 9,
+        "ironMg": 0.9,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "bowl_oatmeal",
+          "label": "1 cup cooked",
+          "unitType": "cup",
+          "gramsPerUnit": 234,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "bread_whole_wheat",
+      "name": "Whole Wheat / Brown Bread",
+      "commonNames": "atta bread, multigrain toast, wholemeal bread",
+      "categoryId": "international",
+      "illustrationId": "bread",
+      "preparationState": "Ready to eat sliced whole-wheat loaf",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [
+        "gluten",
+        "wheat"
+      ],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 172688 Bread, whole-wheat, commercially prepared",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "1 regular slice weighs ~28g.",
+      "nutritionPer100g": {
+        "calories": 247,
+        "protein": 13,
+        "carbs": 41.3,
+        "fat": 3.4,
+        "fibre": 6.8,
+        "sugar": 4.3,
+        "sodiumMg": 455,
+        "saturatedFat": 0.7,
+        "potassiumMg": 254,
+        "calciumMg": 107,
+        "ironMg": 2.43,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "one_slice_wheat",
+          "label": "1 slice (28 g)",
+          "unitType": "slice",
+          "gramsPerUnit": 28,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "two_slices_wheat",
+          "label": "2 slices (56 g)",
+          "unitType": "slice",
+          "gramsPerUnit": 56,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "bread_white",
+      "name": "White Sandwich Bread",
+      "commonNames": "maida bread, white toast",
+      "categoryId": "international",
+      "illustrationId": "bread",
+      "preparationState": "Ready to eat sliced refined-flour bread",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [
+        "gluten",
+        "wheat"
+      ],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 172686 Bread, white, commercially prepared",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Lower fibre compared to whole wheat bread.",
+      "nutritionPer100g": {
+        "calories": 266,
+        "protein": 8.9,
+        "carbs": 49.4,
+        "fat": 3.3,
+        "fibre": 2.7,
+        "sugar": 5.7,
+        "sodiumMg": 490,
+        "saturatedFat": 0.7,
+        "potassiumMg": 126,
+        "calciumMg": 144,
+        "ironMg": 3.61,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "one_slice_white",
+          "label": "1 slice (25 g)",
+          "unitType": "slice",
+          "gramsPerUnit": 25,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "two_slices_white",
+          "label": "2 slices (50 g)",
+          "unitType": "slice",
+          "gramsPerUnit": 50,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "peanut_butter",
+      "name": "Peanut Butter (Smooth, Unsweetened/Standard)",
+      "commonNames": "nut butter, moongphali butter",
+      "categoryId": "international",
+      "illustrationId": "peanut_butter",
+      "preparationState": "Ground roasted peanut paste",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [
+        "peanuts"
+      ],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 172470 Peanut butter, smooth style, without salt",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "1 tbsp is ~16g (~94 kcal).",
+      "nutritionPer100g": {
+        "calories": 588,
+        "protein": 25.1,
+        "carbs": 20,
+        "fat": 50.4,
+        "fibre": 6,
+        "sugar": 9.2,
+        "sodiumMg": 17,
+        "saturatedFat": 10.3,
+        "potassiumMg": 649,
+        "calciumMg": 43,
+        "ironMg": 1.9,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "tbsp_pb",
+          "label": "1 tablespoon (16 g)",
+          "unitType": "tbsp",
+          "gramsPerUnit": 16,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "two_tbsp_pb",
+          "label": "2 tablespoons (32 g)",
+          "unitType": "tbsp",
+          "gramsPerUnit": 32,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "pasta_cooked",
+      "name": "Pasta / Spaghetti (Boiled, Plain)",
+      "commonNames": "penne cooked, macaroni boiled, noodles plain",
+      "categoryId": "international",
+      "illustrationId": "pasta",
+      "preparationState": "Boiled durum wheat pasta without sauce",
+      "dietaryTags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "allergenTags": [
+        "gluten",
+        "wheat"
+      ],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 169737 Pasta, cooked, enriched, without added salt",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Plain boiled pasta; sauce/cheese must be logged separately.",
+      "nutritionPer100g": {
+        "calories": 158,
+        "protein": 5.8,
+        "carbs": 30.9,
+        "fat": 0.9,
+        "fibre": 1.8,
+        "sugar": 0.6,
+        "sodiumMg": 1,
+        "saturatedFat": 0.18,
+        "potassiumMg": 44,
+        "calciumMg": 7,
+        "ironMg": 1.28,
+        "vitaminCMg": 0
+      },
+      "servings": [
+        {
+          "id": "cup_pasta",
+          "label": "1 cup cooked",
+          "unitType": "cup",
+          "gramsPerUnit": 140,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "pizza_cheese",
+      "name": "Cheese Pizza (Regular Crust)",
+      "commonNames": "margherita slice, fast food cheese pizza",
+      "categoryId": "international",
+      "illustrationId": "pizza",
+      "preparationState": "Baked refined wheat crust with tomato sauce & mozzarella",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "gluten",
+        "wheat",
+        "dairy"
+      ],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 173292 Fast foods, pizza, cheese, regular crust",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "1 medium 14-inch slice weighs ~107g.",
+      "nutritionPer100g": {
+        "calories": 266,
+        "protein": 11.4,
+        "carbs": 33.3,
+        "fat": 9.7,
+        "fibre": 2.3,
+        "sugar": 3.6,
+        "sodiumMg": 598,
+        "saturatedFat": 4.5,
+        "potassiumMg": 172,
+        "calciumMg": 188,
+        "ironMg": 2.48,
+        "vitaminCMg": 1.4
+      },
+      "servings": [
+        {
+          "id": "one_slice_pizza",
+          "label": "1 regular slice (107 g)",
+          "unitType": "slice",
+          "gramsPerUnit": 107,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "two_slices_pizza",
+          "label": "2 slices (214 g)",
+          "unitType": "slice",
+          "gramsPerUnit": 214,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": "burger_chicken",
+      "name": "Chicken Burger / Sandwich",
+      "commonNames": "crispy chicken burger, grilled chicken sandwich",
+      "categoryId": "international",
+      "illustrationId": "burger",
+      "preparationState": "Chicken patty in bun with lettuce & light mayo",
+      "dietaryTags": [
+        "non_vegetarian"
+      ],
+      "allergenTags": [
+        "gluten",
+        "wheat",
+        "eggs"
+      ],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 172044 Fast foods, chicken fillet sandwich, plain",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": false,
+      "verificationNotes": "Fast-food cheese & heavy sauces increase calories substantially.",
+      "nutritionPer100g": {
+        "calories": 256,
+        "protein": 14.1,
+        "carbs": 24.8,
+        "fat": 11.1,
+        "fibre": 1.5,
+        "sugar": 3.2,
+        "sodiumMg": 540,
+        "saturatedFat": 2.2,
+        "potassiumMg": 195,
+        "calciumMg": 60,
+        "ironMg": 1.6,
+        "vitaminCMg": 1.2
+      },
+      "servings": [
+        {
+          "id": "one_burger",
+          "label": "1 medium burger (180 g)",
+          "unitType": "piece",
+          "gramsPerUnit": 180,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "sandwich_veg_grilled",
+      "name": "Grilled Vegetable Sandwich",
+      "commonNames": "bombay veg sandwich, veggie toast",
+      "categoryId": "international",
+      "illustrationId": "sandwich",
+      "preparationState": "2 slices bread with cucumber, tomato, onion & light butter/chutney",
+      "dietaryTags": [
+        "vegetarian"
+      ],
+      "allergenTags": [
+        "gluten",
+        "wheat",
+        "dairy"
+      ],
+      "sourceName": "USDA / Composite Standard Recipe",
+      "sourceReference": "Bread (56g) + Mixed Vegetables (70g) + Butter (8g)",
+      "sourceLicense": "USDA Public Domain / Composite",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Without extra cheese slice.",
+      "nutritionPer100g": {
+        "calories": 178,
+        "protein": 5.1,
+        "carbs": 25,
+        "fat": 6.4,
+        "fibre": 2.8,
+        "sugar": 3.4,
+        "sodiumMg": 345,
+        "saturatedFat": 3.1,
+        "potassiumMg": 165,
+        "calciumMg": 55,
+        "ironMg": 1.3,
+        "vitaminCMg": 5.8
+      },
+      "servings": [
+        {
+          "id": "one_sandwich",
+          "label": "1 full sandwich (135 g)",
+          "unitType": "piece",
+          "gramsPerUnit": 135,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 4
+        }
+      ]
+    },
+    {
+      "id": "pancake_plain",
+      "name": "Plain Pancake",
+      "commonNames": "flapjack, breakfast pancake",
+      "categoryId": "international",
+      "illustrationId": "pancake",
+      "preparationState": "Griddle-cooked plain pancake without syrup or butter",
+      "dietaryTags": [
+        "vegetarian",
+        "eggetarian"
+      ],
+      "allergenTags": [
+        "gluten",
+        "wheat",
+        "dairy",
+        "eggs"
+      ],
+      "sourceName": "USDA FoodData Central",
+      "sourceReference": "USDA FDC 175036 Pancakes, plain, prepared from recipe",
+      "sourceLicense": "USDA Public Domain (CC0)",
+      "isVerified": true,
+      "isComplete": true,
+      "verificationNotes": "Log honey, maple syrup, or butter separately.",
+      "nutritionPer100g": {
+        "calories": 227,
+        "protein": 6.4,
+        "carbs": 28.3,
+        "fat": 9.7,
+        "fibre": 1.4,
+        "sugar": 5.5,
+        "sodiumMg": 439,
+        "saturatedFat": 2.1,
+        "potassiumMg": 132,
+        "calciumMg": 219,
+        "ironMg": 1.8,
+        "vitaminCMg": 0.3
+      },
+      "servings": [
+        {
+          "id": "one_pancake",
+          "label": "1 medium pancake (40 g)",
+          "unitType": "piece",
+          "gramsPerUnit": 40,
+          "isDefault": true,
+          "sortOrder": 1
+        },
+        {
+          "id": "two_pancakes",
+          "label": "2 medium pancakes (80 g)",
+          "unitType": "piece",
+          "gramsPerUnit": 80,
+          "isDefault": false,
+          "sortOrder": 2
+        },
+        {
+          "id": "g_100",
+          "label": "100 g",
+          "unitType": "gram",
+          "gramsPerUnit": 100,
+          "isDefault": false,
+          "sortOrder": 3
+        },
+        {
+          "id": "g_150",
+          "label": "150 g",
+          "unitType": "gram",
+          "gramsPerUnit": 150,
+          "isDefault": false,
+          "sortOrder": 4
+        },
+        {
+          "id": "g_200",
+          "label": "200 g",
+          "unitType": "gram",
+          "gramsPerUnit": 200,
+          "isDefault": false,
+          "sortOrder": 5
+        }
+      ]
+    }
+  ]
+}

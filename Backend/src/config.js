@@ -26,6 +26,10 @@ const config = {
     pass: process.env.SMTP_PASS || 'dummy_app_password',
     from: process.env.SMTP_FROM || '"Daily Counter" <dummy_user@gmail.com>',
   },
+  gemini: {
+    apiKey: process.env.GEMINI_API_KEY || '',
+    model: process.env.GEMINI_MODEL || 'gemini-3-flash-preview',
+  },
 };
 
 module.exports = config;
