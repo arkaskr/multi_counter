@@ -26,4 +26,5 @@ class DatabaseConstants {
   static const String keySelectedTheme = 'selected_theme';
   static const String keyCustomThemeConfig = 'custom_theme_config';
   static const String keyCheckpointDate = 'checkpoint_date';
+  static const String keyCheckpointMode = 'checkpoint_mode'; // 'inclusive' (default, >=) or 'exclusive' (>)
 }

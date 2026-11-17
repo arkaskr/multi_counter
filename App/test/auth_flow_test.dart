@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:daily_counter/features/auth/providers/auth_providers.dart';
 import 'package:daily_counter/features/auth/screens/login_screen.dart';
 import 'package:daily_counter/features/auth/screens/otp_screen.dart';
+import 'package:daily_counter/core/constants/app_constants.dart';
 import 'package:daily_counter/core/services/auth_service.dart';
 import 'package:daily_counter/shared/models/user_model.dart';
 
@@ -82,7 +83,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // Verify initial screen is on Log In mode
-    expect(find.text('Daily Counter'), findsOneWidget);
+    expect(find.text(AppConstants.appName), findsOneWidget);
     expect(find.text('Send Login OTP'), findsOneWidget);
 
     // Enter email

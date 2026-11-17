@@ -74,11 +74,12 @@ class SettingsService {
     await updateSettings(updated);
   }
 
-  /// Updates or clears checkpoint date
-  Future<void> updateCheckpointDate(String? date) async {
+  /// Updates or clears checkpoint date and mode
+  Future<void> updateCheckpointDate(String? date, {String mode = 'inclusive'}) async {
     final current = await getSettings();
     final updated = current.copyWith(
       checkpointDate: date,
+      checkpointMode: mode,
       clearCheckpointDate: date == null || date.trim().isEmpty,
     );
     await updateSettings(updated);

@@ -9,6 +9,7 @@ class AppSettings {
   final String selectedTheme;
   final String? customThemeConfig;
   final String? checkpointDate;
+  final String checkpointMode; // 'inclusive' (default, >=) or 'exclusive' (>)
 
   const AppSettings({
     this.unitAmount = AppConstants.defaultUnitAmount,
@@ -18,6 +19,7 @@ class AppSettings {
     this.selectedTheme = AppConstants.defaultTheme,
     this.customThemeConfig,
     this.checkpointDate,
+    this.checkpointMode = 'inclusive',
   });
 
   AppSettings copyWith({
@@ -30,6 +32,7 @@ class AppSettings {
     bool clearCustomTheme = false,
     String? checkpointDate,
     bool clearCheckpointDate = false,
+    String? checkpointMode,
   }) {
     return AppSettings(
       unitAmount: unitAmount ?? this.unitAmount,
@@ -39,6 +42,7 @@ class AppSettings {
       selectedTheme: selectedTheme ?? this.selectedTheme,
       customThemeConfig: clearCustomTheme ? null : (customThemeConfig ?? this.customThemeConfig),
       checkpointDate: clearCheckpointDate ? null : (checkpointDate ?? this.checkpointDate),
+      checkpointMode: clearCheckpointDate ? 'inclusive' : (checkpointMode ?? this.checkpointMode),
     );
   }
 
@@ -50,6 +54,7 @@ class AppSettings {
       DatabaseConstants.keyCurrencySymbol: currencySymbol,
       DatabaseConstants.keySelectedTheme: selectedTheme,
       DatabaseConstants.keyCheckpointDate: checkpointDate ?? '',
+      DatabaseConstants.keyCheckpointMode: checkpointMode,
     };
     if (customThemeConfig != null) {
       map[DatabaseConstants.keyCustomThemeConfig] = customThemeConfig!;
@@ -59,6 +64,7 @@ class AppSettings {
 
   factory AppSettings.fromSettingsMap(Map<String, String> map) {
     final cpDate = map[DatabaseConstants.keyCheckpointDate]?.trim();
+    final cpMode = map[DatabaseConstants.keyCheckpointMode]?.trim().toLowerCase();
     return AppSettings(
       unitAmount: double.tryParse(map[DatabaseConstants.keyUnitAmount] ?? '') ??
           AppConstants.defaultUnitAmount,
@@ -69,12 +75,13 @@ class AppSettings {
       selectedTheme: map[DatabaseConstants.keySelectedTheme] ?? AppConstants.defaultTheme,
       customThemeConfig: map[DatabaseConstants.keyCustomThemeConfig],
       checkpointDate: (cpDate != null && cpDate.isNotEmpty) ? cpDate : null,
+      checkpointMode: (cpMode != null && cpMode.isNotEmpty) ? cpMode : 'inclusive',
     );
   }
 
   @override
   String toString() {
-    return 'AppSettings(unitAmount: $unitAmount, dailyLimit: $dailyLimit, weekStart: $weekStart, currencySymbol: $currencySymbol, selectedTheme: $selectedTheme, customThemeConfig: $customThemeConfig, checkpointDate: $checkpointDate)';
+    return 'AppSettings(unitAmount: $unitAmount, dailyLimit: $dailyLimit, weekStart: $weekStart, currencySymbol: $currencySymbol, selectedTheme: $selectedTheme, customThemeConfig: $customThemeConfig, checkpointDate: $checkpointDate, checkpointMode: $checkpointMode)';
   }
 
   @override
@@ -87,7 +94,8 @@ class AppSettings {
         other.currencySymbol == currencySymbol &&
         other.selectedTheme == selectedTheme &&
         other.customThemeConfig == customThemeConfig &&
-        other.checkpointDate == checkpointDate;
+        other.checkpointDate == checkpointDate &&
+        other.checkpointMode == checkpointMode;
   }
 
   @override
@@ -100,6 +108,7 @@ class AppSettings {
       selectedTheme,
       customThemeConfig,
       checkpointDate,
+      checkpointMode,
     );
   }
 }

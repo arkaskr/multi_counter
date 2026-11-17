@@ -254,14 +254,17 @@ class DatabaseHelper {
     await db.delete(DatabaseConstants.tableDailyRecords);
   }
 
-  /// Returns total number of meals recorded in the current cycle (date > checkpointDate).
+  /// Returns total number of meals recorded in the current cycle.
   /// If checkpointDate is null or empty, returns sum across all dates.
-  Future<int> getMealsCountSince(String? checkpointDate) async {
+  /// When checkpointMode is 'exclusive', matches date > checkpointDate.
+  /// When checkpointMode is 'inclusive' (default), matches date >= checkpointDate.
+  Future<int> getMealsCountSince(String? checkpointDate, {String checkpointMode = 'inclusive'}) async {
     final db = await database;
     String query = 'SELECT SUM(${DatabaseConstants.columnCount}) as total_meals FROM ${DatabaseConstants.tableDailyRecords}';
     final args = <dynamic>[];
     if (checkpointDate != null && checkpointDate.trim().isNotEmpty) {
-      query += ' WHERE ${DatabaseConstants.columnDate} > ?';
+      final op = checkpointMode == 'exclusive' ? '>' : '>=';
+      query += ' WHERE ${DatabaseConstants.columnDate} $op ?';
       args.add(checkpointDate.trim());
     }
     final result = await db.rawQuery(query, args);
@@ -271,14 +274,17 @@ class DatabaseHelper {
     return 0;
   }
 
-  /// Returns total spending amount in the current cycle (date > checkpointDate).
+  /// Returns total spending amount in the current cycle.
   /// If checkpointDate is null or empty, returns sum across all dates.
-  Future<double> getTotalAmountSince(String? checkpointDate, double unitAmount) async {
+  /// When checkpointMode is 'exclusive', matches date > checkpointDate.
+  /// When checkpointMode is 'inclusive' (default), matches date >= checkpointDate.
+  Future<double> getTotalAmountSince(String? checkpointDate, double unitAmount, {String checkpointMode = 'inclusive'}) async {
     final db = await database;
     String query = 'SELECT SUM(COALESCE(${DatabaseConstants.columnAmountOverride}, ${DatabaseConstants.columnCount} * ?)) as total_amount FROM ${DatabaseConstants.tableDailyRecords}';
     final args = <dynamic>[unitAmount];
     if (checkpointDate != null && checkpointDate.trim().isNotEmpty) {
-      query += ' WHERE ${DatabaseConstants.columnDate} > ?';
+      final op = checkpointMode == 'exclusive' ? '>' : '>=';
+      query += ' WHERE ${DatabaseConstants.columnDate} $op ?';
       args.add(checkpointDate.trim());
     }
     final result = await db.rawQuery(query, args);
@@ -300,17 +306,37 @@ class DatabaseHelper {
     return results.map((e) => DailyRecord.fromMap(e)).toList();
   }
 
-  /// Save or clear checkpoint date in app settings
-  Future<void> setCheckpointDate(String? date) async {
+  /// Save or clear checkpoint date and mode in app settings
+  Future<void> setCheckpoint(String? date, {String mode = 'inclusive'}) async {
     final db = await database;
-    await db.insert(
-      DatabaseConstants.tableAppSettings,
-      {
-        DatabaseConstants.columnKey: DatabaseConstants.keyCheckpointDate,
-        DatabaseConstants.columnValue: date?.trim() ?? '',
-      },
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    await db.transaction((txn) async {
+      await txn.insert(
+        DatabaseConstants.tableAppSettings,
+        {
+          DatabaseConstants.columnKey: DatabaseConstants.keyCheckpointDate,
+          DatabaseConstants.columnValue: date?.trim() ?? '',
+        },
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      await txn.insert(
+        DatabaseConstants.tableAppSettings,
+        {
+          DatabaseConstants.columnKey: DatabaseConstants.keyCheckpointMode,
+          DatabaseConstants.columnValue: mode.trim().toLowerCase(),
+        },
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    });
+  }
+
+  /// Save or clear checkpoint date in app settings (backwards compatible alias)
+  Future<void> setCheckpointDate(String? date, {String mode = 'inclusive'}) async {
+    await setCheckpoint(date, mode: mode);
+  }
+
+  /// Clears active checkpoint so all records count toward the current cycle
+  Future<void> clearCheckpoint() async {
+    await setCheckpoint(null, mode: 'inclusive');
   }
 
   /// Returns total number of distinct days where the user had food (count > 0).

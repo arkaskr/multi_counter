@@ -14,6 +14,7 @@ import 'package:daily_counter/shared/components/neumorphic_input.dart';
 import 'package:daily_counter/shared/models/daily_record.dart';
 import '../providers/home_providers.dart';
 import '../providers/settings_providers.dart';
+import '../widgets/checkpoint_bottom_sheet.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -345,26 +346,96 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               NeumorphicContainer(
                 borderRadius: 24,
                 padding: const EdgeInsets.all(20),
-                child: _buildDestructiveActionRow(
-                  title: 'Billing Checkpoint',
-                  subtitle: (settings?.checkpointDate != null && settings!.checkpointDate!.isNotEmpty)
-                      ? 'Active checkpoint: ${AppDateUtils.formatDisplayDate(settings.checkpointDate!)}. Homescreen & widget show meals/amount from the day after this date.'
-                      : 'Set a checkpoint when you pay your mess/caterer. Widget starts counting from zero the next day.',
-                  buttonLabel: (settings?.checkpointDate != null && settings!.checkpointDate!.isNotEmpty)
-                      ? 'Clear'
-                      : 'Set Today',
-                  onPressed: () async {
-                    if (settings?.checkpointDate != null && settings!.checkpointDate!.isNotEmpty) {
-                      await ref.read(counterServiceProvider).clearCheckpoint();
-                    } else {
-                      final today = AppDateUtils.getTodayDateString();
-                      await ref.read(counterServiceProvider).setCheckpoint(today);
-                    }
-                    ref.invalidate(settingsNotifierProvider);
-                    ref.invalidate(cycleMealsCountProvider);
-                    ref.invalidate(cycleTotalAmountProvider);
-                    ref.read(syncServiceProvider).autoSync();
-                  },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Billing Checkpoint',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: theme.text,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                (settings?.checkpointDate != null && settings!.checkpointDate!.isNotEmpty)
+                                    ? 'Active: ${AppDateUtils.formatDisplayDate(settings.checkpointDate!)} (${settings.checkpointMode == 'exclusive' ? 'Start Day After' : 'Includes Date'})'
+                                    : 'Not configured (All-time tracking)',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: (settings?.checkpointDate != null && settings!.checkpointDate!.isNotEmpty)
+                                      ? theme.accent
+                                      : theme.secondaryText,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        NeumorphicButton(
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                          isProminent: true,
+                          color: theme.accent,
+                          onTap: () => CheckpointBottomSheet.show(context),
+                          child: Text(
+                            (settings?.checkpointDate != null && settings!.checkpointDate!.isNotEmpty)
+                                ? 'Manage'
+                                : 'Configure',
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'Customize where your billing cycle begins. Pick any date (Today, Yesterday, or Custom) and choose whether that date is included or marked settled.',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: theme.secondaryText,
+                        height: 1.3,
+                      ),
+                    ),
+                    if (settings?.checkpointDate != null && settings!.checkpointDate!.isNotEmpty) ...[
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () async {
+                              await ref.read(counterServiceProvider).clearCheckpoint();
+                              ref.invalidate(settingsNotifierProvider);
+                              ref.invalidate(cycleMealsCountProvider);
+                              ref.invalidate(cycleTotalAmountProvider);
+                              ref.read(syncServiceProvider).autoSync();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              child: Text(
+                                'Clear Checkpoint',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.redAccent.shade200,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ],
                 ),
               ),
               const SizedBox(height: 30),

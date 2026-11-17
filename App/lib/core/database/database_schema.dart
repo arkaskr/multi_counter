@@ -51,5 +51,9 @@ class DatabaseSchema {
       'key': DatabaseConstants.keyCheckpointDate,
       'value': '',
     },
+    {
+      'key': DatabaseConstants.keyCheckpointMode,
+      'value': 'inclusive',
+    },
   ];
 }

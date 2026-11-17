@@ -62,6 +62,7 @@ class CounterDatabaseHelper(context: Context) : SQLiteOpenHelper(
         const val KEY_CURRENCY_SYMBOL = "currency_symbol"
         const val KEY_SELECTED_THEME = "selected_theme"
         const val KEY_CHECKPOINT_DATE = "checkpoint_date"
+        const val KEY_CHECKPOINT_MODE = "checkpoint_mode"
     }
 
     init {
@@ -111,7 +112,8 @@ class CounterDatabaseHelper(context: Context) : SQLiteOpenHelper(
             KEY_WEEK_START to "monday",
             KEY_CURRENCY_SYMBOL to "₹",
             KEY_SELECTED_THEME to "midnight_dark",
-            KEY_CHECKPOINT_DATE to ""
+            KEY_CHECKPOINT_DATE to "",
+            KEY_CHECKPOINT_MODE to "inclusive"
         )
         for ((k, v) in initial) {
             val cv = ContentValues().apply {
@@ -178,6 +180,10 @@ class CounterDatabaseHelper(context: Context) : SQLiteOpenHelper(
         return getSetting(KEY_CHECKPOINT_DATE, "").trim()
     }
 
+    fun getCheckpointMode(): String {
+        return getSetting(KEY_CHECKPOINT_MODE, "inclusive").trim().lowercase()
+    }
+
     fun getRecord(date: String): DailyRecordData {
         val db = readableDatabase
         val cursor = db.query(
@@ -205,16 +211,19 @@ class CounterDatabaseHelper(context: Context) : SQLiteOpenHelper(
     }
 
     /**
-     * Total amount for the current billing cycle (records with date > checkpoint_date).
+     * Total amount for the current billing cycle.
+     * Uses >= for inclusive mode (default), or > for exclusive mode.
      * If no checkpoint is set, calculates across all records.
      */
     fun getCycleTotalAmount(): Double {
         val db = readableDatabase
         val unitAmount = getUnitAmount()
         val checkpoint = getCheckpointDate()
+        val mode = getCheckpointMode()
+        val op = if (mode == "exclusive") ">" else ">="
         val cursor = if (checkpoint.isNotEmpty()) {
             db.rawQuery(
-                "SELECT SUM(COALESCE($COL_AMOUNT_OVERRIDE, $COL_COUNT * ?)) FROM $TABLE_DAILY_RECORDS WHERE $COL_DATE > ?",
+                "SELECT SUM(COALESCE($COL_AMOUNT_OVERRIDE, $COL_COUNT * ?)) FROM $TABLE_DAILY_RECORDS WHERE $COL_DATE $op ?",
                 arrayOf(unitAmount.toString(), checkpoint)
             )
         } else {
@@ -232,15 +241,18 @@ class CounterDatabaseHelper(context: Context) : SQLiteOpenHelper(
     }
 
     /**
-     * Total meals for the current billing cycle (records with date > checkpoint_date).
+     * Total meals for the current billing cycle.
+     * Uses >= for inclusive mode (default), or > for exclusive mode.
      * If no checkpoint is set, calculates across all records.
      */
     fun getCycleMeals(): Int {
         val db = readableDatabase
         val checkpoint = getCheckpointDate()
+        val mode = getCheckpointMode()
+        val op = if (mode == "exclusive") ">" else ">="
         val cursor = if (checkpoint.isNotEmpty()) {
             db.rawQuery(
-                "SELECT SUM($COL_COUNT) FROM $TABLE_DAILY_RECORDS WHERE $COL_DATE > ?",
+                "SELECT SUM($COL_COUNT) FROM $TABLE_DAILY_RECORDS WHERE $COL_DATE $op ?",
                 arrayOf(checkpoint)
             )
         } else {

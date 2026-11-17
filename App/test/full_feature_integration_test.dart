@@ -120,31 +120,36 @@ class FakeCounterService extends CounterService {
   }
 
   String? _checkpointDate;
+  String _checkpointMode = 'inclusive';
 
   @override
-  Future<int> getCycleMealsCount(String? checkpointDate) async {
+  Future<int> getCycleMealsCount(String? checkpointDate, {String checkpointMode = 'inclusive'}) async {
     final cp = checkpointDate ?? _checkpointDate;
+    final mode = checkpointDate != null ? checkpointMode : _checkpointMode;
     return _store.values
-        .where((r) => cp == null || cp.isEmpty || r.date.compareTo(cp) > 0)
+        .where((r) => cp == null || cp.isEmpty || (mode == 'exclusive' ? r.date.compareTo(cp) > 0 : r.date.compareTo(cp) >= 0))
         .fold<int>(0, (sum, r) => sum + r.count);
   }
 
   @override
-  Future<double> getCycleTotalAmount(String? checkpointDate, double unitAmount) async {
+  Future<double> getCycleTotalAmount(String? checkpointDate, double unitAmount, {String checkpointMode = 'inclusive'}) async {
     final cp = checkpointDate ?? _checkpointDate;
+    final mode = checkpointDate != null ? checkpointMode : _checkpointMode;
     return _store.values
-        .where((r) => cp == null || cp.isEmpty || r.date.compareTo(cp) > 0)
+        .where((r) => cp == null || cp.isEmpty || (mode == 'exclusive' ? r.date.compareTo(cp) > 0 : r.date.compareTo(cp) >= 0))
         .fold<double>(0.0, (sum, r) => sum + r.calculateAmount(unitAmount));
   }
 
   @override
-  Future<void> setCheckpoint(String date) async {
+  Future<void> setCheckpoint(String date, {String mode = 'inclusive'}) async {
     _checkpointDate = date;
+    _checkpointMode = mode;
   }
 
   @override
   Future<void> clearCheckpoint() async {
     _checkpointDate = null;
+    _checkpointMode = 'inclusive';
   }
 
   @override

@@ -37,6 +37,11 @@ const SettingsSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    checkpointMode: {
+      type: String,
+      enum: ['inclusive', 'exclusive'],
+      default: 'inclusive',
+    },
     updatedAt: {
       type: Date,
       default: Date.now,

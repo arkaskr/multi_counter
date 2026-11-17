@@ -111,6 +111,7 @@ class SyncService {
         'selectedTheme': localSettings.selectedTheme,
         'customThemeConfig': localSettings.customThemeConfig,
         'checkpointDate': localSettings.checkpointDate,
+        'checkpointMode': localSettings.checkpointMode,
         'updatedAt': DateTime.now().toIso8601String(),
       };
 

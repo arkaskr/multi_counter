@@ -139,19 +139,19 @@ void main() {
       expect(await counterService.getCycleMealsCount(null), 15);
       expect(await counterService.getCycleTotalAmount(null, 55.0), 825.0);
 
-      // User sets Checkpoint on 2026-11-15 (settles the 15 meals)
-      await counterService.setCheckpoint('2026-11-15');
+      // User sets Checkpoint on 2026-11-15 in exclusive mode (settles the 15 meals through day 15)
+      await counterService.setCheckpoint('2026-11-15', mode: 'exclusive');
 
       // Right after checkpoint on day 15, cycle meals starting from day 16 is 0
-      expect(await counterService.getCycleMealsCount('2026-11-15'), 0);
-      expect(await counterService.getCycleTotalAmount('2026-11-15', 55.0), 0.0);
+      expect(await counterService.getCycleMealsCount('2026-11-15', checkpointMode: 'exclusive'), 0);
+      expect(await counterService.getCycleTotalAmount('2026-11-15', 55.0, checkpointMode: 'exclusive'), 0.0);
 
       // On day 16 (next day): User logs 2 meals
       await counterService.setCount('2026-11-16', 2, 2);
 
       // Cycle now counts only from day 16! (2 meals = 110 rs)
-      expect(await counterService.getCycleMealsCount('2026-11-15'), 2);
-      expect(await counterService.getCycleTotalAmount('2026-11-15', 55.0), 110.0);
+      expect(await counterService.getCycleMealsCount('2026-11-15', checkpointMode: 'exclusive'), 2);
+      expect(await counterService.getCycleTotalAmount('2026-11-15', 55.0, checkpointMode: 'exclusive'), 110.0);
 
       // But in background all 16 days exist for Analytics!
       final allRange = await dbHelper.getRecordsBetween('2026-11-01', '2026-11-16');
@@ -162,6 +162,27 @@ void main() {
       // Clear checkpoint restores all-time count to cycle
       await counterService.clearCheckpoint();
       expect(await counterService.getCycleMealsCount(null), 17);
+    });
+
+    test('Checkpoint inclusive mode counts entries added on checkpoint date', () async {
+      // Days 1 to 15: 15 meals logged (count = 1 each day)
+      for (int i = 1; i <= 15; i++) {
+        final d = '2026-11-${i.toString().padLeft(2, '0')}';
+        await counterService.setCount(d, 1, 2);
+      }
+
+      // On day 16 without doing any entry, user saves checkpoint (inclusive mode by default)
+      await counterService.setCheckpoint('2026-11-16', mode: 'inclusive');
+
+      // Before adding entries on day 16, cycle count is 0
+      expect(await counterService.getCycleMealsCount('2026-11-16', checkpointMode: 'inclusive'), 0);
+
+      // Now user adds 2 entries on day 16
+      await counterService.setCount('2026-11-16', 2, 2);
+
+      // Cycle calculation includes the 16th entries! (2 meals = 110 rs)
+      expect(await counterService.getCycleMealsCount('2026-11-16', checkpointMode: 'inclusive'), 2);
+      expect(await counterService.getCycleTotalAmount('2026-11-16', 55.0, checkpointMode: 'inclusive'), 110.0);
     });
   });
 

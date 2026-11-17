@@ -1,8 +1,8 @@
 class AppConstants {
   AppConstants._();
 
-  static const String appName = 'Daily Counter';
-  static const String appVersion = '1.3.1';
+  static const String appName = 'Multi Counter';
+  static const String appVersion = '1.4.0';
 
   // Default Settings
   static const double defaultUnitAmount = 55.0;

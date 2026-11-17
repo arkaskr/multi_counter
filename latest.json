@@ -1,8 +1,8 @@
 {
-  "versionName": "1.3.1",
-  "versionCode": 5,
+  "versionName": "1.4.0",
+  "versionCode": 6,
   "forceUpdate": true,
-  "releaseNotes": "• Fixed Android home-screen widget database compatibility after v1.3.0 upgrade\n• Ensures seamless meal widget sync and increment actions\n• Includes full Calorie Counter & AI Diet Planner module",
-  "apkUrl": "https://github.com/arkaskr/multi_counter/releases/download/v1.3.1/app-release.apk",
-  "sha256": "25250dc6be2d8844dfd804516bf8348cd73e61ec994e4f01c8de287d2018f76e"
+  "releaseNotes": "• App rebranded to Multi Counter\n• New dark theme multi-module launcher icon\n• Customizable billing checkpoint management: inclusive vs start-after mode with live impact preview\n• Production Calorie Counter & Nutrition module with offline sync and AI Diet Planner",
+  "apkUrl": "https://github.com/arkaskr/multi_counter/releases/download/v1.4.0/app-release.apk",
+  "sha256": "28b2649d7dd9b765d7c08e134e2abe87e8cb887a53b8d78a088a69a74557d224"
 }

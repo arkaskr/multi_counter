@@ -62,6 +62,7 @@ router.post('/', authMiddleware, async (req, res) => {
           selectedTheme: settings.selectedTheme || settings.selected_theme || 'midnight_dark',
           customThemeConfig: settings.customThemeConfig || settings.custom_theme_config || null,
           checkpointDate: settings.checkpointDate || settings.checkpoint_date || null,
+          checkpointMode: settings.checkpointMode || settings.checkpoint_mode || 'inclusive',
           updatedAt: clientSettingsUpdatedAt,
         });
       } else {
@@ -81,6 +82,8 @@ router.post('/', authMiddleware, async (req, res) => {
           if (cTheme !== undefined) currentSettings.customThemeConfig = cTheme;
           const cpDate = settings.checkpointDate ?? settings.checkpoint_date;
           if (cpDate !== undefined) currentSettings.checkpointDate = cpDate || null;
+          const cpMode = settings.checkpointMode ?? settings.checkpoint_mode;
+          if (cpMode !== undefined) currentSettings.checkpointMode = cpMode || 'inclusive';
           currentSettings.updatedAt = clientSettingsUpdatedAt;
           await currentSettings.save();
         }
@@ -106,6 +109,7 @@ router.post('/', authMiddleware, async (req, res) => {
           selected_theme: currentSettings.selectedTheme,
           custom_theme_config: currentSettings.customThemeConfig,
           checkpoint_date: currentSettings.checkpointDate || '',
+          checkpoint_mode: currentSettings.checkpointMode || 'inclusive',
           updated_at: currentSettings.updatedAt.toISOString(),
         }
       : null;

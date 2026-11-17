@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/constants/app_constants.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../shared/components/neumorphic_button.dart';
 import '../../../shared/components/neumorphic_container.dart';
@@ -149,7 +150,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                   // Title
                   Text(
-                    'Daily Counter',
+                    AppConstants.appName,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 28,

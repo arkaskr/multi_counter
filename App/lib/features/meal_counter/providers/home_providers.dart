@@ -68,21 +68,28 @@ final homeWeeklySummaryProvider = FutureProvider<WeeklySummary>((ref) async {
   return await service.getWeekSummary(weekDates, settings);
 });
 
-/// Provider for the total meals in the current cycle (records with date > checkpointDate)
+/// Provider for the total meals in the current billing cycle
 final cycleMealsCountProvider = FutureProvider<int>((ref) async {
   ref.watch(todayRecordProvider);
   final settings = ref.watch(settingsNotifierProvider).value;
   final service = ref.watch(counterServiceProvider);
-  return await service.getCycleMealsCount(settings?.checkpointDate);
+  return await service.getCycleMealsCount(
+    settings?.checkpointDate,
+    checkpointMode: settings?.checkpointMode ?? 'inclusive',
+  );
 });
 
-/// Provider for the total spending in the current cycle (records with date > checkpointDate)
+/// Provider for the total spending in the current billing cycle
 final cycleTotalAmountProvider = FutureProvider<double>((ref) async {
   ref.watch(todayRecordProvider);
   final settings = ref.watch(settingsNotifierProvider).value;
   final unitAmount = settings?.unitAmount ?? AppConstants.defaultUnitAmount;
   final service = ref.watch(counterServiceProvider);
-  return await service.getCycleTotalAmount(settings?.checkpointDate, unitAmount);
+  return await service.getCycleTotalAmount(
+    settings?.checkpointDate,
+    unitAmount,
+    checkpointMode: settings?.checkpointMode ?? 'inclusive',
+  );
 });
 
 /// Deprecated: kept for analytics/backwards compatibility

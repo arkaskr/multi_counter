@@ -179,27 +179,27 @@ class CounterService {
     return await _dbHelper.getFoodDaysCount();
   }
 
-  /// Returns total number of meals in the current cycle (after checkpointDate).
-  Future<int> getCycleMealsCount(String? checkpointDate) async {
-    return await _dbHelper.getMealsCountSince(checkpointDate);
+  /// Returns total number of meals in the current cycle.
+  Future<int> getCycleMealsCount(String? checkpointDate, {String checkpointMode = 'inclusive'}) async {
+    return await _dbHelper.getMealsCountSince(checkpointDate, checkpointMode: checkpointMode);
   }
 
-  /// Returns total spending amount in the current cycle (after checkpointDate).
-  Future<double> getCycleTotalAmount(String? checkpointDate, double unitAmount) async {
-    return await _dbHelper.getTotalAmountSince(checkpointDate, unitAmount);
+  /// Returns total spending amount in the current cycle.
+  Future<double> getCycleTotalAmount(String? checkpointDate, double unitAmount, {String checkpointMode = 'inclusive'}) async {
+    return await _dbHelper.getTotalAmountSince(checkpointDate, unitAmount, checkpointMode: checkpointMode);
   }
 
-  /// Sets a checkpoint for the given date (default today).
-  /// Widget and cycle counters will start counting from the day after this date.
-  Future<void> setCheckpoint(String date) async {
-    await _dbHelper.setCheckpointDate(date);
+  /// Sets a checkpoint for the given date.
+  /// [mode] can be 'inclusive' (starts on [date]) or 'exclusive' (starts day after [date]).
+  Future<void> setCheckpoint(String date, {String mode = 'inclusive'}) async {
+    await _dbHelper.setCheckpoint(date, mode: mode);
     await _widgetService.notifyWidgetUpdate();
     _syncService?.autoSync();
   }
 
   /// Clears the checkpoint so widget and counters include all records.
   Future<void> clearCheckpoint() async {
-    await _dbHelper.setCheckpointDate(null);
+    await _dbHelper.clearCheckpoint();
     await _widgetService.notifyWidgetUpdate();
     _syncService?.autoSync();
   }
